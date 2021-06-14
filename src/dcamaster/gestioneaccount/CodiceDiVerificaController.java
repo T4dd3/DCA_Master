@@ -42,8 +42,10 @@ public class CodiceDiVerificaController extends HttpServlet implements ICodiceDi
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		HttpSession session = request.getSession();
+		
 		String codiceInserito = request.getParameter("codice");
 		
+		//siamo sicuri che tra due richieste a servlet diverse la sessione sia la stessa?
 		String codiceSalvato = (String) session.getAttribute("codice");
 		
 		this.codiceSalvato = codiceSalvato;
