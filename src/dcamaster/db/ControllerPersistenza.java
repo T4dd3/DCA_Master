@@ -26,7 +26,7 @@ public class ControllerPersistenza {
 	
 	public Connection getConnection() throws PersistenceException {
 		String driver = "com.mysql.jdbc.Driver";
-        String dbUri = "jdbc:mysql://localhost:3306/"+dbName;
+        String dbUri = "jdbc:mysql://localhost:3306/" + dbName;
         Connection connection = null;
         try {
             System.out.println("DataSource.getConnection() driver = "+driver);
