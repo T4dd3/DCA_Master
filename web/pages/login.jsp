@@ -31,8 +31,7 @@
 			return true;
 		}%>
 		
-	<% String errorMessage = "";
-	%>
+	<% String errorMessage = (String)request.getAttribute("errorMessage"); %>
 		
 	</head>
 	<body>	
@@ -46,8 +45,7 @@
 				<tr><td colspan="2"><input type="submit" style="width:100%" name="login" value="Log-in"/></td></tr>
 			</table></form>
 			<span style="font-size: 0.8em">Non ancora registrato? <a href="./signup.jsp">Crea un account</a></span><br />
-			<p style="color: red"><b><%=(request.getAttribute("error") != null) ? request.getAttribute("error") : 
-										(request.getParameter("user") != null) ? errorMessage : "" %></b></p>
+			<p style="color: red"><b><%=(errorMessage != null) ? errorMessage : "" %></b></p>
 		</div>
 		</center>
 		

@@ -2,6 +2,7 @@ package dcamaster.gestioneaccount;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,33 +14,78 @@ import dcamaster.db.UserRepository;
 import dcamaster.model.StrategiaDCA;
 import dcamaster.model.Utente;
 
-public class AutenticazioneController extends HttpServlet implements IAutenticazione{
+public class AutenticazioneController extends HttpServlet implements IAutenticazione
+{
 
 	private static final long serialVersionUID = 1L;
 	
 	private HttpSession session;
 	private ControllerPersistenza controllerPersistenza;
+	
 	@Override
-	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		String username = (String)request.getParameter("username");
+		String password = (String)request.getParameter("password");
 		
+		// RequestDispatcher usato per redirect alla pagina corretta (default=pagina di login)
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/login.jsp");;
+		
+		if (username != null && password != null) 
+		{
+			Utente utente = this.autentica(username, password);
+			//
+			if (utente != null) 
+			{
+				// Recupero strategiaDCA e forward alla pagina corretta
+				StrategiaDCA strategiaDCA = utente.getDca();
+				
+				// Salvataggio Utente in Sessione
+				request.getSession().setAttribute("utente", utente);
+				
+				// Forward a HomeConfigurazione
+				if(strategiaDCA.getBudget() == null || 
+					strategiaDCA.getIntervalloInvestimento() == null || 
+					strategiaDCA.getDistribuzionePercentuale() == null)
+				{	
+					requestDispatcher = request.getRequestDispatcher("/homeConfigurazione.jsp");
+					requestDispatcher.forward(request, response);
+				}
+				// Forward a VisualizzaAndamento
+				else 
+				{
+					requestDispatcher = request.getRequestDispatcher("/visualizzaAndamento.jsp");
+					requestDispatcher.forward(request, response);
+				}
+			}
+			else
+			{
+				// Pagina login con errore
+				request.setAttribute("errorMessage", "Le credenziali inserite non sono valide");
+				requestDispatcher.forward(request, response);
+			}
+		}
+		else
+		{
+			// Pagina login con errore
+			request.setAttribute("errorMessage", "Inserisci sia lo username che la password");
+			requestDispatcher.forward(request, response);
+		}
+			
 	}
 	
 	@Override
-	public void autentica(String username, String password) 
+	public Utente autentica(String username, String password) 
 	{
 		UserRepository repo = new UserRepository(controllerPersistenza);
+				
 		try {
 			Utente utenteAttivo = repo.read(username, password);
-			if(utenteAttivo == null) {
-				//credenziali errate
-			} else {
-				session.setAttribute("utente", utenteAttivo);
-				StrategiaDCA strategiaDCA = utenteAttivo.getDca();
-				//redirect alla prossima servlet in base ai parametri di DCA
-			}
+			return utenteAttivo;
 		} catch (Exception e) {
-			//login fallito
+			return null;
 		}
+		
 	}
 
 }

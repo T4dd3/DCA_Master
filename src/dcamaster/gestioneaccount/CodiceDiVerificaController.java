@@ -30,7 +30,7 @@ public class CodiceDiVerificaController extends HttpServlet implements ICodiceDi
 	public CodiceDiVerificaController(IRegistrazione registrazioneController) 
 	{
 		this.username = "progetto.ing.software.gruppo1@gmail.com";
-		this.password = "PASSWORD_HERE";
+		this.password = "ProjIng1";
 		this.registrazioneController = registrazioneController;
 		this.oggetto = "Codice di Verifica per la registrazione a DCA Master";
 		this.corpo = "Benvenuto su DCA Master! Inserisci il seguente codice per terminare la registrazione: ";
@@ -43,13 +43,11 @@ public class CodiceDiVerificaController extends HttpServlet implements ICodiceDi
 	{
 		HttpSession session = request.getSession();
 		
+		// Recupero codice salvato precedentemente in sessione e codice appena inserito dall'utente
 		String codiceInserito = request.getParameter("codice");
+		this.codiceSalvato = (String) session.getAttribute("codice");
 		
-		//siamo sicuri che tra due richieste a servlet diverse la sessione sia la stessa?
-		String codiceSalvato = (String) session.getAttribute("codice");
-		
-		this.codiceSalvato = codiceSalvato;
-		
+		//Verifico la correttezza del codice e chiamo registra utente
 		this.verificaCodice(codiceInserito);
 	}
 
@@ -74,7 +72,7 @@ public class CodiceDiVerificaController extends HttpServlet implements ICodiceDi
 	{ 	
 		String codice = generaCodice();
 		
-		//parametri per connessione smtp
+		// Parametri per connessione smtp
 		Properties props = System.getProperties();
 		String host = "smtp.gmail.com";
         props.put("mail.smtp.starttls.enable", "true");
@@ -88,21 +86,21 @@ public class CodiceDiVerificaController extends HttpServlet implements ICodiceDi
         MimeMessage message = new MimeMessage(session);
         
         try {
-        	//aggiungo mittente
+        	// Aggiungo mittente
             message.setFrom(new InternetAddress(username));
             
-            //aggiungo destinatario
+            // Aggiungo destinatario
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
             
-            //aggiungo oggetto e corpo
+            // Aggiungo oggetto e corpo
             message.setSubject(oggetto);
             message.setText(corpo + codice);
             
-            //connessione SMTP
+            // Connessione SMTP
             Transport transport = session.getTransport("smtp");
             transport.connect(host, username, password);
             
-            //invio messaggio e chiusura connessione SMTP
+            // Invio messaggio e chiusura connessione SMTP
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
 
@@ -122,7 +120,6 @@ public class CodiceDiVerificaController extends HttpServlet implements ICodiceDi
 	{
 		if (this.codiceSalvato.equals(codice))
 			this.registrazioneController.registraUtente();
-		
 		else 
 			; //TODO: come fare per inviare la risposta?
 	}

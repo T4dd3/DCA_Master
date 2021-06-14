@@ -3,10 +3,10 @@ package dcamaster.model;
 import java.util.List;
 import java.util.Map;
 
-public class StrategiaDCA {
-
-	private float budget;
-	private int intervalloInvestimento;
+public class StrategiaDCA 
+{
+	private Float budget;
+	private Integer intervalloInvestimento;
 	private Utente utente;
 	private Map<Criptovaluta, Float> distribuzionePercentuale;
 	private List<RiepilogoOrdine> reipiloghiOrdine;
@@ -15,19 +15,19 @@ public class StrategiaDCA {
 		
 	}
 
-	public float getBudget() {
+	public Float getBudget() {
 		return budget;
 	}
 
-	public void setBudget(float budget) {
+	public void setBudget(Float budget) {
 		this.budget = budget;
 	}
 
-	public int getIntervalloInvestimento() {
+	public Integer getIntervalloInvestimento() {
 		return intervalloInvestimento;
 	}
 
-	public void setIntervalloInvestimento(int intervalloInvestimento) {
+	public void setIntervalloInvestimento(Integer intervalloInvestimento) {
 		this.intervalloInvestimento = intervalloInvestimento;
 	}
 
