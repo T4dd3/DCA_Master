@@ -184,8 +184,15 @@ public class UserRepository {
 				String newHashedPassword = "";
 				
 				try {
-					mda = MessageDigest.getInstance("SHA-512", "BC");
-					newHashedPassword = new String(mda.digest(data.getBytes()), StandardCharsets.UTF_8);
+					// Generate digest as byte array
+					mda = MessageDigest.getInstance("SHA-512", "SUN");
+					byte[] byteDigest = mda.digest(data.getBytes());
+					
+					// Convert byte array digest to String
+					StringBuilder sb = new StringBuilder();
+				    for(int i=0; i < byteDigest.length;i++)
+				        sb.append(Integer.toString((byteDigest[i] & 0xff) + 0x100, 16).substring(1));
+				    newHashedPassword = sb.toString();
 				} catch (NoSuchAlgorithmException | NoSuchProviderException e) {
 					e.printStackTrace();
 				}

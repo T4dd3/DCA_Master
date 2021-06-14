@@ -62,8 +62,16 @@ public class RegistrazioneController extends HttpServlet implements IRegistrazio
 		String hashPassword = "";
 		
 		try {
-			mda = MessageDigest.getInstance("SHA-512", "BC");
-			hashPassword = new String(mda.digest(data.getBytes()), StandardCharsets.UTF_8);
+			// Generate digest as byte array
+			mda = MessageDigest.getInstance("SHA-512", "SUN");
+			byte[] byteDigest = mda.digest(data.getBytes());
+			
+			// Convert byte array digest to String
+			StringBuilder sb = new StringBuilder();
+		    for(int i=0; i < byteDigest.length;i++)
+		        sb.append(Integer.toString((byteDigest[i] & 0xff) + 0x100, 16).substring(1));
+		    hashPassword = sb.toString();
+		    
 		} catch (NoSuchAlgorithmException | NoSuchProviderException e) {
 			e.printStackTrace();
 		}
@@ -77,6 +85,8 @@ public class RegistrazioneController extends HttpServlet implements IRegistrazio
 		session.setAttribute("valutaFiat", valutaRiferimento);
 		session.setAttribute("tipoDeposito", tipoDeposito);
 		session.setAttribute("saltPassword", saltPassword);
+		
+		System.out.println("received " + hashPassword);
 		
 		// Invio del codice per mail all'utente
 		this.codiceController.inviaCodice(email);
@@ -95,12 +105,13 @@ public class RegistrazioneController extends HttpServlet implements IRegistrazio
 		TipoDeposito tipoDeposito = (TipoDeposito) session.getAttribute("tipoDeposito");
 		String saltPassword = (String) session.getAttribute("saltPassword");
 		
+		
 		try {
 			userRepo.create(username, hashPassword, saltPassword, email, valutaRiferimento, apiKey, apiSecret, tipoDeposito);
 		} catch (PersistenceException e) {
 			//do something
 		}
-		//Inserire entry nei log
+		// Inserire entry nei log
 	}
 	
 	@Override
@@ -110,15 +121,15 @@ public class RegistrazioneController extends HttpServlet implements IRegistrazio
 		session = request.getSession();
 		
 		// Recupero di tutti i valori per la registrazione passati dall'utente
-		String username = (String) request.getAttribute("username");
-		String password = (String) request.getAttribute("password");
-		String email = (String) request.getAttribute("email");
-		String fiatSigla = (String) request.getAttribute("siglaFiat");
+		String username = (String) request.getParameter("username");
+		String password = (String) request.getParameter("password");
+		String email = (String) request.getParameter("email");
+		String fiatSigla = (String) request.getParameter("siglaFiat");
 		ValutaFiat valutaRiferimento = fiatRepo.readBySigla(fiatSigla);
-		String apiKey = (String) request.getAttribute("apiKey");
-		String apiSecret = (String) request.getAttribute("apiSecret");
-		String nomeTipoDeposito = (String) request.getAttribute("tipoDeposito");
-		TipoDeposito tipoDeposito = TipoDeposito.valueOf("");
+		String apiKey = (String) request.getParameter("apiKey");
+		String apiSecret = (String) request.getParameter("apiSecret");
+		String nomeTipoDeposito = (String) request.getParameter("tipoDeposito");
+		TipoDeposito tipoDeposito = TipoDeposito.valueOf(nomeTipoDeposito);
 		
 		this.verificaDatiInseriti(username, password, email, valutaRiferimento, apiKey, apiSecret, tipoDeposito);
 		

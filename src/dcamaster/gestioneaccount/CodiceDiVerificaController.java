@@ -1,6 +1,9 @@
 package dcamaster.gestioneaccount;
 
-public class CodiceDiVerificaController implements ICodiceDiVerifica
+import javax.servlet.http.HttpServlet;
+
+@SuppressWarnings("serial")
+public class CodiceDiVerificaController extends HttpServlet implements ICodiceDiVerifica
 {
 	private IRegistrazione registrazioneController;
 	
