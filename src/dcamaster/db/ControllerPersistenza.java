@@ -9,9 +9,7 @@ import dcamaster.model.EntryOperazione;
 // Singleton
 public class ControllerPersistenza {
 	// Variabili per la connessione al db
-	private String dbName = "dbname";
-    private String userName = "dbuser";
-    private String password = "dbpasswd";
+	private String dbPath = "C:/Users/adria/Desktop/DbDCA/dbProgettoIngSoftware";
    
     private static ControllerPersistenza controllerPersistenza = null;
 
@@ -25,10 +23,10 @@ public class ControllerPersistenza {
 	}
 	
 	public Connection getConnection() throws PersistenceException {
-        String dbUri = "jdbc:sqlite:" + dbName;
+        String dbUri = "jdbc:sqlite:" + dbPath;
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection(dbUri, userName, password);
+            connection = DriverManager.getConnection(dbUri);
         }
         catch(SQLException e) {
             throw new PersistenceException(e.getMessage());

@@ -78,8 +78,8 @@ public class UserRepository {
 			+ " UTENTI." + SALTPASSWORD
 			+ " UTENTI." + TIPODEPOSITO
 			+ " VALUTE.* "
-			+" FROM " + TABLE_UTENTI + "AS UTENTI INNER JOIN " + TABLE_VALUTEFIAT + "AS VALUTE"
-			+ "ON UTENTI.VALUTAFIATRIFERIMENTO = VALUTE.SIGLA"
+			+" FROM " + TABLE_UTENTI + " AS UTENTI INNER JOIN " + TABLE_VALUTEFIAT + "AS VALUTE"
+			+ "ON UTENTI." + VALUTAFIATRIFERIMENTO + " = VALUTE.sigla"
 			+ " WHERE " + USERNAME + " = ? ";
 	
 	//===================================================================================================
