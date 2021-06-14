@@ -88,8 +88,9 @@ public class RegistrazioneController extends HttpServlet implements IRegistrazio
 		
 		System.out.println("received " + hashPassword);
 		
-		// Invio del codice per mail all'utente
-		this.codiceController.inviaCodice(email);
+		// Invio del codice per mail all'utente e salvataggio in sessione
+		String codice = this.codiceController.inviaCodice(email);
+		session.setAttribute("codice", codice);
 	}
 
 	@Override
