@@ -25,7 +25,8 @@ public class AutenticazioneController extends HttpServlet implements IAutenticaz
 	}
 	
 	@Override
-	public void autentica(String username, String password) {
+	public void autentica(String username, String password) 
+	{
 		UserRepository repo = new UserRepository(controllerPersistenza);
 		try {
 			Utente utenteAttivo = repo.read(username, password);
