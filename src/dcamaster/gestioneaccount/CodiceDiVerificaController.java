@@ -1,5 +1,6 @@
 package dcamaster.gestioneaccount;
 
+import java.io.IOException;
 import java.util.Properties;
 import java.util.Random;
 
@@ -10,7 +11,11 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @SuppressWarnings("serial")
 public class CodiceDiVerificaController extends HttpServlet implements ICodiceDiVerifica
@@ -20,6 +25,7 @@ public class CodiceDiVerificaController extends HttpServlet implements ICodiceDi
 	private final String password;
 	private final String oggetto;
 	private final String corpo;
+	private String codiceSalvato;
 	
 	public CodiceDiVerificaController(IRegistrazione registrazioneController) 
 	{
@@ -28,6 +34,21 @@ public class CodiceDiVerificaController extends HttpServlet implements ICodiceDi
 		this.registrazioneController = registrazioneController;
 		this.oggetto = "Codice di Verifica per la registrazione a DCA Master";
 		this.corpo = "Benvenuto su DCA Master! Inserisci il seguente codice per terminare la registrazione: ";
+		this.codiceSalvato = "";
+	}
+	
+	//gestione richieste POST (quando l'utente inserisce il codice)
+	@Override
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		HttpSession session = request.getSession();
+		String codiceInserito = request.getParameter("codice");
+		
+		String codiceSalvato = (String) session.getAttribute("codice");
+		
+		this.codiceSalvato = codiceSalvato;
+		
+		this.verificaCodice(codiceInserito);
 	}
 
 	@Override
@@ -91,14 +112,17 @@ public class CodiceDiVerificaController extends HttpServlet implements ICodiceDi
             me.printStackTrace();
         }
 		
-		// TODO Auto-generated method stub
 		return codice;
 	}
 
 	@Override
 	public void verificaCodice(String codice) 
 	{
-		// TODO Auto-generated method stub
+		if (this.codiceSalvato.equals(codice))
+			this.registrazioneController.registraUtente();
+		
+		else 
+			; //TODO: come fare per inviare la risposta?
 	}
 
 }
