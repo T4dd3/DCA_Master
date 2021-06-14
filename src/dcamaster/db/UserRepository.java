@@ -214,12 +214,20 @@ public class UserRepository {
 				}
 			}
 			rs.close();
-			statement.close();
 		} catch (Exception e){
 			System.out.println("read(): failed to read entry: " + e.getMessage());
 			e.printStackTrace();
 		} finally {
-			//close connection
+			try {
+				if (statement != null)
+					statement.close();
+				if (connection != null) {
+					connection.close();
+					connection = null;
+				}
+			} catch (SQLException e) {
+				throw new PersistenceException(e.getMessage());
+			}
 		}
 		return result;
 	}

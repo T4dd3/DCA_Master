@@ -8,6 +8,8 @@ public class ValutaFiat {
 	private String sigla;
 	private List<Criptovaluta> criptovaluteAssociate;
 	
+	protected boolean isLoaded;
+	
 	public ValutaFiat() {
 		
 	}
@@ -34,6 +36,10 @@ public class ValutaFiat {
 
 	public void setCriptovaluteAssociate(List<Criptovaluta> criptovaluteAssociate) {
 		this.criptovaluteAssociate = criptovaluteAssociate;
+	}
+	
+	public void isLoaded(boolean bool) {
+		this.isLoaded = bool;
 	}
 	
 }

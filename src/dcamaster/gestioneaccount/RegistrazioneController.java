@@ -122,18 +122,21 @@ public class RegistrazioneController extends HttpServlet implements IRegistrazio
 		session = request.getSession();
 		
 		// Recupero di tutti i valori per la registrazione passati dall'utente
-		String username = (String) request.getParameter("username");
-		String password = (String) request.getParameter("password");
-		String email = (String) request.getParameter("email");
-		String fiatSigla = (String) request.getParameter("siglaFiat");
-		ValutaFiat valutaRiferimento = fiatRepo.readBySigla(fiatSigla);
-		String apiKey = (String) request.getParameter("apiKey");
-		String apiSecret = (String) request.getParameter("apiSecret");
-		String nomeTipoDeposito = (String) request.getParameter("tipoDeposito");
-		TipoDeposito tipoDeposito = TipoDeposito.valueOf(nomeTipoDeposito);
-		
-		this.verificaDatiInseriti(username, password, email, valutaRiferimento, apiKey, apiSecret, tipoDeposito);
-		
+		try {
+			String username = (String) request.getParameter("username");
+			String password = (String) request.getParameter("password");
+			String email = (String) request.getParameter("email");
+			String fiatSigla = (String) request.getParameter("siglaFiat");
+			ValutaFiat valutaRiferimento = fiatRepo.readBySigla(fiatSigla);
+			String apiKey = (String) request.getParameter("apiKey");
+			String apiSecret = (String) request.getParameter("apiSecret");
+			String nomeTipoDeposito = (String) request.getParameter("tipoDeposito");
+			TipoDeposito tipoDeposito = TipoDeposito.valueOf(nomeTipoDeposito);
+			
+			this.verificaDatiInseriti(username, password, email, valutaRiferimento, apiKey, apiSecret, tipoDeposito);
+		} catch (Exception e) {
+			//doSomething
+		}
 	}
 	
 	public void inserisciEntry(EntryOperazione entry) 
