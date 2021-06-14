@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	version="2.4">
+
+	<display-name>DCA Master</display-name>
+	<description>
+      DCA Master Project - Automatic investment in cryptocurrencies market
+    </description>
+
+	<!-- Attributi di contesto applicativo accesibili tramite: config.getInitParameter("") -->
+	<context-param>
+		<param-name>nome_parametro</param-name>
+		<param-value>valore_parametro</param-value>
+	</context-param>
+
+	<!-- Mapping RegistrazioneController -->
+	<servlet>
+        <servlet-name>RegistrazioneController</servlet-name>
+        <servlet-class>dcamaster.gestioneaccount.RegistrazioneController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegistrazioneController</servlet-name>
+        <url-pattern>/registrazione</url-pattern>
+    </servlet-mapping>
+	
+	
+	<!-- Pagina di benvenuto -->
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+	
+	<!-- Timeout di sessione in minuti -->
+	<session-config>
+    	<session-timeout>60</session-timeout>
+  	</session-config>
+	
+	
+	<!-- Gestione errori ed eccezioni -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/errors/notfound.html</location>
+	</error-page>
+	<error-page>
+		<exception-type>javax.servlet.ServletException</exception-type>
+		<location>/errors/failure.jsp</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/errors/exception.html</location>
+	</error-page>
+
+</web-app>
