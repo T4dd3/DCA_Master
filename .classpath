@@ -10,5 +10,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.16-bin.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.34.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

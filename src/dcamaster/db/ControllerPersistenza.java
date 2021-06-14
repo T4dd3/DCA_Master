@@ -25,17 +25,10 @@ public class ControllerPersistenza {
 	}
 	
 	public Connection getConnection() throws PersistenceException {
-		String driver = "com.mysql.jdbc.Driver";
-        String dbUri = "jdbc:mysql://localhost:3306/" + dbName;
+        String dbUri = "jdbc:sqlite:" + dbName;
         Connection connection = null;
         try {
-            System.out.println("DataSource.getConnection() driver = "+driver);
-            Class.forName(driver);
-            System.out.println("DataSource.getConnection() dbUri = "+dbUri);
             connection = DriverManager.getConnection(dbUri, userName, password);
-        }
-        catch (ClassNotFoundException e) {
-            throw new PersistenceException(e.getMessage());
         }
         catch(SQLException e) {
             throw new PersistenceException(e.getMessage());
