@@ -3,6 +3,7 @@ package dcamaster.gestioneaccount;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import dcamaster.db.ControllerPersistenza;
 import dcamaster.db.UserRepository;
+import dcamaster.db.ValutaFiatRepository;
 import dcamaster.model.StrategiaDCA;
 import dcamaster.model.Utente;
 
@@ -20,6 +22,15 @@ public class AutenticazioneController extends HttpServlet implements IAutenticaz
 	private static final long serialVersionUID = 1L;
 	
 	private ControllerPersistenza controllerPersistenza;
+	
+	@Override
+	public void init(ServletConfig config) throws ServletException 
+	{
+		super.init(config);
+		
+		// Istanza del singleton di Controller Persistenza
+		this.controllerPersistenza = ControllerPersistenza.getInstance();
+	}
 	
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
