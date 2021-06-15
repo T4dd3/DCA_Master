@@ -59,11 +59,13 @@ public class CodiceDiVerificaController extends HttpServlet implements ICodiceDi
 	
 	private String generaCodice() 
 	{
-		//genero un numero da 0 a 999999 (inclusi)
+		// Genero un numero da 0 a 999999 (inclusi)
 		Random rnd = new Random();
 		int codice = rnd.nextInt(1000000);
 		
-		//converto il numero generato in una stringa da 6 cifre
+		System.out.println(codice);
+		
+		// Converto il numero generato in una stringa da 6 cifre
 		return String.format("%06d", codice);
 	}
 

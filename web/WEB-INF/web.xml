@@ -26,6 +26,16 @@
         <url-pattern>/registrazione</url-pattern>
     </servlet-mapping>
     
+    <!-- Mapping AutenticazioneController -->
+	<servlet>
+        <servlet-name>AutenticazioneController</servlet-name>
+        <servlet-class>dcamaster.gestioneaccount.AutenticazioneController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AutenticazioneController</servlet-name>
+        <url-pattern>/autenticazione</url-pattern>
+    </servlet-mapping>
+    
     <!-- Mapping ConfigurazionePortafoglioController -->
 	<servlet>
         <servlet-name>ConfigurazionePortafoglioController</servlet-name>
