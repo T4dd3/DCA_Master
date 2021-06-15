@@ -12,6 +12,6 @@
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.34.0.jar"/>
 	<classpathentry kind="lib" path="lib/javax.mail.jar"/>
-	<classpathentry kind="lib" path="/root/Downloads/apache-tomcat-9.0.22/lib/gson-2.2.2.jar"/>
+	<classpathentry kind="lib" path="lib/gson-2.2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
