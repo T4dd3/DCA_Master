@@ -5,9 +5,11 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,10 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import dcamaster.db.ControllerPersistenza;
+import dcamaster.db.CriptovalutaRepository;
+import dcamaster.db.PersistenceException;
+import dcamaster.db.UserRepository;
 import dcamaster.model.Criptovaluta;
 import dcamaster.model.StrategiaDCA;
 import dcamaster.model.Utente;
@@ -28,10 +34,19 @@ public class ConfigurazionePortafoglioController extends HttpServlet implements 
 {
 	Gson gson;
 	HttpSession session;
+	CriptovalutaRepository repo;
 	
 	public ConfigurazionePortafoglioController() 
 	{
 		gson = new Gson();
+	}
+	
+	@Override
+	public void init(ServletConfig config) throws ServletException 
+	{
+		super.init(config);
+
+		this.repo = new CriptovalutaRepository(ControllerPersistenza.getInstance());
 	}
 	
 	@Override
@@ -64,8 +79,18 @@ public class ConfigurazionePortafoglioController extends HttpServlet implements 
 				// Conversione json come mappa (FORMATO RICHIESTO: {'BTC': 15.5, 'ETH': 85.5})
 				Type type = new TypeToken<Map<String, Float>>(){}.getType();
 				Map<String, Float> nuovaDistribuzioneSigle = gson.fromJson(jsonMappa, type);
-				
-				// TODO: UPDATE DEL DB
+				Set<String> keys = nuovaDistribuzioneSigle.keySet();
+				Map<Criptovaluta, Float> distribuzione = new HashMap<>();
+				for(String sigla: keys) {
+					try {
+						Criptovaluta entry = repo.read(sigla);
+						distribuzione.put(entry, nuovaDistribuzioneSigle.get(sigla));
+					} catch (PersistenceException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					this.configuraPortafoglio(distribuzione);
+				}
 				
 			}
 		}
