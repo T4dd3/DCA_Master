@@ -10,8 +10,6 @@
 <!-- import di classi Java -->
 <%@ page import="java.util.*"%>
 
-<% /* Eseguo la gesione del login all'interno della jsp (avrei potuto usare una servlet),
-	* ma essendo la business logic abbastanza semplice e compatta o preferito tenere tutto insieme */ %>
 <html>
 	<head>
 		<meta name="Author" content="Giovanni Taddei">

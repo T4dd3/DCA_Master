@@ -5,15 +5,19 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
 
+import com.google.gson.Gson;
+
 import dcamaster.model.Criptovaluta;
 
+
+@SuppressWarnings("serial")
 public class ConfigurazionePortafoglioController extends HttpServlet implements IConfigurazionePortafoglio 
 {
-	private static final long serialVersionUID = 1L;
-
+	Gson gson;
+	
 	public ConfigurazionePortafoglioController() 
 	{
-		
+		gson = new Gson();
 	}
 	
 	@Override
@@ -24,7 +28,7 @@ public class ConfigurazionePortafoglioController extends HttpServlet implements 
 	}
 
 	@Override
-	public List<Criptovaluta> getCriptovaluteAcquistabili() 
+	public Map<Criptovaluta, Float> getCriptovaluteAcquistabili() 
 	{
 		// TODO Auto-generated method stub
 		return null;

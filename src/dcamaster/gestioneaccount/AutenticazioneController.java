@@ -19,7 +19,6 @@ public class AutenticazioneController extends HttpServlet implements IAutenticaz
 
 	private static final long serialVersionUID = 1L;
 	
-	private HttpSession session;
 	private ControllerPersistenza controllerPersistenza;
 	
 	@Override

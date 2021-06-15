@@ -25,6 +25,16 @@
         <servlet-name>RegistrazioneController</servlet-name>
         <url-pattern>/registrazione</url-pattern>
     </servlet-mapping>
+    
+    <!-- Mapping ConfigurazionePortafoglioController -->
+	<servlet>
+        <servlet-name>ConfigurazionePortafoglioController</servlet-name>
+        <servlet-class>dcamaster.gestionedca.ConfigurazionePortafoglioController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ConfigurazionePortafoglioController</servlet-name>
+        <url-pattern>/configurazionePortafoglio</url-pattern>
+    </servlet-mapping>
 	
 	
 	<!-- Pagina di benvenuto -->

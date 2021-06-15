@@ -76,21 +76,25 @@ public class RegistrazioneController extends HttpServlet implements IRegistrazio
 			e.printStackTrace();
 		}
 		
-		// Salvataggio valori della registrazione in Sessione
-		session.setAttribute("username", username);
-		session.setAttribute("password", hashPassword);
-		session.setAttribute("email", email);
-		session.setAttribute("apiSecret", apiSecret);
-		session.setAttribute("apiKey", apiKey);
-		session.setAttribute("valutaFiat", valutaRiferimento);
-		session.setAttribute("tipoDeposito", tipoDeposito);
-		session.setAttribute("saltPassword", saltPassword);
+		/* TODO: VERIFICA DEI DATI INSERITI */
+		boolean esitoVerifica = false;
 		
-		System.out.println("received " + hashPassword);
-		
-		// Invio del codice per mail all'utente e salvataggio in sessione
-		String codice = this.codiceController.inviaCodice(email);
-		session.setAttribute("codice", codice);
+		if (esitoVerifica)
+		{
+			// Salvataggio valori della registrazione in Sessione
+			session.setAttribute("username", username);
+			session.setAttribute("password", hashPassword);
+			session.setAttribute("email", email);
+			session.setAttribute("apiSecret", apiSecret);
+			session.setAttribute("apiKey", apiKey);
+			session.setAttribute("valutaFiat", valutaRiferimento);
+			session.setAttribute("tipoDeposito", tipoDeposito);
+			session.setAttribute("saltPassword", saltPassword);
+			
+			// Invio del codice per mail all'utente e salvataggio in sessione
+			String codice = this.codiceController.inviaCodice(email);
+			session.setAttribute("codice", codice);
+		}
 	}
 
 	@Override
