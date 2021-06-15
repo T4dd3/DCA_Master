@@ -2,9 +2,9 @@ package dcamaster.gestioneaccount;
 
 public interface ICodiceDiVerifica {
 
-	public String inviaCodice(String email);	//nuovo valore restituito
+	public void inviaCodice(String email);
 	
 	public void verificaCodice(String codice);
 	
-	public void setRegistrazioneController(IRegistrazione registrazioneController); //nuovo metodo
+	public void setRegistrazioneController(IRegistrazione registrazioneController);
 }
