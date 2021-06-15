@@ -11,7 +11,7 @@ public class ValutaFiat {
 	protected boolean isLoaded;
 	
 	public ValutaFiat() {
-		
+		this.isLoaded = false;
 	}
 
 	public String getNome() {

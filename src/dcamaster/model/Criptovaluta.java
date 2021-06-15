@@ -11,7 +11,7 @@ public class Criptovaluta
 	protected boolean isLoaded;
 	
 	public Criptovaluta() {
-		
+		this.isLoaded = false;
 	}
 	
 	public String getSigla() {
