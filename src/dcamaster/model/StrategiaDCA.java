@@ -15,7 +15,8 @@ public class StrategiaDCA
 	protected boolean riepiloghiLoaded;
 	
 	public StrategiaDCA() {
-		
+		this.distribuzioneLoaded = false;
+		this.riepiloghiLoaded = false;
 	}
 
 	public Float getBudget() {

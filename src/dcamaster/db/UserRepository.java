@@ -1,6 +1,5 @@
 package dcamaster.db;
 
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -10,11 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import dcamaster.model.Criptovaluta;
-import dcamaster.model.RiepilogoOrdine;
 import dcamaster.model.StrategiaDCA;
 import dcamaster.model.TipoDeposito;
 import dcamaster.model.Utente;
@@ -104,9 +101,7 @@ public class UserRepository {
 			+ " WHERE " + USERNAME + " = ? ";
 	
 	private static final String get_distribuzione = "SELECT * FROM " + TABLE_DISTRIBUZIONE
-			+ "WHERE " + USERNAME + " = ? ";
-	
-	private static final String get_riepiloghi = "";
+			+ " WHERE " + USERNAME + " = ? ";
 	
 	//===================================================================================================
 	
@@ -230,7 +225,7 @@ public class UserRepository {
 					StrategiaDCA strategiaDCA = new StrategiaDCAProxy();
 					utente.setUsername(rs.getString(USERNAME));
 					utente.setTipoDeposito(TipoDeposito.valueOf(rs.getString(TIPODEPOSITO)));
-					fiatRiferimento.setSigla(rs.getString(SIGLA));
+					fiatRiferimento.setSigla(rs.getString("sigla"));
 					fiatRiferimento.setNome(rs.getString(NOME));
 					float budget = (rs.getFloat(BUDGET));
 					if(!rs.wasNull()) {

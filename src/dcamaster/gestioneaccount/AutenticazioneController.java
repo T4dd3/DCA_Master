@@ -1,7 +1,10 @@
 package dcamaster.gestioneaccount;
 
+import java.util.Map;
+
 import dcamaster.db.ControllerPersistenza;
 import dcamaster.db.UserRepository;
+import dcamaster.model.Criptovaluta;
 import dcamaster.model.StrategiaDCA;
 import dcamaster.model.Utente;
 
