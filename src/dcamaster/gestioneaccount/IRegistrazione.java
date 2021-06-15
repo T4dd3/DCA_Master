@@ -7,5 +7,5 @@ public interface IRegistrazione
 	public void verificaDatiInseriti(String username, String password, String email, 
 			String valutaRiferimento, String apiKey, String apiSecret, TipoDeposito tipoDeposito);
 	
-	public void registraUtente();
+	public String registraUtente();
 }

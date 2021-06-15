@@ -30,7 +30,7 @@ import dcamaster.model.ValutaFiat;
 
 
 @SuppressWarnings("serial")
-public class ConfigurazionePortafoglioController extends HttpServlet implements IConfigurazionePortafoglio 
+public class ConfigurazionePortafoglioController implements IConfigurazionePortafoglio 
 {
 	Gson gson;
 	HttpSession session;

@@ -96,8 +96,9 @@ public class RegistrazioneController implements IRegistrazione
 	}
 
 	@Override
-	public void registraUtente() 
+	public String registraUtente() 
 	{
+		String esitoRegistrazione = "ERRORE";
 		UserRepository userRepo = new UserRepository(this.controllerPersistenza);
 		
 		try {
@@ -105,7 +106,8 @@ public class RegistrazioneController implements IRegistrazione
 		} catch (PersistenceException e) {
 			//do something
 		}
-		// Inserire entry nei log
+		
+		return esitoRegistrazione;
 	}
 
 	
