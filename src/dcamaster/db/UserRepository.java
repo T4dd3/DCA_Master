@@ -43,6 +43,7 @@ public class UserRepository {
 	
 	private static final String TABLE_DISTRIBUZIONE = "DistribuzionePercentuale";
 	
+	private static final String NOME = "nome";
 	private static final String SIGLA = "siglaCriptovaluta";
 	private static final String PERCENTUALE = "percentualeAssegnata";
 	//=== STATEMENT SQL =======================================================================================
@@ -203,8 +204,8 @@ public class UserRepository {
 			statement.setString(1, username);
 			ResultSet rs = statement.executeQuery();
 			if (rs.next()) {
-				String saltPassword = rs.getString("saltPassword");
-				String hashPassword = rs.getString("hashPassword");
+				String saltPassword = rs.getString(SALTPASSWORD);
+				String hashPassword = rs.getString(HASHPASSWORD);
 				String data = password + saltPassword;
 				MessageDigest mda;
 				String newHashedPassword = "";
@@ -226,13 +227,19 @@ public class UserRepository {
 				if(newHashedPassword.equals(hashPassword)) {
 					Utente utente = new Utente();
 					ValutaFiat fiatRiferimento = new ValutaFiatProxy();
-					StrategiaDCA strategiaDCA = new StrategiaDCA();
-					utente.setUsername(rs.getString("username"));
-					utente.setTipoDeposito(TipoDeposito.valueOf(rs.getString("tipoDeposito")));
-					fiatRiferimento.setSigla(rs.getString("sigla"));
-					fiatRiferimento.setNome(rs.getString("nome"));
-					strategiaDCA.setBudget(rs.getFloat("budget"));
-					strategiaDCA.setIntervalloInvestimento(rs.getInt("intervalloInvestimento"));
+					StrategiaDCA strategiaDCA = new StrategiaDCAProxy();
+					utente.setUsername(rs.getString(USERNAME));
+					utente.setTipoDeposito(TipoDeposito.valueOf(rs.getString(TIPODEPOSITO)));
+					fiatRiferimento.setSigla(rs.getString(SIGLA));
+					fiatRiferimento.setNome(rs.getString(NOME));
+					float budget = (rs.getFloat(BUDGET));
+					if(!rs.wasNull()) {
+						strategiaDCA.setBudget(budget);
+					}
+					int intervalloInvestimento = (rs.getInt(INTERVALLOINVESTIMENTO));
+					if(!rs.wasNull()) {
+						strategiaDCA.setIntervalloInvestimento(intervalloInvestimento);
+					}
 					strategiaDCA.setUtente(utente);
 					utente.setDca(strategiaDCA);
 					utente.setFiatScelta(fiatRiferimento);
