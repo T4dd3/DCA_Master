@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dcamaster.db.ControllerPersistenza;
+import dcamaster.db.PersistenceException;
 import dcamaster.db.UserRepository;
 import dcamaster.model.Utente;
 
@@ -35,7 +36,12 @@ public class SceltaParametriController extends HttpServlet implements ISceltaPar
 		
 		user.getDca().setBudget(budget);
 		
-		repo.update(user.getDca());
+		try {
+			repo.updateParametri(user.getDca());
+		} catch (PersistenceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -45,7 +51,12 @@ public class SceltaParametriController extends HttpServlet implements ISceltaPar
 		
 		user.getDca().setIntervalloInvestimento(intervalloInvestimento);
 		
-		repo.update(user.getDca()); 
+		try {
+			repo.updateParametri(user.getDca());
+		} catch (PersistenceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 	}
 
 	@Override

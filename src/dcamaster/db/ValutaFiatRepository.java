@@ -16,7 +16,7 @@ public class ValutaFiatRepository {
 	
 	//TABLE VALUTEFIAT-------------------------------------------------------------------------------------
 	
-	private static final String TABLE_VALUTEFIAT = "valuteFiat";
+	private static final String TABLE_VALUTEFIAT = "ValuteFiat";
 	
 	private static final String SIGLA = "sigla";
 	private static final String NOME = "nome";

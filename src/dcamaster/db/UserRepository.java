@@ -19,9 +19,9 @@ public class UserRepository {
 
 	private ControllerPersistenza controller;
 	
-	//---- TABLE UTENTI ----------------------------------------------------------------------------------
+	//---- TABLE ----------------------------------------------------------------------------------
 	
-	private static final String TABLE_UTENTI = "utenti";
+	private static final String TABLE_UTENTI = "Utenti";
 	private static final String TABLE_VALUTEFIAT = "valuteFiat";
 	
 	private static final String USERNAME = "username";
@@ -36,6 +36,10 @@ public class UserRepository {
 	private static final String VALUTAFIATRIFERIMENTO = "valutaFiatRiferimento";
 	private static final String TIPODEPOSITO = "tipoDeposito";
 	
+	private static final String TABLE_DISTRIBUZIONE = "DistribuzionePercentuale";
+	
+	private static final String SIGLA = "siglaCriptovaluta";
+	private static final String PERCENTUALE = "percentualeAssegnata";
 	//=== STATEMENT SQL =======================================================================================
 	
 	//create table
@@ -83,7 +87,16 @@ public class UserRepository {
 			+ " WHERE U." + USERNAME + " = ? ";
 	
 	//update table
-	private static final String update = "";
+	private static final String update_parametri = "UPDATE " + TABLE_UTENTI 
+			+ " SET " + BUDGET + " = ?, "
+			+ " SET " + INTERVALLOINVESTIMENTO + " = ? "
+			+ " WHERE " + USERNAME + " = ? ";
+	
+	private static final String update_distribuzione = "UPDATE " + TABLE_UTENTI 
+			+ "AS U INNER JOIN " + TABLE_DISTRIBUZIONE + " AS D ON U." + USERNAME + " = D." + USERNAME
+			+ " SET D." + SIGLA + " = ?,"
+			+ " SET D." + PERCENTUALE + " = ? "
+			+ " WHERE U." + USERNAME + " = ? ";
 	
 	//===================================================================================================
 	
@@ -234,9 +247,63 @@ public class UserRepository {
 		}
 		return result;
 	}
-	
-	public void update(StrategiaDCA strategiaDCA) {
-		
+
+	public void updateParametri(StrategiaDCA dca) throws PersistenceException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		if(dca == null) {
+			System.out.println("read(): cannot read an entry with an invalid name");
+			return;
+		}
+		connection = controller.getConnection();
+		try {
+			statement = connection.prepareStatement(update_parametri);
+			statement.setString(1, dca.getUtente().getUsername());
+			statement.executeUpdate();
+		} catch (Exception e){
+			System.out.println("read(): failed to read entry: " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				if (statement != null)
+					statement.close();
+				if (connection != null) {
+					connection.close();
+					connection = null;
+				}
+			} catch (SQLException e) {
+				throw new PersistenceException(e.getMessage());
+			}
+		}
+	}
+
+	public void updateDistribuzione(StrategiaDCA dca) throws PersistenceException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		if(dca == null) {
+			System.out.println("read(): cannot read an entry with an invalid name");
+			return;
+		}
+		connection = controller.getConnection();
+		try {
+			statement = connection.prepareStatement(update_distribuzione);
+			statement.setString(1, dca.getUtente().getUsername());
+			statement.executeUpdate();
+		} catch (Exception e){
+			System.out.println("read(): failed to read entry: " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				if (statement != null)
+					statement.close();
+				if (connection != null) {
+					connection.close();
+					connection = null;
+				}
+			} catch (SQLException e) {
+				throw new PersistenceException(e.getMessage());
+			}
+		}	
 	}
 	
 }

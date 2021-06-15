@@ -5,8 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.util.Map;
 
 import dcamaster.model.Criptovaluta;
+import dcamaster.model.ValutaFiat;
 
 public class CriptovalutaRepository {
 	
@@ -14,7 +17,7 @@ public class CriptovalutaRepository {
 	
 	//TABLE CRIPTOVALUTE-------------------------------------------------------------------------------
 	
-	private static final String TABLE = "criptovalute";
+	private static final String TABLE = "Criptovalute";
 	
 	private static final String SIGLA = "sigla";
 	private static final String NOME = "nome";
@@ -29,6 +32,8 @@ public class CriptovalutaRepository {
 	private static final String drop_table = "DROP TABLE " + TABLE + "";
 	
 	private static final String read_by_sigla = "SELECT * FROM " + TABLE + " WHERE " + SIGLA + " = ? ";
+	
+	private static final String get_intervalli = "";
 	
 	//======================================================================================================
 	
@@ -70,6 +75,12 @@ public class CriptovalutaRepository {
 				throw new PersistenceException(e.getMessage());
 			}
 		}
+		return result;
+	}
+	
+	public Map<LocalDateTime, Map<ValutaFiat, Float>> getIntervalliAggiornamento(Criptovaluta criptovaluta){
+		Map<LocalDateTime, Map<ValutaFiat, Float>> result = null;
+		
 		return result;
 	}
 }

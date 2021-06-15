@@ -34,7 +34,8 @@ public class ConfigurazionePortafoglioController extends HttpServlet implements 
 {
 	Gson gson;
 	HttpSession session;
-	CriptovalutaRepository repo;
+	CriptovalutaRepository criptoRepo;
+	UserRepository userRepo;
 	
 	public ConfigurazionePortafoglioController() 
 	{
@@ -46,7 +47,8 @@ public class ConfigurazionePortafoglioController extends HttpServlet implements 
 	{
 		super.init(config);
 
-		this.repo = new CriptovalutaRepository(ControllerPersistenza.getInstance());
+		this.criptoRepo = new CriptovalutaRepository(ControllerPersistenza.getInstance());
+		this.userRepo = new UserRepository(ControllerPersistenza.getInstance());
 	}
 	
 	@Override
@@ -83,7 +85,7 @@ public class ConfigurazionePortafoglioController extends HttpServlet implements 
 				Map<Criptovaluta, Float> distribuzione = new HashMap<>();
 				for(String sigla: keys) {
 					try {
-						Criptovaluta entry = repo.read(sigla);
+						Criptovaluta entry = criptoRepo.read(sigla);
 						distribuzione.put(entry, nuovaDistribuzioneSigle.get(sigla));
 					} catch (PersistenceException e) {
 						// TODO Auto-generated catch block
@@ -99,8 +101,14 @@ public class ConfigurazionePortafoglioController extends HttpServlet implements 
 	@Override
 	public void configuraPortafoglio(Map<Criptovaluta, Float> distribuzione) 
 	{
-		// TODO UPDATE DEL DB
-		
+		Utente utente = (Utente)this.session.getAttribute("utente");
+		utente.getDca().setDistribuzionePercentuale(distribuzione);
+		try {
+			userRepo.updateDistribuzione(utente.getDca());
+		} catch (PersistenceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
