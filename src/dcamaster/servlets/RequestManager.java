@@ -15,7 +15,6 @@ import dcamaster.gestioneaccount.IAutenticazione;
 import dcamaster.gestioneaccount.ICodiceDiVerifica;
 import dcamaster.gestioneaccount.IRegistrazione;
 import dcamaster.gestioneaccount.RegistrazioneController;
-import dcamaster.model.StrategiaDCA;
 import dcamaster.model.TipoDeposito;
 import dcamaster.model.Utente;
 

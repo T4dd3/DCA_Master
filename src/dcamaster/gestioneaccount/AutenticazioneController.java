@@ -1,19 +1,11 @@
 package dcamaster.gestioneaccount;
 
-import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-
 import dcamaster.db.ControllerPersistenza;
 import dcamaster.db.UserRepository;
 import dcamaster.model.StrategiaDCA;
 import dcamaster.model.Utente;
 
-public class AutenticazioneController  implements IAutenticazione
+public class AutenticazioneController implements IAutenticazione
 {
 	// Utente se autenticato
 	private Utente utente;
@@ -47,9 +39,9 @@ public class AutenticazioneController  implements IAutenticazione
 				if(strategiaDCA.getBudget() == null || 
 					strategiaDCA.getIntervalloInvestimento() == null || 
 					strategiaDCA.getDistribuzionePercentuale() == null)
-						ritorno = "/pages/HomeConfigurazione.jsp";
+						ritorno = "./pages/HomeConfigurazione.jsp";
 				else
-					ritorno = "/pages/VisualizzaAndamento.jsp";
+					ritorno = "./pages/VisualizzaAndamento.jsp";
 			}
 			else
 				ritorno = "ERRORE: Le credenziali inserite non sono valide";

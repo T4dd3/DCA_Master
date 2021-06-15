@@ -9,7 +9,7 @@ import dcamaster.model.EntryOperazione;
 // Singleton
 public class ControllerPersistenza {
 	// Variabili per la connessione al db
-	private String dbPath = "dbProgettoIngSoftware.db";
+	private String dbPath = "/root/git/DCA_Master/web/dbProgettoIngSoftware.db";
    
     private static ControllerPersistenza controllerPersistenza = null;
 

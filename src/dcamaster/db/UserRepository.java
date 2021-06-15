@@ -81,13 +81,13 @@ public class UserRepository {
 	
 	//select from table
 	private static final String read_by_username = "SELECT U." + USERNAME 
-			+ "U." + INTERVALLOINVESTIMENTO 
-			+ "U." + BUDGET 
-			+ "U." + HASHPASSWORD
-			+ " U." + SALTPASSWORD
-			+ " U." + TIPODEPOSITO
-			+ " V.* "
-			+" FROM " + TABLE_UTENTI + " AS U INNER JOIN " + TABLE_VALUTEFIAT + "AS V"
+			+ ", U." + INTERVALLOINVESTIMENTO 
+			+ ", U." + BUDGET 
+			+ ", U." + HASHPASSWORD
+			+ ", U." + SALTPASSWORD
+			+ ", U." + TIPODEPOSITO
+			+ ", V.* "
+			+" FROM " + TABLE_UTENTI + " AS U INNER JOIN " + TABLE_VALUTEFIAT + " AS V "
 			+ "ON U." + VALUTAFIATRIFERIMENTO + " = V.sigla"
 			+ " WHERE U." + USERNAME + " = ? ";
 	
@@ -188,7 +188,8 @@ public class UserRepository {
 		}
 	}
 	
-	public Utente read(String username, String password) throws PersistenceException {
+	public Utente read(String username, String password) throws PersistenceException 
+	{
 		Connection connection = null;
 		PreparedStatement statement = null;
 		Utente result = null;
@@ -228,7 +229,7 @@ public class UserRepository {
 					StrategiaDCA strategiaDCA = new StrategiaDCA();
 					utente.setUsername(rs.getString("username"));
 					utente.setTipoDeposito(TipoDeposito.valueOf(rs.getString("tipoDeposito")));
-					fiatRiferimento.setSigla(rs.getString("valutaFiatRiferimento"));
+					fiatRiferimento.setSigla(rs.getString("sigla"));
 					fiatRiferimento.setNome(rs.getString("nome"));
 					strategiaDCA.setBudget(rs.getFloat("budget"));
 					strategiaDCA.setIntervalloInvestimento(rs.getInt("intervalloInvestimento"));
