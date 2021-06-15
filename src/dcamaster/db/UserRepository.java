@@ -352,39 +352,5 @@ public class UserRepository {
 		return result;
 	}
 
-	public List<RiepilogoOrdine> getRiepiloghiOrdine(StrategiaDCA strategiaDCA) throws PersistenceException {
-		List<RiepilogoOrdine> result = null;
-		Connection connection = null;
-		PreparedStatement statement = null;
-		if(strategiaDCA == null) {
-			System.out.println("read(): cannot read an entry with an invalid name");
-			return result;
-		}
-		connection = controller.getConnection();
-		try {
-			statement = connection.prepareStatement(get_riepiloghi);
-			statement.setString(1, strategiaDCA.getUtente().getUsername());
-			ResultSet rs = statement.executeQuery();
-			while(rs.next()) {
-				RiepilogoOrdine entry = new RiepilogoOrdine();
-				
-			}
-		} catch (Exception e){
-			System.out.println("read(): failed to read entry: " + e.getMessage());
-			e.printStackTrace();
-		} finally {
-			try {
-				if (statement != null)
-					statement.close();
-				if (connection != null) {
-					connection.close();
-					connection = null;
-				}
-			} catch (SQLException e) {
-				throw new PersistenceException(e.getMessage());
-			}
-		}
-		return result;
-	}
 	
 }
