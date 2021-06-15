@@ -18,6 +18,7 @@ class ConnectionTest {
 		ControllerPersistenza controller = ControllerPersistenza.getInstance();
 		try {
 			Connection connection = controller.getConnection();
+			System.out.println("Connesso al db: " + connection.toString());
 		} catch (PersistenceException e) {
 			System.out.println("unlucky");
 			e.printStackTrace();

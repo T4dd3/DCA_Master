@@ -71,16 +71,19 @@ public class UserRepository {
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	//select from table
-	private static final String read_by_username = "SELECT UTENTI." + USERNAME 
-			+ "UTENTI." + INTERVALLOINVESTIMENTO 
-			+ "UTENTI." + BUDGET 
-			+ "UTENTI." + HASHPASSWORD
-			+ " UTENTI." + SALTPASSWORD
-			+ " UTENTI." + TIPODEPOSITO
-			+ " VALUTE.* "
-			+" FROM " + TABLE_UTENTI + " AS UTENTI INNER JOIN " + TABLE_VALUTEFIAT + "AS VALUTE"
-			+ "ON UTENTI." + VALUTAFIATRIFERIMENTO + " = VALUTE.sigla"
-			+ " WHERE " + USERNAME + " = ? ";
+	private static final String read_by_username = "SELECT U." + USERNAME 
+			+ "U." + INTERVALLOINVESTIMENTO 
+			+ "U." + BUDGET 
+			+ "U." + HASHPASSWORD
+			+ " U." + SALTPASSWORD
+			+ " U." + TIPODEPOSITO
+			+ " V.* "
+			+" FROM " + TABLE_UTENTI + " AS U INNER JOIN " + TABLE_VALUTEFIAT + "AS V"
+			+ "ON U." + VALUTAFIATRIFERIMENTO + " = V.sigla"
+			+ " WHERE U." + USERNAME + " = ? ";
+	
+	//update table
+	private static final String update = "";
 	
 	//===================================================================================================
 	
@@ -230,6 +233,10 @@ public class UserRepository {
 			}
 		}
 		return result;
+	}
+	
+	public void update(StrategiaDCA strategiaDCA) {
+		
 	}
 	
 }

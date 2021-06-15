@@ -2,22 +2,31 @@ package dcamaster.gestionedca;
 
 import java.io.IOException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dcamaster.db.ControllerPersistenza;
+import dcamaster.db.UserRepository;
 import dcamaster.model.Utente;
 
 @SuppressWarnings("serial")
 public class SceltaParametriController extends HttpServlet implements ISceltaParametri {
 
 	HttpSession session;
+	UserRepository repo;
 
-	public SceltaParametriController() {
+	@Override
+	public void init(ServletConfig config) throws ServletException 
+	{
+		super.init(config);
 
+		this.repo = new UserRepository(ControllerPersistenza.getInstance());
 	}
+
 
 	@Override
 	public void sceltaBudget(float budget) {
@@ -26,7 +35,7 @@ public class SceltaParametriController extends HttpServlet implements ISceltaPar
 		
 		user.getDca().setBudget(budget);
 		
-		// TODO: manca l'update nel database
+		repo.update(user.getDca());
 	}
 
 	@Override
@@ -36,7 +45,7 @@ public class SceltaParametriController extends HttpServlet implements ISceltaPar
 		
 		user.getDca().setIntervalloInvestimento(intervalloInvestimento);
 		
-		// TODO: manca l'update nel database 
+		repo.update(user.getDca()); 
 	}
 
 	@Override
