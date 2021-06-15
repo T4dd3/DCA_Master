@@ -1,7 +1,6 @@
 package dcamaster.gestioneaccount;
 
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -13,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
 
 import dcamaster.db.ControllerPersistenza;
 import dcamaster.db.PersistenceException;
@@ -37,7 +38,7 @@ public class RegistrazioneController extends HttpServlet implements IRegistrazio
 		
 		// Istanza del singleton di Controller Persistenza
 		this.controllerPersistenza = ControllerPersistenza.getInstance();
-		
+
 		// Creazione Controller per gestione codice verifica
 		this.codiceController = new CodiceDiVerificaController(this);
 		
@@ -47,6 +48,30 @@ public class RegistrazioneController extends HttpServlet implements IRegistrazio
 	public ICodiceDiVerifica getCodiceController() 
 	{
 		return codiceController;
+	}
+	
+	@Override
+	public void doPost(HttpServletRequest request, HttpServletResponse response) 
+	{
+		// 
+		session = request.getSession();
+		
+		// Recupero di tutti i valori per la registrazione passati dall'utente
+		try {
+			String username = (String) request.getParameter("username");
+			String password = (String) request.getParameter("password");
+			String email = (String) request.getParameter("email");
+			String fiatSigla = (String) request.getParameter("siglaFiat");
+			ValutaFiat valutaRiferimento = fiatRepo.readBySigla(fiatSigla);
+			String apiKey = (String) request.getParameter("apiKey");
+			String apiSecret = (String) request.getParameter("apiSecret");
+			String nomeTipoDeposito = (String) request.getParameter("tipoDeposito");
+			TipoDeposito tipoDeposito = TipoDeposito.valueOf(nomeTipoDeposito);
+			
+			this.verificaDatiInseriti(username, password, email, valutaRiferimento, apiKey, apiSecret, tipoDeposito);
+		} catch (Exception e) {
+			//doSomething
+		}
 	}
 	
 	// Verifico che gli input siano corretti, se lo sono li salvo in sessione e invio il codice
@@ -77,7 +102,7 @@ public class RegistrazioneController extends HttpServlet implements IRegistrazio
 		}
 		
 		/* TODO: VERIFICA DEI DATI INSERITI */
-		boolean esitoVerifica = false;
+		boolean esitoVerifica = true;
 		
 		if (esitoVerifica)
 		{
@@ -110,7 +135,6 @@ public class RegistrazioneController extends HttpServlet implements IRegistrazio
 		TipoDeposito tipoDeposito = (TipoDeposito) session.getAttribute("tipoDeposito");
 		String saltPassword = (String) session.getAttribute("saltPassword");
 		
-		
 		try {
 			userRepo.create(username, hashPassword, saltPassword, email, valutaRiferimento, apiKey, apiSecret, tipoDeposito);
 		} catch (PersistenceException e) {
@@ -118,30 +142,7 @@ public class RegistrazioneController extends HttpServlet implements IRegistrazio
 		}
 		// Inserire entry nei log
 	}
-	
-	@Override
-	public void doPost(HttpServletRequest request, HttpServletResponse response) 
-	{
-		// 
-		session = request.getSession();
-		
-		// Recupero di tutti i valori per la registrazione passati dall'utente
-		try {
-			String username = (String) request.getParameter("username");
-			String password = (String) request.getParameter("password");
-			String email = (String) request.getParameter("email");
-			String fiatSigla = (String) request.getParameter("siglaFiat");
-			ValutaFiat valutaRiferimento = fiatRepo.readBySigla(fiatSigla);
-			String apiKey = (String) request.getParameter("apiKey");
-			String apiSecret = (String) request.getParameter("apiSecret");
-			String nomeTipoDeposito = (String) request.getParameter("tipoDeposito");
-			TipoDeposito tipoDeposito = TipoDeposito.valueOf(nomeTipoDeposito);
-			
-			this.verificaDatiInseriti(username, password, email, valutaRiferimento, apiKey, apiSecret, tipoDeposito);
-		} catch (Exception e) {
-			//doSomething
-		}
-	}
+
 	
 	public void inserisciEntry(EntryOperazione entry) 
 	{

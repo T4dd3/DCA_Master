@@ -28,7 +28,7 @@ public class AutenticazioneController extends HttpServlet implements IAutenticaz
 		String password = (String)request.getParameter("password");
 		
 		// RequestDispatcher usato per redirect alla pagina corretta (default=pagina di login)
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/login.jsp");;
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/ViewAutenticazione.jsp");;
 		
 		if (username != null && password != null) 
 		{
@@ -47,13 +47,13 @@ public class AutenticazioneController extends HttpServlet implements IAutenticaz
 					strategiaDCA.getIntervalloInvestimento() == null || 
 					strategiaDCA.getDistribuzionePercentuale() == null)
 				{	
-					requestDispatcher = request.getRequestDispatcher("/homeConfigurazione.jsp");
+					requestDispatcher = request.getRequestDispatcher("/HomeConfigurazione.jsp");
 					requestDispatcher.forward(request, response);
 				}
 				// Forward a VisualizzaAndamento
 				else 
 				{
-					requestDispatcher = request.getRequestDispatcher("/visualizzaAndamento.jsp");
+					requestDispatcher = request.getRequestDispatcher("/VisualizzaAndamento.jsp");
 					requestDispatcher.forward(request, response);
 				}
 			}

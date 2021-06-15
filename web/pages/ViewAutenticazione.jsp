@@ -36,13 +36,13 @@
 		<center>
 		<h1>Login:</h1>
 		<div class="main">
-			<form id="login"><table>
-				<tr><td>Username: </td><td><input type="text" id="user" name="user" size="20" autocomplete="off"></td></tr>
+			<form id="login" action="../autenticazione" method="post"><table>
+				<tr><td>Username: </td><td><input type="text" id="username" name="username" size="20" autocomplete="off"></td></tr>
 				<tr><td>Password:  </td><td><input type="password" id="password" name="password" size="20" autocomplete="off"></td></tr>
 				
 				<tr><td colspan="2"><input type="submit" style="width:100%" name="login" value="Log-in"/></td></tr>
 			</table></form>
-			<span style="font-size: 0.8em">Non ancora registrato? <a href="./signup.jsp">Crea un account</a></span><br />
+			<span style="font-size: 0.8em">Non ancora registrato? <a href="./ViewRegistrazione.jsp">Crea un account</a></span><br />
 			<p style="color: red"><b><%=(errorMessage != null) ? errorMessage : "" %></b></p>
 		</div>
 		</center>

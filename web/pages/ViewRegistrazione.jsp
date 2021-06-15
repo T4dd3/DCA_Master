@@ -72,7 +72,7 @@
 				<tr><td>Codice: </td><td><input type="text" id="codice" name="codice" size="20" autocomplete="off" disabled></td></tr>
 				<tr><td colspan="2"><input type="submit" style="width:100%" name="signup" value="Sign-Up" /></td></tr>
 			</table></form>
-			<span style="font-size: 0.8em">Hai già un account? <a href="./login.jsp">Effettua il login</a></span><br />
+			<span style="font-size: 0.8em">Hai già un account? <a href="./ViewAutenticazione.jsp">Effettua il login</a></span><br />
 			<p style="color: red"><b><%=(request.getParameter("user") != null) ? stato : "" %></b></p>
 		</div>
 		</center>

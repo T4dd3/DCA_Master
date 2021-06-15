@@ -9,7 +9,7 @@
 
 <html>
    <head>
-		<meta http-equiv="Refresh" content="4; URL=pages/login.jsp"/>
+		<meta http-equiv="Refresh" content="4; URL=pages/ViewAutenticazione.jsp"/>
       	<title>WebApplication starting...</title>
 		<link type="text/css" href="styles/myCss.css" rel="stylesheet"></link>
 		<script type="text/javascript">

@@ -33,7 +33,7 @@
 						
 					}
 				}
-				inviaDati("configurazionePortafoglio", callback, data)
+				inviaDati("configurazionePortafoglio", callback, "getCriptovaluteAcquistabili=1")
 			}
 		</script>
 		
