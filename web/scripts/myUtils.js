@@ -14,7 +14,7 @@ function callbackJSON( theXhr, myCallback )
 	}
 }
 
-function inviaDati(destUrl, callback, data) {
+function inviaDati(callback, data) {
 	var xhr = myGetXmlHttpRequest();
 	
 	if ( xhr ) {
@@ -23,7 +23,7 @@ function inviaDati(destUrl, callback, data) {
 
 		try {
 			/* Apertura connessione verso destinatario */
-			xhr.open("post", "../" + destUrl, true);
+			xhr.open("post", "../request", true);
 		}
 		catch(e) { alert(e); }
 		
@@ -32,8 +32,8 @@ function inviaDati(destUrl, callback, data) {
 		xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
 		
 		/* Invio della richiesta */
-		console.log(JSON.stringify(data));
-		xhr.send(JSON.stringify(data));
+		console.log(data);
+		xhr.send(data);
 	}
 	else 
 		alert("Il tuo browser non supporta AJAX");

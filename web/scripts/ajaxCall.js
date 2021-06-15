@@ -16,19 +16,17 @@ function callback(xhr)
     {
         if (xhr.status === 200)
         {
-
             document.getElementById('codice').disabled = false;
         }
-
         else alert('Errore!');
     }
 }
 
-function myFunction()
+function verificaDatiInseriti()
 {
     xhr = new XMLHttpRequest();
 
-    xhr.onreadystatechange = function(){callback(xhr);};
+    xhr.onreadystatechange = function(){ callback(xhr);};
 
     try
     {
@@ -39,17 +37,17 @@ function myFunction()
         alert(e);
     }
 
-            username = document.getElementById('username').value;
-            password = document.getElementById('password').value;
-            email = document.getElementById('email').value;
-            siglaFiat = document.getElementById('siglaFiat').value;
-            apiKey = document.getElementById('apiKey').value;
-            apiSecret = document.getElementById('apiSecret').value;
-            tipoDeposito = document.getElementById('tipoDeposito').value;
+    username = document.getElementById('username').value;
+    password = document.getElementById('password').value;
+    email = document.getElementById('email').value;
+    siglaFiat = document.getElementById('siglaFiat').value;
+    apiKey = document.getElementById('apiKey').value;
+    apiSecret = document.getElementById('apiSecret').value;
+    tipoDeposito = document.getElementById('tipoDeposito').value;
 
-            var argument = "username=" + username + "&password=" + password + "&email=" + email + "&siglaFiat=" + siglaFiat + "&apiKey=" + apiKey + "&apiSecret=" + apiSecret + "&tipoDeposito=" + tipoDeposito + "&richiediCodice=true";
+    var argument = "username=" + username + "&password=" + password + "&email=" + email + "&siglaFiat=" + siglaFiat + "&apiKey=" + apiKey + "&apiSecret=" + apiSecret + "&tipoDeposito=" + tipoDeposito + "&richiediCodice=true";
 
 
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhr.send(argument);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(argument);
 }

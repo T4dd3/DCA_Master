@@ -1,23 +1,7 @@
 package dcamaster.gestionedca;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import dcamaster.db.ControllerPersistenza;
 import dcamaster.db.CriptovalutaRepository;
@@ -28,30 +12,23 @@ import dcamaster.model.StrategiaDCA;
 import dcamaster.model.Utente;
 import dcamaster.model.ValutaFiat;
 
-
-@SuppressWarnings("serial")
 public class ConfigurazionePortafoglioController implements IConfigurazionePortafoglio 
 {
-	Gson gson;
-	HttpSession session;
+	// Utente associato su cui effettuare configurazioni
+	Utente utente;
+	// Repositories
 	CriptovalutaRepository criptoRepo;
 	UserRepository userRepo;
 	
-	public ConfigurazionePortafoglioController() 
+	public ConfigurazionePortafoglioController(Utente utente) 
 	{
-		gson = new Gson();
-	}
-	
-	@Override
-	public void init(ServletConfig config) throws ServletException 
-	{
-		super.init(config);
-
+		this.utente = utente;
+		
 		this.criptoRepo = new CriptovalutaRepository(ControllerPersistenza.getInstance());
 		this.userRepo = new UserRepository(ControllerPersistenza.getInstance());
 	}
 	
-	@Override
+	/*@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
 	{
 		synchronized (this) 
@@ -96,17 +73,16 @@ public class ConfigurazionePortafoglioController implements IConfigurazionePorta
 				
 			}
 		}
-	}
+	}*/
 	
 	@Override
 	public void configuraPortafoglio(Map<Criptovaluta, Float> distribuzione) 
 	{
-		Utente utente = (Utente)this.session.getAttribute("utente");
-		utente.getDca().setDistribuzionePercentuale(distribuzione);
+		this.utente.getDca().setDistribuzionePercentuale(distribuzione);
+		
 		try {
 			userRepo.updateDistribuzione(utente.getDca());
 		} catch (PersistenceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -116,14 +92,13 @@ public class ConfigurazionePortafoglioController implements IConfigurazionePorta
 	{
 		Map<Criptovaluta, Float> distribuzioneRestituita;
 		
-		// Recupero tutti i valori e controlli che siano valorizzati
-		Utente utente = (Utente)this.session.getAttribute("utente");
-		if (utente == null) return null;
+		// Recupero tutti i valori e controllo che siano valorizzati
+		if (this.utente == null) return null;
 		
-		StrategiaDCA strategiaDCA = utente.getDca();
+		StrategiaDCA strategiaDCA = this.utente.getDca();
 		if (strategiaDCA == null) return null;
 		
-		ValutaFiat valutaFiatUtente = utente.getFiatScelta();
+		ValutaFiat valutaFiatUtente = this.utente.getFiatScelta();
 		if (valutaFiatUtente == null) return null;
 		
 		Map<Criptovaluta, Float> distribuzionePercentuale = strategiaDCA.getDistribuzionePercentuale();

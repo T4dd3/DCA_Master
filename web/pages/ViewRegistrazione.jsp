@@ -46,7 +46,7 @@
 		<center>
 		<h1>Sign-Up:</h1>
 		<div class="main">
-			<form id="dati" method="post" onsubmit=" myFunction(); return false;"><table>
+			<form id="dati" method="post" onsubmit="verificaDatiInseriti(); return false;"><table>
 				<tr><td>Username: </td><td><input type="text" id="username" name="username" size="20" autocomplete="off"></td></tr>
 				<tr><td>Email: </td><td><input type="email" id="email" name="email" size="20" autocomplete="off"></td></tr>
 				<tr><td>Api Key: </td><td><input type="password" id="apiKey" name="apiKey" size="20" autocomplete="off"></td></tr>

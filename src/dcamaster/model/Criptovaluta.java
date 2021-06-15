@@ -19,12 +19,9 @@ public class Criptovaluta
 	}
 
 
-
 	public void setSigla(String sigla) {
 		this.sigla = sigla;
 	}
-
-
 
 	public String getNome() {
 		return nome;
@@ -58,5 +55,13 @@ public class Criptovaluta
 	
 	protected void isLoaded(Boolean bool) {
 		this.isLoaded = bool;
+	}
+	
+	@Override
+	public boolean equals(Object obj) 
+	{
+		if (obj instanceof Criptovaluta) 
+			return this.sigla.equals(((Criptovaluta) obj).getSigla());
+		return false;
 	}
 }

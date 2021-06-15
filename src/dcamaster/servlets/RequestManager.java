@@ -1,6 +1,8 @@
 package dcamaster.servlets;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,18 +11,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
 import dcamaster.gestioneaccount.AutenticazioneController;
 import dcamaster.gestioneaccount.CodiceDiVerificaController;
 import dcamaster.gestioneaccount.IAutenticazione;
 import dcamaster.gestioneaccount.ICodiceDiVerifica;
 import dcamaster.gestioneaccount.IRegistrazione;
 import dcamaster.gestioneaccount.RegistrazioneController;
+import dcamaster.gestionedca.ConfigurazionePortafoglioController;
+import dcamaster.model.Criptovaluta;
 import dcamaster.model.TipoDeposito;
 import dcamaster.model.Utente;
 
 @SuppressWarnings("serial")
 public class RequestManager extends HttpServlet 
 {
+	Gson gson;
+	
+	@Override
+	public void init() throws ServletException 
+	{
+		super.init();
+		gson = new Gson();
+	}
+	
+	
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) 
 	{
@@ -79,7 +95,6 @@ public class RequestManager extends HttpServlet
 					e.printStackTrace();
 				}
 			}
-			
 			// Codice errato o fallimento DB
 			else 
 			{
@@ -128,6 +143,27 @@ public class RequestManager extends HttpServlet
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();
 				}
+			}
+		}
+		else if (request.getParameter("criptovaluteAcquistabili") != null)
+		{
+			//Creazione e inizializzazione controller
+			Utente utente = (Utente) session.getAttribute("utente");
+			ConfigurazionePortafoglioController configurazionePortafoglio = new ConfigurazionePortafoglioController(utente);
+			
+			// Preparazione della mappa da restituire di tipo <String, Float> cioè <siglaCripto, percentuale>
+			Map<Criptovaluta, Float> criptoAcquistabiliPiuDistribuzione = configurazionePortafoglio.getCriptovaluteAcquistabili();
+			Map<String, Float> criptoAcquistabiliPiuDistribuzioneSigla = criptoAcquistabiliPiuDistribuzione.keySet().stream().
+					collect(Collectors.toMap(Criptovaluta::getSigla, cripto -> criptoAcquistabiliPiuDistribuzione.get(cripto)));
+			
+			// Preparazione del json da inviare all'utente
+			String jsonMappa = gson.toJson(criptoAcquistabiliPiuDistribuzioneSigla);
+			
+			// Restituzione risposta all'utente
+			try {
+				response.getWriter().println(jsonMappa);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
