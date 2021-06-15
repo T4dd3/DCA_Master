@@ -8,6 +8,8 @@ public class Criptovaluta {
 	private String nome;
 	private Map<LocalDateTime, Map<ValutaFiat, Float>> intervalliAggiornamento;
 	
+	protected boolean isLoaded;
+	
 	public Criptovaluta() {
 		
 	}

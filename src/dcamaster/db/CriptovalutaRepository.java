@@ -55,7 +55,7 @@ public class CriptovalutaRepository {
 			statement.setString(1, sigla);
 			ResultSet rs = statement.executeQuery();
 			if(rs.next()) {
-				result = new Criptovaluta();
+				result = new CriptovalutaProxy();
 				result.setNome(rs.getString(NOME));
 				result.setSigla(rs.getString(SIGLA));
 				rs.close();

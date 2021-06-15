@@ -9,7 +9,7 @@ public class StrategiaDCA
 	private Integer intervalloInvestimento;
 	private Utente utente;
 	private Map<Criptovaluta, Float> distribuzionePercentuale;
-	private List<RiepilogoOrdine> reipiloghiOrdine;
+	private List<RiepilogoOrdine> riepiloghiOrdine;
 	
 	public StrategiaDCA() {
 		
@@ -48,11 +48,11 @@ public class StrategiaDCA
 	}
 
 	public List<RiepilogoOrdine> getReipiloghiOrdine() {
-		return reipiloghiOrdine;
+		return riepiloghiOrdine;
 	}
 
 	public void setReipiloghiOrdine(List<RiepilogoOrdine> reipiloghiOrdine) {
-		this.reipiloghiOrdine = reipiloghiOrdine;
+		this.riepiloghiOrdine = reipiloghiOrdine;
 	}
 	
 	/*public float getValorePortafoglio() {

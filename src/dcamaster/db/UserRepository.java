@@ -94,7 +94,7 @@ public class UserRepository {
 	
 	private static final String update_distribuzione = "UPDATE " + TABLE_UTENTI 
 			+ "AS U INNER JOIN " + TABLE_DISTRIBUZIONE + " AS D ON U." + USERNAME + " = D." + USERNAME
-			+ " SET D." + SIGLA + " = ?,"
+			+ " SET D." + SIGLA + " = ?, "
 			+ " SET D." + PERCENTUALE + " = ? "
 			+ " WHERE U." + USERNAME + " = ? ";
 	
@@ -215,7 +215,7 @@ public class UserRepository {
 		
 				if(newHashedPassword.equals(hashPassword)) {
 					Utente utente = new Utente();
-					ValutaFiat fiatRiferimento = new ValutaFiat();
+					ValutaFiat fiatRiferimento = new ValutaFiatProxy();
 					StrategiaDCA strategiaDCA = new StrategiaDCA();
 					utente.setUsername(rs.getString("username"));
 					utente.setTipoDeposito(TipoDeposito.valueOf(rs.getString("tipoDeposito")));
