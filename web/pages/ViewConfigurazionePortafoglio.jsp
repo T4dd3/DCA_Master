@@ -42,8 +42,8 @@
 	</head>
 	<body>	
 		<center>
-		<form action="criptovaluteAcquistabili">
-			<input type="submit" id="getAcquistabili" onsubmit="getCriptovaluteAcquistabili(); return false;" />
+		<form>
+			<input type="submit" name="criptovaluteAcquistabili" onclick="getCriptovaluteAcquistabili(); return false;" />
 		</form>
 		<form action="sceltaDistribuzionePercentuale">
 			<table id="distribuzionePercentuale">

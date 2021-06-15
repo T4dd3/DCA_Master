@@ -36,7 +36,7 @@
 		<center>
 		<h1>Login:</h1>
 		<div class="main">
-			<form id="login" action="../autenticazione" method="post"><table>
+			<form id="login" action="../request" method="post"><table>
 				<tr><td>Username: </td><td><input type="text" id="username" name="username" size="20" autocomplete="off"></td></tr>
 				<tr><td>Password:  </td><td><input type="password" id="password" name="password" size="20" autocomplete="off"></td></tr>
 				

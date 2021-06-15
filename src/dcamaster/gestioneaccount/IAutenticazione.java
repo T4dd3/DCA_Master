@@ -2,7 +2,9 @@ package dcamaster.gestioneaccount;
 
 import dcamaster.model.Utente;
 
-public interface IAutenticazione {
-
-	public Utente autentica(String username, String password);
+public interface IAutenticazione 
+{
+	public String autentica(String username, String password);
+	
+	public Utente getUtente();
 }

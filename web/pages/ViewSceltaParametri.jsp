@@ -39,11 +39,11 @@
 		<center>
 		<h1>Scelta parametri:</h1>
 		<div class="main">
-			<form id="parametri" method="post" action="../sceltaParametri"><table>
+			<form id="parametri" method="post" action="../request"><table>
 				<tr><td>Intervallo di Investimento: </td><td><input type="number" id="intervallo" name="intervallo" size="20" autocomplete="off"></td></tr>
 				<tr><td>Budget:  </td><td><input type="number" id="budget" name="budget" size="20" autocomplete="off"></td></tr>
 				
-				<tr><td colspan="2"><input type="submit" style="width:100%" name="parametri" value="Cambia i parametri"/></td></tr>
+				<tr><td colspan="2"><input type="submit" style="width:100%" name="sceltaParametri" value="Cambia i parametri"/></td></tr>
 			</table></form>
 			<p style="color: red"><b><%=(errorMessage != null) ? errorMessage : "" %></b></p>
 		</div>
