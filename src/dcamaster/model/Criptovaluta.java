@@ -2,8 +2,8 @@ package dcamaster.model;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-public class Criptovaluta {
-
+public class Criptovaluta 
+{
 	private String sigla;
 	private String nome;
 	private Map<LocalDateTime, Map<ValutaFiat, Float>> intervalliAggiornamento;

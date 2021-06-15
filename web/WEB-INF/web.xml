@@ -18,32 +18,12 @@
 
 	<!-- Mapping RegistrazioneController -->
 	<servlet>
-        <servlet-name>RegistrazioneController</servlet-name>
-        <servlet-class>dcamaster.gestioneaccount.RegistrazioneController</servlet-class>
+        <servlet-name>RequestManager</servlet-name>
+        <servlet-class>dcamaster.servlets.RequestManager</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>RegistrazioneController</servlet-name>
-        <url-pattern>/registrazione</url-pattern>
-    </servlet-mapping>
-    
-    <!-- Mapping AutenticazioneController -->
-	<servlet>
-        <servlet-name>AutenticazioneController</servlet-name>
-        <servlet-class>dcamaster.gestioneaccount.AutenticazioneController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AutenticazioneController</servlet-name>
-        <url-pattern>/autenticazione</url-pattern>
-    </servlet-mapping>
-    
-    <!-- Mapping ConfigurazionePortafoglioController -->
-	<servlet>
-        <servlet-name>ConfigurazionePortafoglioController</servlet-name>
-        <servlet-class>dcamaster.gestionedca.ConfigurazionePortafoglioController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ConfigurazionePortafoglioController</servlet-name>
-        <url-pattern>/configurazionePortafoglio</url-pattern>
+        <servlet-name>RequestManager</servlet-name>
+        <url-pattern>/request</url-pattern>
     </servlet-mapping>
 	
 	

@@ -1,6 +1,5 @@
 package dcamaster.gestioneaccount;
 
-import java.io.IOException;
 import java.util.Properties;
 import java.util.Random;
 
@@ -11,50 +10,28 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-@SuppressWarnings("serial")
-public class CodiceDiVerificaController extends HttpServlet implements ICodiceDiVerifica
+public class CodiceDiVerificaController implements ICodiceDiVerifica
 {
+	// Controller associato per la registrazione
 	private IRegistrazione registrazioneController;
-	private final String username;
-	private final String password;
+	public void setRegistrazioneController(IRegistrazione registrazioneController) {
+		this.registrazioneController = registrazioneController;
+	}
+	
+	private final String sourceMail;
+	private final String sourceMailPassword;
 	private final String oggetto;
 	private final String corpo;
 	private String codiceSalvato;
 	
-	public CodiceDiVerificaController(IRegistrazione registrazioneController) 
+	public CodiceDiVerificaController() 
 	{
-		this.username = "progetto.ing.software.gruppo1@gmail.com";
-		this.password = "ProjIng1";
-		this.registrazioneController = registrazioneController;
+		this.sourceMail = "progetto.ing.software.gruppo1@gmail.com";
+		this.sourceMailPassword = "ProjIng1";
 		this.oggetto = "Codice di Verifica per la registrazione a DCA Master";
 		this.corpo = "Benvenuto su DCA Master! Inserisci il seguente codice per terminare la registrazione: ";
 		this.codiceSalvato = "";
-	}
-	
-	//gestione richieste POST (quando l'utente inserisce il codice)
-	@Override
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-		HttpSession session = request.getSession();
-		
-		// Recupero codice salvato precedentemente in sessione e codice appena inserito dall'utente
-		String codiceInserito = request.getParameter("codice");
-		this.codiceSalvato = (String) session.getAttribute("codice");
-		
-		//Verifico la correttezza del codice e chiamo registra utente
-		this.verificaCodice(codiceInserito);
-	}
-
-	@Override
-	public void setRegistrazioneController(IRegistrazione registrazioneController) 
-	{
-		this.registrazioneController = registrazioneController;
 	}
 	
 	private String generaCodice() 
@@ -70,17 +47,19 @@ public class CodiceDiVerificaController extends HttpServlet implements ICodiceDi
 	}
 
 	@Override
-	public String inviaCodice(String email) 
+	public void inviaCodice(String email) 
 	{ 	
+		// Creazione e salvataggio del codice inviato alla mail utente
 		String codice = generaCodice();
+		this.codiceSalvato = codice;
 		
 		// Parametri per connessione smtp
 		Properties props = System.getProperties();
 		String host = "smtp.gmail.com";
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", host);
-        props.put("mail.smtp.user", username);
-        props.put("mail.smtp.password", password);
+        props.put("mail.smtp.user", sourceMail);
+        props.put("mail.smtp.password", sourceMailPassword);
         props.put("mail.smtp.port", "465");
         props.put("mail.smtp.auth", "true");
         
@@ -89,7 +68,7 @@ public class CodiceDiVerificaController extends HttpServlet implements ICodiceDi
         
         try {
         	// Aggiungo mittente
-            message.setFrom(new InternetAddress(username));
+            message.setFrom(new InternetAddress(sourceMail));
             
             // Aggiungo destinatario
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
@@ -100,7 +79,7 @@ public class CodiceDiVerificaController extends HttpServlet implements ICodiceDi
             
             // Connessione SMTP
             Transport transport = session.getTransport("smtp");
-            transport.connect(host, username, password);
+            transport.connect(host, sourceMail, sourceMailPassword);
             
             // Invio messaggio e chiusura connessione SMTP
             transport.sendMessage(message, message.getAllRecipients());
@@ -113,8 +92,6 @@ public class CodiceDiVerificaController extends HttpServlet implements ICodiceDi
         catch (MessagingException me) {
             me.printStackTrace();
         }
-		
-		return codice;
 	}
 
 	@Override

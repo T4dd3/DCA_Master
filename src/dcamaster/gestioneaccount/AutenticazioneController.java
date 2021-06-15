@@ -18,7 +18,6 @@ import dcamaster.model.Utente;
 
 public class AutenticazioneController extends HttpServlet implements IAutenticazione
 {
-
 	private static final long serialVersionUID = 1L;
 	
 	private ControllerPersistenza controllerPersistenza;
