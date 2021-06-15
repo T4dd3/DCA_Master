@@ -51,6 +51,13 @@ public class RequestManager extends HttpServlet
 				
 				// Verifica dei dati e invio mail
 				registrazioneController.verificaDatiInseriti(username, password, email, fiatSigla, apiKey, apiSecret, tipoDeposito);
+				
+				// Torna alla ViewRegistrazione per inserire il codice
+				//response.sendRedirect("./pages/ViewRegistrazione.jsp");
+				
+				
+				response.getWriter().println("OK");
+				
 			} catch (Exception e) {
 				//doSomething
 			}
@@ -61,7 +68,30 @@ public class RequestManager extends HttpServlet
 			ICodiceDiVerifica codiceController = (ICodiceDiVerifica)session.getAttribute("codiceController");
 			
 			// Verifico la correttezza del codice e registro l'utente
-			codiceController.verificaCodice(codice);
+			String esito = codiceController.verificaCodice(codice);
+			
+			// Codice esatto
+			if (!esito.contains("ERRORE")) 
+			{
+				try {
+					response.sendRedirect(esito);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			// Codice errato o fallimento DB
+			else 
+			{
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/pages/ViewRegistrazione.jsp");
+				request.setAttribute("errorMessage", esito);
+				
+				try {
+					requestDispatcher.forward(request, response);
+				} catch (ServletException | IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		else if (request.getParameter("login") != null)
 		{

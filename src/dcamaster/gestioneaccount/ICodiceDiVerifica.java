@@ -4,7 +4,7 @@ public interface ICodiceDiVerifica {
 
 	public void inviaCodice(String email);
 	
-	public void verificaCodice(String codice);
+	public String verificaCodice(String codice);
 	
 	public void setRegistrazioneController(IRegistrazione registrazioneController);
 }

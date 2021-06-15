@@ -60,7 +60,7 @@ public class CodiceDiVerificaController implements ICodiceDiVerifica
         props.put("mail.smtp.host", host);
         props.put("mail.smtp.user", sourceMail);
         props.put("mail.smtp.password", sourceMailPassword);
-        props.put("mail.smtp.port", "465");
+        props.put("mail.smtp.port", "587");
         props.put("mail.smtp.auth", "true");
         
         Session session = Session.getDefaultInstance(props);
@@ -95,12 +95,18 @@ public class CodiceDiVerificaController implements ICodiceDiVerifica
 	}
 
 	@Override
-	public void verificaCodice(String codice) 
+	public String verificaCodice(String codice) 
 	{
-		if (this.codiceSalvato.equals(codice))
-			this.registrazioneController.registraUtente();
-		else 
-			; //TODO: come fare per inviare la risposta?
+		String ritorno;
+		
+		if (this.codiceSalvato.equals(codice)) 
+		{
+			ritorno = this.registrazioneController.registraUtente();
+		}
+		else
+			ritorno = "ERRORE: Codice inserito non valido!";
+		
+		return ritorno;
 	}
 
 }

@@ -104,8 +104,11 @@ public class RegistrazioneController implements IRegistrazione
 		try {
 			userRepo.create(this.username, this.password, this.saltPassword, this.email, this.valutaFiat, this.apiKey, this.apiSecret, this.tipoDeposito);
 		} catch (PersistenceException e) {
-			//do something
+			esitoRegistrazione = "ERRORE: Inserimento nel database fallito!";
+			return esitoRegistrazione;
 		}
+		
+		esitoRegistrazione = "./pages/ViewAutenticazione.jsp";
 		
 		return esitoRegistrazione;
 	}

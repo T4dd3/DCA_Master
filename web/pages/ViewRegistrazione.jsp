@@ -22,6 +22,7 @@
 		<link type="text/css" href="../styles/myCss.css" rel="stylesheet"></link>
 		<script type="text/javascript" src="../scripts/utils.js"></script>
 		<script type="text/javascript" src="../scripts/myUtils.js"></script>
+		<script type="text/javascript" src="../scripts/ajaxCall.js"></script>
 	
 	
 	<%!	/* Metodo di ausilio per verificare che tutti i parametri specificati della richiesta siano non null e non vuoti */
@@ -45,7 +46,7 @@
 		<center>
 		<h1>Sign-Up:</h1>
 		<div class="main">
-			<form id="dati" action="../request" method="post"><table>
+			<form id="dati" method="post" onsubmit=" myFunction(); return false;"><table>
 				<tr><td>Username: </td><td><input type="text" id="username" name="username" size="20" autocomplete="off"></td></tr>
 				<tr><td>Email: </td><td><input type="email" id="email" name="email" size="20" autocomplete="off"></td></tr>
 				<tr><td>Api Key: </td><td><input type="password" id="apiKey" name="apiKey" size="20" autocomplete="off"></td></tr>
@@ -66,11 +67,11 @@
     				</select>
     			</td></tr>
 				<tr><td>Password:  </td><td><input type="password" id="password" name="password" size="20" autocomplete="off"></td></tr>
-				<tr><td colspan="2"><input type="submit" style="width:100%" name="richiediCodice" value="Richiedi Codice di Verifica"/></td></tr>
+				<tr><td colspan="2"><input type="submit" style="width:100%" name="richiediCodice" id="richiediCodice" value="Richiedi Codice di Verifica"/></td></tr>
 			</table></form>
-			<form id="codice" action="../codiceVerifica" method="post"><table>
+			<form id="codiceForm" action="../request" method="post"><table>
 				<tr><td>Codice: </td><td><input type="text" id="codice" name="codice" size="20" autocomplete="off" disabled></td></tr>
-				<tr><td colspan="2"><input type="submit" style="width:100%" name="signup" value="Sign-Up" /></td></tr>
+				<tr><td colspan="2"><input type="submit" style="width:100%" name="signup" id="signup" value="Sign-Up" /></td></tr>
 			</table></form>
 			<span style="font-size: 0.8em">Hai già un account? <a href="./ViewAutenticazione.jsp">Effettua il login</a></span><br />
 			<p style="color: red"><b><%=(request.getParameter("user") != null) ? stato : "" %></b></p>
