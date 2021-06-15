@@ -55,4 +55,8 @@ public class Criptovaluta
 		Float result = mapA.get(valuta);
 		return result;
 	}
+	
+	protected void isLoaded(Boolean bool) {
+		this.isLoaded = bool;
+	}
 }

@@ -38,7 +38,7 @@ public class ValutaFiat {
 		this.criptovaluteAssociate = criptovaluteAssociate;
 	}
 	
-	public void isLoaded(boolean bool) {
+	protected void isLoaded(boolean bool) {
 		this.isLoaded = bool;
 	}
 	

@@ -9,7 +9,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import dcamaster.model.Criptovaluta;
+import dcamaster.model.RiepilogoOrdine;
 import dcamaster.model.StrategiaDCA;
 import dcamaster.model.TipoDeposito;
 import dcamaster.model.Utente;
@@ -92,11 +97,15 @@ public class UserRepository {
 			+ " SET " + INTERVALLOINVESTIMENTO + " = ? "
 			+ " WHERE " + USERNAME + " = ? ";
 	
-	private static final String update_distribuzione = "UPDATE " + TABLE_UTENTI 
-			+ "AS U INNER JOIN " + TABLE_DISTRIBUZIONE + " AS D ON U." + USERNAME + " = D." + USERNAME
-			+ " SET D." + SIGLA + " = ?, "
-			+ " SET D." + PERCENTUALE + " = ? "
-			+ " WHERE U." + USERNAME + " = ? ";
+	private static final String update_distribuzione = "UPDATE " + TABLE_DISTRIBUZIONE 
+			+ " SET " + SIGLA + " = ?, "
+			+ " SET " + PERCENTUALE + " = ? "
+			+ " WHERE " + USERNAME + " = ? ";
+	
+	private static final String get_distribuzione = "SELECT * FROM " + TABLE_DISTRIBUZIONE
+			+ "WHERE " + USERNAME + " = ? ";
+	
+	private static final String get_riepiloghi = "";
 	
 	//===================================================================================================
 	
@@ -183,7 +192,7 @@ public class UserRepository {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		Utente result = null;
-		if (username == null || username.isEmpty()) {
+		if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
 			System.out.println("read(): cannot read an entry with an invalid name");
 			return result;
 		}
@@ -304,6 +313,78 @@ public class UserRepository {
 				throw new PersistenceException(e.getMessage());
 			}
 		}	
+	}
+	
+	public Map<Criptovaluta, Float> getDistribuzionePercentuale(StrategiaDCA strategiaDCA) throws PersistenceException{
+		Map<Criptovaluta, Float> result = new HashMap<>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		if(strategiaDCA == null) {
+			System.out.println("read(): cannot read an entry with an invalid name");
+			return result;
+		}
+		connection = controller.getConnection();
+		try {
+			statement = connection.prepareStatement(get_distribuzione);
+			statement.setString(1, strategiaDCA.getUtente().getUsername());
+			ResultSet rs = statement.executeQuery();
+			CriptovalutaRepository repo = new CriptovalutaRepository(controller);
+			while(rs.next()) {
+				Criptovaluta entry = repo.read(rs.getString(SIGLA));
+				Float percentuale = rs.getFloat(PERCENTUALE);
+				result.put(entry, percentuale);
+			}
+		} catch (Exception e){
+			System.out.println("read(): failed to read entry: " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				if (statement != null)
+					statement.close();
+				if (connection != null) {
+					connection.close();
+					connection = null;
+				}
+			} catch (SQLException e) {
+				throw new PersistenceException(e.getMessage());
+			}
+		}
+		return result;
+	}
+
+	public List<RiepilogoOrdine> getRiepiloghiOrdine(StrategiaDCA strategiaDCA) throws PersistenceException {
+		List<RiepilogoOrdine> result = null;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		if(strategiaDCA == null) {
+			System.out.println("read(): cannot read an entry with an invalid name");
+			return result;
+		}
+		connection = controller.getConnection();
+		try {
+			statement = connection.prepareStatement(get_riepiloghi);
+			statement.setString(1, strategiaDCA.getUtente().getUsername());
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				RiepilogoOrdine entry = new RiepilogoOrdine();
+				
+			}
+		} catch (Exception e){
+			System.out.println("read(): failed to read entry: " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				if (statement != null)
+					statement.close();
+				if (connection != null) {
+					connection.close();
+					connection = null;
+				}
+			} catch (SQLException e) {
+				throw new PersistenceException(e.getMessage());
+			}
+		}
+		return result;
 	}
 	
 }

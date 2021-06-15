@@ -11,6 +11,9 @@ public class StrategiaDCA
 	private Map<Criptovaluta, Float> distribuzionePercentuale;
 	private List<RiepilogoOrdine> riepiloghiOrdine;
 	
+	protected boolean distribuzioneLoaded;
+	protected boolean riepiloghiLoaded;
+	
 	public StrategiaDCA() {
 		
 	}
@@ -53,6 +56,14 @@ public class StrategiaDCA
 
 	public void setReipiloghiOrdine(List<RiepilogoOrdine> reipiloghiOrdine) {
 		this.riepiloghiOrdine = reipiloghiOrdine;
+	}
+	
+	protected void distribuzioneLoaded(Boolean bool) {
+		this.distribuzioneLoaded = bool;
+	}
+	
+	protected void riepiloghiLoaded(Boolean bool) {
+		this.riepiloghiLoaded = bool;
 	}
 	
 	/*public float getValorePortafoglio() {
