@@ -21,15 +21,20 @@
 		<script type="text/javascript" src="../scripts/utils.js"></script>
 		<script type="text/javascript" src="../scripts/myUtils.js"></script>
 		
-	<% String errorMessage = (String)request.getAttribute("errorMessage"); %>
+	<% String errorMessage = (String)request.getAttribute("errorMessage"); 
+		if (session.getAttribute("utente") == null) { %>
+		<meta http-equiv="Refresh" content="0; URL=ViewAutenticazione.jsp"/>
+	<%} else {%>
 		
 	</head>
 	<body>	
 		<center>
 			<%@ include file="./ViewConfigurazionePortafoglio.jsp" %>
+			<br>
 			<%@ include file="./ViewSceltaParametri.jsp" %>
 		</center>
 		
 		<%@ include file="../fragments/footer.jsp" %>
 	</body>
+	<%} %>
 </html>
