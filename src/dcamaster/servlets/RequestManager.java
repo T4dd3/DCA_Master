@@ -20,6 +20,7 @@ import dcamaster.gestioneaccount.ICodiceDiVerifica;
 import dcamaster.gestioneaccount.IRegistrazione;
 import dcamaster.gestioneaccount.RegistrazioneController;
 import dcamaster.gestionedca.ConfigurazionePortafoglioController;
+import dcamaster.gestionedca.SceltaParametriController;
 import dcamaster.model.Criptovaluta;
 import dcamaster.model.TipoDeposito;
 import dcamaster.model.Utente;
@@ -165,6 +166,19 @@ public class RequestManager extends HttpServlet
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+		
+		else if (request.getParameter("sceltaParametri") != null) 
+		{
+			//Inizializzo il controller
+			Utente utente = (Utente) session.getAttribute("utente");
+			SceltaParametriController sceltaParametri = new SceltaParametriController(utente);
+			
+			String budget = request.getParameter("budget");
+			String intervallo = request.getParameter("intervallo");
+			
+			sceltaParametri.sceltaBudget(Float.parseFloat(budget));
+			sceltaParametri.sceltaIntervalloInvestimento(Integer.parseInt(intervallo));
 		}
 	}
 }
