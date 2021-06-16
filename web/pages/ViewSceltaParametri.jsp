@@ -26,14 +26,12 @@
 				var intervallo = document.getElementById('intervallo').value;
 				var budget = document.getElementById('budget').value;
 				
-				if (intervallo !== null && intervallo !== '' && budget !== null && budget !== '')
+				if (intervallo !== null && intervallo !== '' && budget !== null && budget !== '' && intervallo !== '0')
 				{
 					var previsione = 365 / intervallo * budget;
 					document.getElementById('previsione').value = (Math.round(previsione * 100) / 100).toFixed(2);
 				}
 			}
-		
-		
 		</script>
 		
 	<% String errorMessage = (String)request.getAttribute("errorMessage"); %>
@@ -44,8 +42,8 @@
 		<h1>Scelta parametri:</h1>
 		<div class="main">
 			<form id="parametri" method="post" action="../request" onchange="calcolaPrevisione(); return false;"><table>
-				<tr><td>Intervallo di Investimento (in giorni): </td><td><input type="number" id="intervallo" name="intervallo" size="20" autocomplete="off"></td></tr>
-				<tr><td>Budget:  </td><td><input type="number" id="budget" name="budget" size="20" autocomplete="off"></td></tr>
+				<tr><td>Intervallo di Investimento (in giorni): </td><td><input type="number" min="0" id="intervallo" name="intervallo" size="20" autocomplete="off"></td></tr>
+				<tr><td>Budget:  </td><td><input type="number" step="0.01" min="0" id="budget" name="budget" size="20" autocomplete="off"></td></tr>
 				
 				<tr><td colspan="2"><input type="submit" style="width:100%" name="sceltaParametri" value="Cambia i parametri"/></td></tr>
 			</table></form>
