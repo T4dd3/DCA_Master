@@ -1,38 +1,51 @@
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.util.Date"%>
 <%@ page import="dcamaster.model.*" %>
 
 <head>
 	<script type="text/javascript">
-		function calcolaPrevisione()
+		function scegliFiltro(form)
 		{
-			var intervallo = document.getElementById('intervallo').value;
-			var budget = document.getElementById('budget').value;
+			var filtri = {
+					criptovaluta: form.elements.criptovalute.value,
+					startDate: form.elements.start.value,
+					endDate: form.elements.end.value
+					spesa: form.elements.end.value
+			};
 			
-			if (intervallo !== null && intervallo !== '' && budget !== null && budget !== '' && intervallo !== '0')
-			{
-				var previsione = 365 / intervallo * budget;
-				document.getElementById('previsione').value = (Math.round(previsione * 100) / 100).toFixed(2);
-			}
+			drawAndList(JSON.stringify(filtri));
 		}
 	</script>
 		
 	<% Utente ut = (Utente)session.getAttribute("utente");
 		if (ut == null)
-			response.sendRedirect("ViewAutenticazione.jsp");%>
+			response.sendRedirect("ViewAutenticazione.jsp"); %>
 		
 	</head>
 	<center>
 	<h1>Scelta parametri:</h1>
 	<div class="main">
-		<form id="filtri" method="post" action="../request" onchange="scegliFiltro(this); return false;"><table>
-			<tr><td>Criptovaluta: </td><td><select type="number" min="0" id="intervallo" name="intervallo" size="20" autocomplete="off"></td></tr>
-			<tr><td>Intervallo di Date:  </td><td><input type="number" step="0.01" min="0" id="budget" name="budget" size="20" autocomplete="off"></td></tr>
-			<tr><td>Spesa:  </td><td><input type="number" step="0.01" min="0" id="budget" name="budget" size="20" autocomplete="off"></td></tr>
+		<form id="filtri" onsubmit="scegliFiltro(this); return false;"><table>
+		
+			<tr><td>Criptovaluta: </td>
+				<td colspan="2"><select name="criptovalute" size="20" autocomplete="off">
+					<% for (Criptovaluta cripto : ut.getFiatScelta().getCriptovaluteAssociate()) {
+							%><option name="<%=cripto.getSigla() %>"><%=cripto.getSigla() %></option>
+				<% }%></select></td>
+			</tr>
 			
-			<tr><td colspan="2"><input type="submit" style="width:100%" name="sceltaParametri" value="Cambia i parametri"/></td></tr>
+			<tr><td>Intervallo di Date: </td>
+				<td><input type="date" id="start" name="start" value="<%= LocalDate.now().minusDays(30)%>" min="1999-06-01" max="2100-01-01"></td>
+				<td><input type="date" id="end" name="end" value="<%= LocalDate.now()%>" min="1999-06-01" max="2100-01-01"></td>
+			</tr>
+			
+			<tr><td>Spesa: </td>
+				<td><input type="number" step="0.01" min="0" id="spesa" name="spesa" size="20" autocomplete="off"></td>
+			</tr>
+			
+			<tr><td colspan="3"><input type="submit" style="width:100%" name="scegliFiltri" value="Applica Filtri"/></td></tr>
+		
 		</table></form>
-		<table>
-		<tr><td>Previsione spesa (12 mesi): </td><td><input type="text" style="width:100%" id="previsione" disabled="disabled"/></tr>
-		</table>
 	</div>
 	</center>
 	
