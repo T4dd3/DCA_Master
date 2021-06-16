@@ -6,14 +6,12 @@
 	<script type="text/javascript">
 		function scegliFiltro(form)
 		{
-			var filtri = {
-					criptovaluta: form.elements.criptovalute.value,
-					startDate: form.elements.start.value,
-					endDate: form.elements.end.value
-					spesa: form.elements.end.value
-			};
+			var filtri = "criptovaluta=" + form.elements.criptovalute.value + "&"
+						+ "startDate=" + form.elements.start.value + "&"
+						+ "endDate=" + form.elements.end.value + "&"
+						+ "spesa=" + form.elements.end.value";
 			
-			drawAndList(JSON.stringify(filtri));
+			drawAndList(filtri);
 		}
 	</script>
 		
