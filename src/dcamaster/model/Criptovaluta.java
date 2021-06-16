@@ -8,10 +8,7 @@ public class Criptovaluta
 	private String nome;
 	private Map<LocalDateTime, Map<ValutaFiat, Float>> intervalliAggiornamento;
 	
-	protected boolean isLoaded;
-	
 	public Criptovaluta() {
-		this.isLoaded = false;
 	}
 	
 	public String getSigla() {
@@ -51,10 +48,6 @@ public class Criptovaluta
 		Map<ValutaFiat, Float> mapA = this.intervalliAggiornamento.get(date);
 		Float result = mapA.get(valuta);
 		return result;
-	}
-	
-	protected void isLoaded(Boolean bool) {
-		this.isLoaded = bool;
 	}
 	
 	@Override
