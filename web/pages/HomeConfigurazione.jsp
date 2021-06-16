@@ -21,12 +21,13 @@
 		<script type="text/javascript" src="../scripts/utils.js"></script>
 		<script type="text/javascript" src="../scripts/myUtils.js"></script>
 		
-	<% //String errorMessage = (String)request.getAttribute("errorMessage"); %>
+	<% String errorMessage = (String)request.getAttribute("errorMessage"); %>
 		
 	</head>
 	<body>	
 		<center>
 			<%@ include file="./ViewConfigurazionePortafoglio.jsp" %>
+			<%@ include file="./ViewSceltaParametri.jsp" %>
 		</center>
 		
 		<%@ include file="../fragments/footer.jsp" %>
