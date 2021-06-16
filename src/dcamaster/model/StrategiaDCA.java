@@ -4,6 +4,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+import dcamaster.db.ControllerPersistenza;
+import dcamaster.db.PersistenceException;
+import dcamaster.db.UserRepository;
+
 public class StrategiaDCA 
 {
 	private Float budget;
@@ -74,7 +78,8 @@ public class StrategiaDCA
 		return result;
 	}*/
 	
-	public static float getValorePortafoglio(LocalDateTime date, String username) {
-		return 0.0f;
+	public static float getValorePortafoglio(LocalDateTime date, String username) throws PersistenceException {
+		UserRepository repo = new UserRepository(ControllerPersistenza.getInstance());
+		return repo.getValorePortafoglio(username, date);
 	}
 }

@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -106,6 +107,21 @@ public class UserRepository {
 	
 	private static final String delete_distribuzione_utente = "DELETE FROM " + TABLE_DISTRIBUZIONE 
 			+ " WHERE " + USERNAME + " = ?";
+	
+	private static final String get_valore_portafoglio = "SELECT sum(TotaleValoreCriptoInValutaFiat)"
+			+ " FROM (SELECT sum(quantitivoAcquistato) * ( "
+				+ " SELECT valoreConversione "
+				+ " FROM IntervalloAggiornamento "
+				+ " WHERE IntervalloAggiornamento.siglaCriptovaluta = R.siglaCriptovaluta AND "
+				+ " IntervalloAggiornamento.siglaFiat = V.sigla "
+				+ " ORDER BY abs(strftime('%s', IntervalloAggiornamento.dataOra) - strftime('%s', datetime())) ASC "
+				+ " LIMIT 1 "
+			+ " )) as 'TotaleValoreCriptoInValutaFiat' "
+			+ " FROM RiepilogoOrdini as R "
+			+ " INNER JOIN Utenti as U ON U.username = R.username "
+			+ " INNER JOIN ValuteFiat as V ON V.sigla = U.valutaFiatRiferimento "
+			+ " WHERE U.username = ? AND date(dataOra) <= ? "
+			+ " GROUP BY R.siglaCriptovaluta) ";
 	
 	//===================================================================================================
 	
@@ -369,5 +385,39 @@ public class UserRepository {
 		return result;
 	}
 
+	public float getValorePortafoglio(String username, LocalDateTime data) throws PersistenceException {
+		float result = -1;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		if(username == null || username.isEmpty()) {
+			System.out.println("read(): cannot read an entry with an invalid name");
+			return result;
+		}
+		connection = controller.getConnection();
+		try {
+			statement = connection.prepareStatement(get_valore_portafoglio);
+			statement.setString(1, username);
+			//statement.setString(2, data);
+			ResultSet rs = statement.executeQuery();
+			if(rs.next()) {
+				result = rs.getFloat("TotaleValoreCriptoInValutaFiat");
+			}
+		} catch (Exception e){
+			System.out.println("read(): failed to read entry: " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				if (statement != null)
+					statement.close();
+				if (connection != null) {
+					connection.close();
+					connection = null;
+				}
+			} catch (SQLException e) {
+				throw new PersistenceException(e.getMessage());
+			}
+		}
+		return result;
+	}
 	
 }
