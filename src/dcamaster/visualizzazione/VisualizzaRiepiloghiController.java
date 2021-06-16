@@ -15,7 +15,8 @@ public class VisualizzaRiepiloghiController implements IVisualizzaRiepiloghi{
 	}
 	
 	@Override
-	public List<RiepilogoOrdine> visualizza() {
+	public List<RiepilogoOrdine> visualizza() 
+	{
 		return utente.getDca().getReipiloghiOrdine();
 	}
 
@@ -45,10 +46,8 @@ public class VisualizzaRiepiloghiController implements IVisualizzaRiepiloghi{
 			}
 			
 			//Se all'uscita del ciclo dei filtri valid è true, il Riepilogo è ok
-			if (valid) 
-			{
+			if (valid)
 				ritorno.add(ro);
-			}
 			
 			//Re-inizializzo la variabile di controllo a true
 			valid = true;
