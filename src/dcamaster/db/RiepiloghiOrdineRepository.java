@@ -19,6 +19,7 @@ public class RiepiloghiOrdineRepository {
 	
 	private static final String TABLE_RIEPILOGHIORDINE = "RiepilogoOrdini";
 	
+	@SuppressWarnings("unused")
 	private static final String IDRIEPILOGO = "idRiepilogo";
 	private static final String DATAORA = "dataOra";
 	private static final String FIATSPESA = "fiatSpesa";

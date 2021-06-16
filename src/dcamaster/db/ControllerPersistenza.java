@@ -44,6 +44,7 @@ public class ControllerPersistenza {
 			FileWriter writer = new FileWriter(logs);
 			writer.write("Operazione: " + entry.getTipoOperazione() + ", Messaggio: " + entry.getMessaggio()
 					 + ", Data: " + LocalDateTime.now());
+			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
