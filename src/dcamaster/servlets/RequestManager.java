@@ -172,7 +172,7 @@ public class RequestManager extends HttpServlet
 		
 		else if (request.getParameter("sceltaParametri") != null) 
 		{
-			//Inizializzo il controller
+			//Inizializzo il controller apposito
 			Utente utente = (Utente) session.getAttribute("utente");
 			SceltaParametriController sceltaParametri = new SceltaParametriController(utente);
 			
