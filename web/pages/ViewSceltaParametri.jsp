@@ -4,16 +4,16 @@
 		<script type="text/javascript">
 			function calcolaPrevisione()
 			{
-				if(document.getElementById('intervalloAttuale') !== null && document.getElementById('intervalloAttuale') !== '' && document.getElementById('intervalloAttuale') !== '0') {
-					var intervallo = document.getElementById('intervalloAttuale');
+				if(document.getElementById('intervalloAttuale').innerText !== null && document.getElementById('intervalloAttuale').innerText !== '' && document.getElementById('intervalloAttuale').innerText !== '0') {
+					var intervallo = document.getElementById('intervalloAttuale').innerText;
 				}
-				if(document.getElementById('budgetAttuale') !== null && document.getElementById('budgetAttuale') !== ''){
-					var budget = document.getElementById('budgetAttuale').value;
+				if(document.getElementById('budgetAttuale').innerText !== null && document.getElementById('budgetAttuale').innerText !== ''){
+					var budget = document.getElementById('budgetAttuale').innerText;
 				}
-				if(document.getElementById('intervallo') !== null && document.getElementById('intervallo') !== '' && document.getElementById('intervallo') !== '0') {
+				if(document.getElementById('intervallo').value !== null && document.getElementById('intervallo').value !== '' && document.getElementById('intervallo').value !== '0') {
 					var intervallo = document.getElementById('intervallo');
 				}
-				if(document.getElementById('budget') !== null && document.getElementById('budget') !== ''){
+				if(document.getElementById('budget').value !== null && document.getElementById('budget').value !== ''){
 					var budget = document.getElementById('budget').value;
 				}
 				
