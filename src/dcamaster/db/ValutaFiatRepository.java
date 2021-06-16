@@ -33,7 +33,7 @@ public class ValutaFiatRepository {
 	private static final String read_by_sigla = "SELECT * FROM " + TABLE_VALUTEFIAT + " WHERE " 
 			+ SIGLA + " = ? ";
 	
-	private static final String get_criptovalute = "SELECT * FROM " + TABLE_VALUTEFIAT 
+	private static final String get_criptovalute = "SELECT criptovalute.* FROM " + TABLE_VALUTEFIAT 
 			+ " INNER JOIN IntervalloAggiornamento ON " 
 			+ TABLE_VALUTEFIAT + "." + SIGLA + " = intervalloAggiornamento.siglaFiat "
 			+ "INNER JOIN criptovalute ON intervalloAggiornamento.siglaCriptovaluta = criptovalute.sigla"
