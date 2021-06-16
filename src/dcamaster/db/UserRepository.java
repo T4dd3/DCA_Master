@@ -95,13 +95,17 @@ public class UserRepository {
 			+ " SET " + INTERVALLOINVESTIMENTO + " = ? "
 			+ " WHERE " + USERNAME + " = ? ";
 	
-	private static final String update_distribuzione = "UPDATE " + TABLE_DISTRIBUZIONE 
-			+ " SET " + SIGLA + " = ?, "
-			+ " SET " + PERCENTUALE + " = ? "
-			+ " WHERE " + USERNAME + " = ? ";
+	private static final String update_distribuzione = "INSERT INTO " + TABLE_DISTRIBUZIONE + " ("
+			+  SIGLA + ", "
+			+ PERCENTUALE + ", "
+			+ USERNAME + ") "
+			+ "VALUES (?, ?, ?)" ;
 	
 	private static final String get_distribuzione = "SELECT * FROM " + TABLE_DISTRIBUZIONE
 			+ " WHERE " + USERNAME + " = ? ";
+	
+	private static final String delete_distribuzione_utente = "DELETE FROM " + TABLE_DISTRIBUZIONE 
+			+ " WHERE " + USERNAME + " = ?";
 	
 	//===================================================================================================
 	
@@ -270,7 +274,9 @@ public class UserRepository {
 		connection = controller.getConnection();
 		try {
 			statement = connection.prepareStatement(update_parametri);
-			statement.setString(1, dca.getUtente().getUsername());
+			statement.setFloat(1, dca.getBudget());
+			statement.setInt(2, dca.getIntervalloInvestimento());
+			statement.setString(3, dca.getUtente().getUsername());
 			statement.executeUpdate();
 		} catch (Exception e){
 			System.out.println("read(): failed to read entry: " + e.getMessage());
@@ -298,9 +304,17 @@ public class UserRepository {
 		}
 		connection = controller.getConnection();
 		try {
-			statement = connection.prepareStatement(update_distribuzione);
+			statement = connection.prepareStatement(delete_distribuzione_utente);
 			statement.setString(1, dca.getUtente().getUsername());
 			statement.executeUpdate();
+			Map<Criptovaluta, Float> nuovaDistribuzione = dca.getDistribuzionePercentuale();
+			for(Criptovaluta cripto : nuovaDistribuzione.keySet()) {
+				statement = connection.prepareStatement(update_distribuzione);
+				statement.setString(1, cripto.getSigla());
+				statement.setFloat(2, nuovaDistribuzione.get(cripto));
+				statement.setString(3, dca.getUtente().getUsername());
+				statement.executeUpdate();	
+			}
 		} catch (Exception e){
 			System.out.println("read(): failed to read entry: " + e.getMessage());
 			e.printStackTrace();
