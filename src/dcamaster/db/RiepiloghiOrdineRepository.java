@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import dcamaster.model.RiepilogoOrdine;
@@ -22,10 +24,12 @@ public class RiepiloghiOrdineRepository {
 	private static final String FIATSPESA = "fiatSpesa";
 	private static final String QUANTITATIVOACQUISTATO = "quantitativoAcquistato";
 	private static final String SIGLA = "siglaCriptovaluta";
+	private static final String USERNAME = "username";
 	
 	//==QUERY=============================================================================================
 	
-	private static final String get_riepiloghi = "";
+	private static final String get_riepiloghi = "SELECT * FROM " + TABLE_RIEPILOGHIORDINE 
+			+ " WHERE " + USERNAME + " = ? ";
 	
 	public RiepiloghiOrdineRepository(ControllerPersistenza controller) {
 		this.controller = controller;
@@ -47,7 +51,9 @@ public class RiepiloghiOrdineRepository {
 			while(rs.next()) {
 				CriptovalutaRepository repo = new CriptovalutaRepository(controller);
 				RiepilogoOrdine entry = new RiepilogoOrdine();
-				entry.setData(rs.getDate(DATAORA));
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+				LocalDateTime data = LocalDateTime.parse(rs.getString(DATAORA), formatter);
+				entry.setData(data);
 				entry.setFiatSpesa(rs.getFloat(FIATSPESA));
 				entry.setQuantitativoAcquistato(rs.getFloat(QUANTITATIVOACQUISTATO));
 				entry.setValore(entry.getFiatSpesa()/entry.getQuantitativoAcquistato());
