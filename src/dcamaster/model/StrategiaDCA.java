@@ -1,5 +1,6 @@
 package dcamaster.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -71,11 +72,9 @@ public class StrategiaDCA
 		float result;
 		
 		return result;
-	}
-	
-	public static float getValorePortafoglio(List<RiepilogoOrdine> ordini, LocalDateTime date, ValutaFiat valuta) {
-		float result;
-		
-		return result;
 	}*/
+	
+	public static float getValorePortafoglio(LocalDateTime date, String username) {
+		return 0.0f;
+	}
 }
