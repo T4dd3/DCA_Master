@@ -72,13 +72,25 @@ public class StrategiaDCA
 		this.riepiloghiLoaded = bool;
 	}
 	
-	public float getValorePortafoglio() throws PersistenceException {
+	public float getValorePortafoglio(LocalDateTime dateTime) throws PersistenceException {
 		UserRepository repo = new UserRepository(ControllerPersistenza.getInstance());
-		return repo.getValorePortafoglio(this.utente.getUsername(), LocalDateTime.now());
+		return repo.getValorePortafoglio(this.utente.getUsername(), dateTime);
 	}
 	
-	public static float getValorePortafoglio(LocalDateTime date, String username) throws PersistenceException {
-		UserRepository repo = new UserRepository(ControllerPersistenza.getInstance());
-		return repo.getValorePortafoglio(username, date);
+	public static float getValorePortafoglio(List<RiepilogoOrdine> riepiloghi, LocalDateTime date, ValutaFiat valutaFiat) 
+	{
+		
+		float risultato = 0;
+		
+		for (RiepilogoOrdine riepilogo : riepiloghi) 
+		{
+			//Valore della criptovaluta al momento specificato
+			float valore = riepilogo.getCriptovaluta().getIntervalliAggiornamento().get(date).get(valutaFiat);
+			
+			risultato += valore * riepilogo.getQuantitativoAcquistato();
+		}
+		
+		return risultato;
+		
 	}
 }
