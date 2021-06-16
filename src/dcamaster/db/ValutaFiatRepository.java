@@ -23,13 +23,6 @@ public class ValutaFiatRepository {
 	
 	//===STATEMENT SQL=====================================================================================
 	
-	private static final String create_table = "CREATE TABLE " + TABLE_VALUTEFIAT + " ("
-			+ SIGLA + "TEXT NOT NULL, "
-			+ NOME + "TEXT NOT NULL, "
-			+ "PRIMARY KEY (" + SIGLA + "))";
-	
-	private static final String drop_table = "DROP TABLE " + TABLE_VALUTEFIAT + " ";
-	
 	private static final String read_by_sigla = "SELECT * FROM " + TABLE_VALUTEFIAT + " WHERE " 
 			+ SIGLA + " = ? ";
 	

@@ -170,15 +170,19 @@ public class RequestManager extends HttpServlet
 		
 		else if (request.getParameter("sceltaParametri") != null) 
 		{
-			//Inizializzo il controller
+			// Inizializzo il controller
 			Utente utente = (Utente) session.getAttribute("utente");
 			SceltaParametriController sceltaParametri = new SceltaParametriController(utente);
 			
+			// Parametri passati dall'utente
 			String budget = request.getParameter("budget");
 			String intervallo = request.getParameter("intervallo");
 			
-			sceltaParametri.sceltaBudget(Float.parseFloat(budget));
-			sceltaParametri.sceltaIntervalloInvestimento(Integer.parseInt(intervallo));
+			// Controllo sui parametri e valorizzazione se validi
+			if (budget != null && !budget.isEmpty())
+				sceltaParametri.sceltaBudget(Float.parseFloat(budget));
+			if (intervallo != null && !intervallo.isEmpty())
+				sceltaParametri.sceltaIntervalloInvestimento(Integer.parseInt(intervallo));
 		}
 	}
 }

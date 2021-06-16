@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -24,16 +23,8 @@ public class CriptovalutaRepository {
 	
 	//=== QUERIES ========================================================================================
 	
-	private static final String create_table = "CREATE TABLE " + TABLE + "( "
-			+ SIGLA + " TEXT NOT NULL, "
-			+ NOME + " TEXT NOT NULL, "
-			+ "PRIMARY KEY(" + SIGLA + "))";
-	
-	private static final String drop_table = "DROP TABLE " + TABLE + "";
-	
 	private static final String read_by_sigla = "SELECT * FROM " + TABLE + " WHERE " + SIGLA + " = ? ";
 	
-	private static final String get_intervalli = "";
 	
 	//======================================================================================================
 	
