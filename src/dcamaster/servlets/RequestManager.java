@@ -124,7 +124,8 @@ public class RequestManager extends HttpServlet
 			if (utente != null && !result.toUpperCase().contains("ERRORE")) 
 			{
 				// Salvataggio Utente in Sessione
-				request.getSession().setAttribute("utente", utente);
+				session.setAttribute("utente", utente);
+				
 				
 				// Redirect alle view deciso dal Controller
 				try {
@@ -179,6 +180,12 @@ public class RequestManager extends HttpServlet
 			
 			sceltaParametri.sceltaBudget(Float.parseFloat(budget));
 			sceltaParametri.sceltaIntervalloInvestimento(Integer.parseInt(intervallo));
+			
+			try {
+				response.sendRedirect("./pages/HomeConfigurazione.jsp");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
