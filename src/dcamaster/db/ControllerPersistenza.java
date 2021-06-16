@@ -1,8 +1,12 @@
 package dcamaster.db;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 import dcamaster.model.EntryOperazione;
 
@@ -35,6 +39,13 @@ public class ControllerPersistenza {
 	}
 	
 	public void inserisciEntry(EntryOperazione entry) {
-		//toDo
+		File logs = new File("Log.txt");
+		try {
+			FileWriter writer = new FileWriter(logs);
+			writer.write("Operazione: " + entry.getTipoOperazione() + ", Messaggio: " + entry.getMessaggio()
+					 + ", Data: " + LocalDateTime.now());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
