@@ -75,6 +75,6 @@ public class StrategiaDCA
 	}*/
 	
 	public static float getValorePortafoglio(LocalDateTime date, String username) {
-		return 0;
+		return 0.0f;
 	}
 }
