@@ -91,6 +91,5 @@ public class StrategiaDCA
 		}
 		
 		return risultato;
-		
 	}
 }
