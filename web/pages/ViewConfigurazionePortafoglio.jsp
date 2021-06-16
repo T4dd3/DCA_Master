@@ -10,7 +10,7 @@
 					// Show configurazioneBTN and tableDistribuzione; hide visualizzaCriptoBTN
 					myGetElementById("criptovaluteAcquistabili").style.display = "none";
 					myGetElementById("configuraDistribuzione").style.display = "";
-					tableDistribuzione.style.display = "none";
+					tableDistribuzione.style.display = "";
 					
 					// jsonResponse = { BTC: 0, ETH: 74.2, ADA: 25.8 }
 					for (var criptovaluta in jsonResponse) {
@@ -21,6 +21,22 @@
 				}
 				inviaDati(callback, "criptovaluteAcquistabili=1");
 			}
+			
+			function sceltaDistribuzionePercentuale(form)
+			{
+				var distribuzionePercentuale = {};
+				var callback = function(result) {
+					alert(result.esito);
+				}
+				
+				for (var element of form.elements) {
+					if (element.type == "text") {
+						distribuzionePercentuale[element.name] = parseFloat(element.value) || 0;
+					}
+				}
+				
+				inviaDati(callback, "distribuzionePercentuale="+JSON.stringify(distribuzionePercentuale));
+			}
 		</script>
 	</head>
 		<h1>Scelta distribuzione percentuale:</h1>
@@ -28,7 +44,7 @@
 			<form onsubmit="getCriptovaluteAcquistabili(); return false;">
 				<input type="submit" name="criptovaluteAcquistabili" id="criptovaluteAcquistabili" value="Visualizza distribuzione"/>
 			</form>
-			<form id="distribuzionePercentualeForm" action="sceltaDistribuzionePercentuale">
+			<form id="distribuzionePercentualeForm" onsubmit="sceltaDistribuzionePercentuale(this); return false;">
 				<table class="formdata" id="distribuzionePercentuale" style="display: none;">
 				</table>
 				<input type="submit" name="configuraDistribuzione" id="configuraDistribuzione" style="display: none;" value="Configura distribuzione"/>

@@ -28,53 +28,6 @@ public class ConfigurazionePortafoglioController implements IConfigurazionePorta
 		this.userRepo = new UserRepository(ControllerPersistenza.getInstance());
 	}
 	
-	/*@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
-	{
-		synchronized (this) 
-		{
-			this.session = req.getSession();
-			
-			// Differenzio il tipo di richiesta
-			if (req.getParameter("getCriptovaluteAcquistabili") != null) 
-			{	
-				// Preparazione della mappa da restituire di tipo <String, Float> cioè <siglaCripto, percentuale>
-				Map<Criptovaluta, Float> criptoAcquistabiliPiuDistribuzione = this.getCriptovaluteAcquistabili();
-				Map<String, Float> criptoAcquistabiliPiuDistribuzioneStringa = criptoAcquistabiliPiuDistribuzione.keySet().stream().
-						collect(Collectors.toMap(Criptovaluta::getSigla, cripto -> criptoAcquistabiliPiuDistribuzione.get(cripto)));
-				
-				// Preparazione del json da inviare all'utente
-				String jsonMappa = gson.toJson(criptoAcquistabiliPiuDistribuzione);
-				
-				// Restituzione risposta all'utente
-				resp.getWriter().write(jsonMappa);
-			}
-			else if (req.getParameter("configuraPortafoglio") != null)
-			{
-				// Recupero json della nuova distribuzionePercentuale
-				String jsonMappa = (String)req.getParameter("distribuzionePercentuale");
-				if (jsonMappa == null) return;
-				
-				// Conversione json come mappa (FORMATO RICHIESTO: {'BTC': 15.5, 'ETH': 85.5})
-				Type type = new TypeToken<Map<String, Float>>(){}.getType();
-				Map<String, Float> nuovaDistribuzioneSigle = gson.fromJson(jsonMappa, type);
-				Set<String> keys = nuovaDistribuzioneSigle.keySet();
-				Map<Criptovaluta, Float> distribuzione = new HashMap<>();
-				for(String sigla: keys) {
-					try {
-						Criptovaluta entry = criptoRepo.read(sigla);
-						distribuzione.put(entry, nuovaDistribuzioneSigle.get(sigla));
-					} catch (PersistenceException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					this.configuraPortafoglio(distribuzione);
-				}
-				
-			}
-		}
-	}*/
-	
 	@Override
 	public void configuraPortafoglio(Map<Criptovaluta, Float> distribuzione) 
 	{

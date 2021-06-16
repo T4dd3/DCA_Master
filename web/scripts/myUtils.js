@@ -2,8 +2,8 @@ function callbackJSON( theXhr, myCallback )
 {
 	if ( theXhr.readyState === 4 ) {
 		if ( theXhr.status === 200 ) {
-			console.log(theXhr.response);
 			var json = JSON.parse(theXhr.response);
+			console.log(json);
 			
 			myCallback(json);
 		}

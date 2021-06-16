@@ -1,6 +1,7 @@
 package dcamaster.servlets;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import dcamaster.gestioneaccount.AutenticazioneController;
 import dcamaster.gestioneaccount.CodiceDiVerificaController;
@@ -22,6 +24,7 @@ import dcamaster.gestioneaccount.RegistrazioneController;
 import dcamaster.gestionedca.ConfigurazionePortafoglioController;
 import dcamaster.gestionedca.SceltaParametriController;
 import dcamaster.model.Criptovaluta;
+import dcamaster.model.CriptovalutaFactory;
 import dcamaster.model.TipoDeposito;
 import dcamaster.model.Utente;
 
@@ -41,7 +44,7 @@ public class RequestManager extends HttpServlet
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) 
 	{
-		// Recupero della richiesta
+		// Recupero della sessione e utente
 		HttpSession session = request.getSession();
 		
 		// Differenzio il tipo di richiesta
@@ -162,12 +165,12 @@ public class RequestManager extends HttpServlet
 			
 			// Restituzione risposta all'utente
 			try {
+				response.setContentType("application/json");
 				response.getWriter().println(jsonMappa);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
 		else if (request.getParameter("sceltaParametri") != null) 
 		{
 			//Inizializzo il controller apposito
@@ -186,6 +189,42 @@ public class RequestManager extends HttpServlet
 			
 			try {
 				response.sendRedirect("./pages/HomeConfigurazione.jsp");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else if (request.getParameter("distribuzionePercentuale") != null)
+		{
+			//Creazione e inizializzazione controller
+			Utente utente = (Utente) session.getAttribute("utente");
+			ConfigurazionePortafoglioController configurazionePortafoglio = new ConfigurazionePortafoglioController(utente);
+			
+			// Recupero json della nuova distribuzionePercentuale
+			String jsonDistribuzione = (String)request.getParameter("distribuzionePercentuale");
+			// Conversione json come mappa (FORMATO RICHIESTO: {'BTC': 15.5, 'ETH': 85.5})
+			Type type = new TypeToken<Map<String, Float>>(){}.getType();
+			Map<String, Float> nuovaDistribuzioneSigle = gson.fromJson(jsonDistribuzione, type);
+			
+			// Controllo che la somma dei valori sia 100 e non ci siano percentuali <0
+			double somma = nuovaDistribuzioneSigle.values().stream().mapToDouble(f -> f).sum();
+			try 
+			{
+				if (somma != 100) {
+					response.getWriter().println("{\"esito\":\"La percentuale totale deve essere uguale a 100!\"}");
+					return;
+				}
+				if (nuovaDistribuzioneSigle.values().stream().filter(f -> f < 0).count() > 0) {
+					response.getWriter().println("{\"esito\":\"La percentuale assegnata deve essere maggiore o uguale a 0!\"}");
+					return;
+				}
+			
+				// Creazione distribuzione percentuale
+				Map<Criptovaluta, Float> nuovaDistribuzioneCriptovalute = nuovaDistribuzioneSigle.keySet().stream()
+										.collect(Collectors.toMap(CriptovalutaFactory::GetCriptovaluta, sigla -> nuovaDistribuzioneSigle.get(sigla)));
+				
+				// Salvataggio distribuzionePercentuale e reload pagina
+				configurazionePortafoglio.configuraPortafoglio(nuovaDistribuzioneCriptovalute);
+				response.sendRedirect("./pages/HomeConfigurazione.jsp");	
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
