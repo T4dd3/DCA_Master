@@ -1,8 +1,8 @@
 package dcamaster.model;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class RiepilogoOrdine {
-	private Date data;
+	private LocalDateTime data;
 	private float fiatSpesa;
 	private float quantitativoAcquistato;
 	private float valore;
@@ -12,11 +12,11 @@ public class RiepilogoOrdine {
 		
 	}
 
-	public Date getData() {
+	public LocalDateTime getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(LocalDateTime data) {
 		this.data = data;
 	}
 

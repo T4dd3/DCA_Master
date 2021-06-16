@@ -19,8 +19,7 @@ public class FiltroIntervallo implements Filtro{
 
 	@Override
 	public boolean filtra(RiepilogoOrdine riepilogoOrdine) {
-		// TODO Auto-generated method stub
-		return false;
+		return (this.dataInizio.isBefore(riepilogoOrdine.getData()) && this.dataFine.isAfter(riepilogoOrdine.getData()));
 	}
 
 }
