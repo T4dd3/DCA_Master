@@ -170,7 +170,7 @@ public class RequestManager extends HttpServlet
 		
 		else if (request.getParameter("sceltaParametri") != null) 
 		{
-			// Inizializzo il controller
+			//Inizializzo il controller apposito
 			Utente utente = (Utente) session.getAttribute("utente");
 			SceltaParametriController sceltaParametri = new SceltaParametriController(utente);
 			
@@ -183,6 +183,12 @@ public class RequestManager extends HttpServlet
 				sceltaParametri.sceltaBudget(Float.parseFloat(budget));
 			if (intervallo != null && !intervallo.isEmpty())
 				sceltaParametri.sceltaIntervalloInvestimento(Integer.parseInt(intervallo));
+			
+			try {
+				response.sendRedirect("./pages/HomeConfigurazione.jsp");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

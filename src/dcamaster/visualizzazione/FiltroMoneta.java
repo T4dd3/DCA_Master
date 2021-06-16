@@ -12,7 +12,6 @@ public class FiltroMoneta implements Filtro{
 	}
 	@Override
 	public boolean filtra(RiepilogoOrdine riepilogoOrdine) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.criptovaluta.getSigla().equals(riepilogoOrdine.getCriptovaluta().getSigla());
 	}
 }
