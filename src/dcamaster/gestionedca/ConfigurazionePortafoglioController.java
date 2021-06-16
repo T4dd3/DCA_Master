@@ -111,7 +111,7 @@ public class ConfigurazionePortafoglioController implements IConfigurazionePorta
 		
 		// Per ogni Criptovaluta non nella distribuzionePercentuale dell'Utente la restituisco con percentuale a 0
 		for (Criptovaluta criptovaluta : valutaFiatUtente.getCriptovaluteAssociate())
-			if (distribuzioneRestituita.get(criptovaluta) == null)
+			if (distribuzioneRestituita.keySet().contains(arg0) == null)
 				distribuzioneRestituita.put(criptovaluta, 0.00f);
 		
 		return distribuzioneRestituita;

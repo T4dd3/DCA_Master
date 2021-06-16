@@ -45,7 +45,7 @@ public class VisualizzaRiepiloghiController implements IVisualizzaRiepiloghi{
 				}
 			}
 			
-			//Se all'uscita del ciclo dei filtri valid è true, il Riepilogo è ok
+			//Se all'uscita del ciclo dei filtri validi true, il Riepilogo Ã¨ ok
 			if (valid)
 				ritorno.add(ro);
 			

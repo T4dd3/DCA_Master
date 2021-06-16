@@ -26,7 +26,7 @@ public class VisualizzazioneAndamentoController implements IVisualizzazioneAndam
 		this.utente = utente;
 	}
 	
-	//La string è in realtà una mappa in Json (data-valore) + lista riepiloghi
+	//La string ï¿½ in realtï¿½ una mappa in Json (data-valore) + lista riepiloghi
 	@Override
 	public String drawAndList() 
 	{
@@ -35,7 +35,7 @@ public class VisualizzazioneAndamentoController implements IVisualizzazioneAndam
 		Map<LocalDateTime, Float> valoriIntervalli = new HashMap<>(); 
 		List<RiepilogoOrdine> riepiloghi = riepiloghiController.visualizza();
 		
-		//Controllo se è stato effettuato almeno un ordine
+		//Controllo se ï¿½ stato effettuato almeno un ordine
 		if (riepiloghi.size() > 0) 
 		{
 			//Prendo le date del primo riepilogo e di oggi
@@ -62,8 +62,7 @@ public class VisualizzazioneAndamentoController implements IVisualizzazioneAndam
 			String listaJson = gson.toJson(riepiloghi);
 			
 			return "{\"riepiloghi\":" + listaJson + ",\"valoriGrafico\":" + mappaJson + ",\"esito\":\"OK\"}";
-		}
-		
+		}	
 		else 
 			return "{\"esito\":\"Nessun ordine effettuato!\"}";
 	}
@@ -76,32 +75,31 @@ public class VisualizzazioneAndamentoController implements IVisualizzazioneAndam
 		Map<LocalDateTime, Float> valoriIntervalli = new HashMap<>(); 
 		List<RiepilogoOrdine> riepiloghi = riepiloghiController.visualizza(filtri);
 		
-		//Controllo se è stato effettuato almeno un ordine
-				if (riepiloghi.size() > 0) 
-				{
-					//Prendo le date del primo riepilogo e di oggi
-					LocalDateTime primoRiepilogo = riepiloghi.get(0).getData();
-					LocalDateTime oggi = LocalDateTime.now();
-					
-					long secondsDifference = primoRiepilogo.until(oggi, ChronoUnit.SECONDS );
-					
-					for (int i = 0; i < INTERVALLI; i++) 
-					{
-						LocalDateTime untilDate = primoRiepilogo.plusSeconds(secondsDifference - (secondsDifference / INTERVALLI * i));
-						
-						float valueUntilDate = StrategiaDCA.getValorePortafoglio(riepiloghi, untilDate, utente.getFiatScelta());
-						
-						valoriIntervalli.put(untilDate, valueUntilDate);
-					}
-					
-					String mappaJson = gson.toJson(valoriIntervalli);
-					String listaJson = gson.toJson(riepiloghi);
-					
-					return "{\"riepiloghi\":" + listaJson + ",\"valoriGrafico\":" + mappaJson + ",\"esito\":\"OK\"}";
-				}
+		//Controllo se Ã¨ stato effettuato almeno un ordine
+		if (riepiloghi.size() > 0) 
+		{
+			//Prendo le date del primo riepilogo e di oggi
+			LocalDateTime primoRiepilogo = riepiloghi.get(0).getData();
+			LocalDateTime oggi = LocalDateTime.now();
+			
+			long secondsDifference = primoRiepilogo.until(oggi, ChronoUnit.SECONDS );
+			
+			for (int i = 0; i < INTERVALLI; i++) 
+			{
+				LocalDateTime untilDate = primoRiepilogo.plusSeconds(secondsDifference - (secondsDifference / INTERVALLI * i));
 				
-				else 
-					return "{\"esito\":\"Nessun ordine effettuato!\"}";
+				float valueUntilDate = StrategiaDCA.getValorePortafoglio(riepiloghi, untilDate, utente.getFiatScelta());
+				
+				valoriIntervalli.put(untilDate, valueUntilDate);
+			}
+			
+			String mappaJson = gson.toJson(valoriIntervalli);
+			String listaJson = gson.toJson(riepiloghi);
+			
+			return "{\"riepiloghi\":" + listaJson + ",\"valoriGrafico\":" + mappaJson + ",\"esito\":\"OK\"}";
+		}
+		else 
+			return "{\"esito\":\"Nessun ordine effettuato!\"}";
 	}
 
 }

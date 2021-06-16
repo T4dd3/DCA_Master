@@ -18,6 +18,8 @@ public class ValutaFiatRepository {
 	
 	private static final String TABLE_VALUTEFIAT = "ValuteFiat";
 	
+	private static final String SIGLAFIAT = "siglaFiat";
+	private static final String SIGLACRIPTO = "siglaCriptovaluta";
 	private static final String SIGLA = "sigla";
 	private static final String NOME = "nome";
 	
@@ -26,11 +28,9 @@ public class ValutaFiatRepository {
 	private static final String read_by_sigla = "SELECT * FROM " + TABLE_VALUTEFIAT + " WHERE " 
 			+ SIGLA + " = ? ";
 	
-	private static final String get_criptovalute = "SELECT criptovalute.* FROM " + TABLE_VALUTEFIAT 
-			+ " INNER JOIN IntervalloAggiornamento ON " 
-			+ TABLE_VALUTEFIAT + "." + SIGLA + " = intervalloAggiornamento.siglaFiat "
-			+ "INNER JOIN criptovalute ON intervalloAggiornamento.siglaCriptovaluta = criptovalute.sigla"
-			+ " WHERE " + TABLE_VALUTEFIAT + "." + SIGLA + " = ?";
+	private static final String get_criptovalute = "SELECT DISTINCT IA." + SIGLACRIPTO + ", " + NOME
+			+ " FROM IntervalloAggiornamento AS IA INNER JOIN Criptovalute AS C ON IA." + SIGLACRIPTO + "=C." + SIGLA
+			+ " WHERE " + SIGLAFIAT + " = ?";
 	
 	//====================================================================================================
 	
@@ -91,7 +91,7 @@ public class ValutaFiatRepository {
 			while(rs.next()) {
 				Criptovaluta entry = new Criptovaluta();
 				entry.setNome(rs.getString("nome"));
-				entry.setSigla(rs.getString("sigla"));
+				entry.setSigla(rs.getString(SIGLACRIPTO));
 				result.add(entry);
 			}
 		} catch (Exception e){

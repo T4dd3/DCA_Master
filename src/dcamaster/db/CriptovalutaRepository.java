@@ -105,7 +105,7 @@ public class CriptovalutaRepository {
 				LocalDateTime data = LocalDateTime.parse(rs.getString(DATAORA), formatter);
 				// Istanzio la seconda mappa associata alla chiave
 				Map<ValutaFiat, Float> innerMap = new HashMap<>();
-				// Ottengo i valori con cui popolerò la seconda mappa
+				// Ottengo i valori con cui popolerÃ  la seconda mappa
 				statement = connection.prepareStatement(get_intervalli_for_data);
 				statement.setString(1, criptovaluta.getSigla());
 				statement.setString(2, rs.getString(DATAORA));
