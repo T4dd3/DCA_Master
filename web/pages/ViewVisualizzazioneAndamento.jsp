@@ -22,16 +22,24 @@
 		<script type="text/javascript" src="../scripts/utils.js"></script>
 		<script type="text/javascript" src="../scripts/myUtils.js"></script>
 		<script type="text/javascript">
-			function calcolaPrevisione()
+			function callbackVisualizzazione(json) 
 			{
-				var intervallo = document.getElementById('intervallo').value;
-				var budget = document.getElementById('budget').value;
+				// Recupero tabella in cui stampare riepiloghi e settaggio header
+				var listaRiepiloghi = myGetElementById("riepiloghiList");
+				listaRiepiloghi.innerHTML = "<tr><th>H1</th><th>H2</th><th>H3</th></tr>";
 				
-				if (intervallo !== null && intervallo !== '' && budget !== null && budget !== '' && intervallo !== '0')
-				{
-					var previsione = 365 / intervallo * budget;
-					document.getElementById('previsione').value = (Math.round(previsione * 100) / 100).toFixed(2);
-				}
+				for (var riepilogo of json)
+					listaRiepiloghi.innerHTML += "<tr><td>" +  + "</td><td>" +  + "</td><td>" +  + "</td></tr>";
+			}
+		
+			function drawAndList()
+			{
+				inviaDati(callbackVisualizzazione, "visualizzazioneAndamento=1&filtri=0");
+			}
+			
+			function drawAndList(filtri)
+			{
+				inviaDati(callbackVisualizzazione, "visualizzazioneAndamento=1&filtri=1"+);
 			}
 		</script>
 		
@@ -46,7 +54,9 @@
 		<jsp:include page="./ViewFiltroVisualizzazione"></jsp:include>
 		
 		<div class="main">
-			
+			<table id="riepiloghiList">
+				
+			</table>
 		</div>
 		</center>
 		
