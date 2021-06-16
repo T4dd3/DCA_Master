@@ -18,7 +18,12 @@ public class CriptovalutaProxy extends Criptovaluta{
 			return super.getIntervalliAggiornamento();
 		} else {
 			CriptovalutaRepository repo = new CriptovalutaRepository(ControllerPersistenza.getInstance());
-			setIntervalliAggiornamento(repo.getIntervalliAggiornamento(this));
+			try {
+				setIntervalliAggiornamento(repo.getIntervalliAggiornamento(this));
+			} catch (PersistenceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return getIntervalliAggiornamento();
 		}
 	}
