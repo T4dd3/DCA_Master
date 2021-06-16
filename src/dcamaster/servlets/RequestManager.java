@@ -126,6 +126,7 @@ public class RequestManager extends HttpServlet
 				// Salvataggio Utente in Sessione
 				session.setAttribute("utente", utente);
 				
+				Utente ut = (Utente) session.getAttribute("utente");
 				
 				// Redirect alle view deciso dal Controller
 				try {
