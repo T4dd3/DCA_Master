@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import dcamaster.model.CriptovalutaFactory;
 import dcamaster.model.RiepilogoOrdine;
 import dcamaster.model.StrategiaDCA;
 
@@ -50,7 +51,6 @@ public class RiepiloghiOrdineRepository {
 			statement.setString(1, strategiaDCA.getUtente().getUsername());
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
-				CriptovalutaRepository repo = new CriptovalutaRepository(controller);
 				RiepilogoOrdine entry = new RiepilogoOrdine();
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 				LocalDateTime data = LocalDateTime.parse(rs.getString(DATAORA), formatter);
@@ -58,7 +58,7 @@ public class RiepiloghiOrdineRepository {
 				entry.setFiatSpesa(rs.getFloat(FIATSPESA));
 				entry.setQuantitativoAcquistato(rs.getFloat(QUANTITATIVOACQUISTATO));
 				entry.setValore(entry.getFiatSpesa()/entry.getQuantitativoAcquistato());
-				entry.setCriptovaluta(repo.read(rs.getString(SIGLA)));
+				entry.setCriptovaluta(CriptovalutaFactory.GetCriptovaluta((rs.getString(SIGLA))));
 			}
 		} catch (Exception e){
 			System.out.println("read(): failed to read entry: " + e.getMessage());

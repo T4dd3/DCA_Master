@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dcamaster.model.Criptovaluta;
+import dcamaster.model.CriptovalutaFactory;
 import dcamaster.model.ValutaFiat;
 
 public class ValutaFiatRepository {
@@ -28,8 +29,8 @@ public class ValutaFiatRepository {
 	private static final String read_by_sigla = "SELECT * FROM " + TABLE_VALUTEFIAT + " WHERE " 
 			+ SIGLA + " = ? ";
 	
-	private static final String get_criptovalute = "SELECT DISTINCT IA." + SIGLACRIPTO + ", " + NOME
-			+ " FROM IntervalloAggiornamento AS IA INNER JOIN Criptovalute AS C ON IA." + SIGLACRIPTO + "=C." + SIGLA
+	private static final String get_criptovalute = "SELECT DISTINCT " + SIGLACRIPTO
+			+ " FROM IntervalloAggiornamento "
 			+ " WHERE " + SIGLAFIAT + " = ?";
 	
 	//====================================================================================================
@@ -89,9 +90,7 @@ public class ValutaFiatRepository {
 			statement.setString(1, sigla);
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
-				Criptovaluta entry = new Criptovaluta();
-				entry.setNome(rs.getString("nome"));
-				entry.setSigla(rs.getString(SIGLACRIPTO));
+				Criptovaluta entry = CriptovalutaFactory.GetCriptovaluta(rs.getString(SIGLACRIPTO));
 				result.add(entry);
 			}
 		} catch (Exception e){
