@@ -72,11 +72,10 @@ public class StrategiaDCA
 		this.riepiloghiLoaded = bool;
 	}
 	
-	/*public float getValorePortafoglio() {
-		float result;
-		
-		return result;
-	}*/
+	public float getValorePortafoglio() throws PersistenceException {
+		UserRepository repo = new UserRepository(ControllerPersistenza.getInstance());
+		return repo.getValorePortafoglio(this.utente.getUsername(), LocalDateTime.now());
+	}
 	
 	public static float getValorePortafoglio(LocalDateTime date, String username) throws PersistenceException {
 		UserRepository repo = new UserRepository(ControllerPersistenza.getInstance());
