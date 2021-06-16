@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import dcamaster.model.Criptovaluta;
+import dcamaster.model.CriptovalutaFactory;
 import dcamaster.model.StrategiaDCA;
 import dcamaster.model.TipoDeposito;
 import dcamaster.model.Utente;
@@ -361,9 +362,8 @@ public class UserRepository {
 			statement = connection.prepareStatement(get_distribuzione);
 			statement.setString(1, strategiaDCA.getUtente().getUsername());
 			ResultSet rs = statement.executeQuery();
-			CriptovalutaRepository repo = new CriptovalutaRepository(controller);
 			while(rs.next()) {
-				Criptovaluta entry = repo.read(rs.getString(SIGLA));
+				Criptovaluta entry = CriptovalutaFactory.GetCriptovaluta((rs.getString(SIGLA)));
 				Float percentuale = rs.getFloat(PERCENTUALE);
 				result.put(entry, percentuale);
 			}
