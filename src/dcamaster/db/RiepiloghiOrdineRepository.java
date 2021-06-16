@@ -17,7 +17,7 @@ public class RiepiloghiOrdineRepository {
 	
 	//TABLE RIEPILOGHIORDINE------------------------------------------------------------------------------
 	
-	private static final String TABLE_RIEPILOGHIORDINE = "riepiloghiOrdine";
+	private static final String TABLE_RIEPILOGHIORDINE = "RiepilogoOrdini";
 	
 	private static final String IDRIEPILOGO = "idRiepilogo";
 	private static final String DATAORA = "dataOra";
@@ -29,7 +29,7 @@ public class RiepiloghiOrdineRepository {
 	//==QUERY=============================================================================================
 	
 	private static final String get_riepiloghi = "SELECT * FROM " + TABLE_RIEPILOGHIORDINE 
-			+ " WHERE " + USERNAME + " = ? ";
+			+ " WHERE " + USERNAME + " = ? ORDER BY dataOra";
 	
 	public RiepiloghiOrdineRepository(ControllerPersistenza controller) {
 		this.controller = controller;
