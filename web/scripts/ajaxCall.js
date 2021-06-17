@@ -24,9 +24,9 @@ function callbackVerificaDatiInseriti(xhr)
 
 function verificaDatiInseriti()
 {
-	/*xhr = new XMLHttpRequest();
+	xhr = new XMLHttpRequest();
 
-    xhr.onreadystatechange = function(){ callback(xhr);};
+    xhr.onreadystatechange = function(){ callbackVerificaDatiInseriti(xhr);};
 
     try
     {
@@ -35,7 +35,7 @@ function verificaDatiInseriti()
     catch(e)
     {
         alert(e);
-    }*/
+    }
 
     username = document.getElementById('username').value;
     password = document.getElementById('password').value;
@@ -47,8 +47,8 @@ function verificaDatiInseriti()
 
     var argument = "username=" + username + "&password=" + password + "&email=" + email + "&siglaFiat=" + siglaFiat + "&apiKey=" + apiKey + "&apiSecret=" + apiSecret + "&tipoDeposito=" + tipoDeposito + "&richiediCodice=true";
 
-	inviaDati(callbackVerificaDatiInseriti, argument);
+	//inviaDati(callbackVerificaDatiInseriti, argument);
 		
-    /*xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send(argument); */
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(argument);
 }

@@ -27,8 +27,8 @@ public class CodiceDiVerificaController implements ICodiceDiVerifica
 	
 	public CodiceDiVerificaController() 
 	{
-		this.sourceMail = "progetto.ing.software.gruppo1@gmail.com";
-		this.sourceMailPassword = "ProjIng1";
+		this.sourceMail = "dcamastergruppo1@gmail.com";
+		this.sourceMailPassword = "DCAMaster12!";
 		this.oggetto = "Codice di Verifica per la registrazione a DCA Master";
 		this.corpo = "Benvenuto su DCA Master! Inserisci il seguente codice per terminare la registrazione: ";
 		this.codiceSalvato = "";
