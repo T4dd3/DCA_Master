@@ -14,17 +14,16 @@ public class CriptovalutaProxy extends Criptovaluta{
 	
 	@Override
 	public Map<LocalDateTime, Map<ValutaFiat, Float>> getIntervalliAggiornamento() {
-		if (intervalliLoaded)
-			return super.getIntervalliAggiornamento();
-		else {
+		/*if (intervalliLoaded)
+			return super.getIntervalliAggiornamento();*/
+		
 			CriptovalutaRepository repo = new CriptovalutaRepository(ControllerPersistenza.getInstance());
 			try {
 				setIntervalliAggiornamento(repo.getIntervalliAggiornamento(this));
 			} catch (PersistenceException e) {
 				e.printStackTrace();
 			}
-			intervalliLoaded(true);
-			return getIntervalliAggiornamento();
-		}
+			//intervalliLoaded(true);
+			return super.getIntervalliAggiornamento();
 	}
 }

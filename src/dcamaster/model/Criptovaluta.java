@@ -8,15 +8,15 @@ public class Criptovaluta
 	private String nome;
 	private Map<LocalDateTime, Map<ValutaFiat, Float>> intervalliAggiornamento;
 	
-	protected boolean intervalliLoaded;
+	//protected boolean intervalliLoaded;
 	
 	public Criptovaluta() {
-		this.intervalliLoaded = false;
+		//this.intervalliLoaded = false;
 	}
 	
-	protected void intervalliLoaded(Boolean bool) {
+	/*protected void intervalliLoaded(Boolean bool) {
 		this.intervalliLoaded = bool;
-	}
+	}*/
 	
 	public String getSigla() {
 		return sigla;

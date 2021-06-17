@@ -3,6 +3,7 @@ package dcamaster.model;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import dcamaster.db.ControllerPersistenza;
 import dcamaster.db.PersistenceException;
@@ -85,9 +86,24 @@ public class StrategiaDCA
 		for (RiepilogoOrdine riepilogo : riepiloghi) 
 		{
 			//Valore della criptovaluta al momento specificato
-			float valore = riepilogo.getCriptovaluta().getIntervalliAggiornamento().get(date).get(valutaFiat);
+			//float valore = riepilogo.getCriptovaluta().getIntervalliAggiornamento().get(date).get(valutaFiat);
+	
+			Set<LocalDateTime> keySet = riepilogo.getCriptovaluta().getIntervalliAggiornamento().keySet();
 			
-			risultato += valore * riepilogo.getQuantitativoAcquistato();
+			for (LocalDateTime dataSet : keySet) 
+			{
+				if (dataSet.isBefore(date)) 
+				{
+					//float valore = riepilogo.getCriptovaluta().getIntervalliAggiornamento().get(dataSet).get(valutaFiat);
+					Criptovaluta cripto = riepilogo.getCriptovaluta();
+					Map<LocalDateTime, Map<ValutaFiat, Float>> intervalli = cripto.getIntervalliAggiornamento();
+					Map<ValutaFiat, Float> valuteFiat = intervalli.get(dataSet);
+					float valore = valuteFiat.get(valutaFiat);
+					risultato += valore * riepilogo.getQuantitativoAcquistato();
+				}
+			}
+			
+			
 		}
 		
 		return risultato;

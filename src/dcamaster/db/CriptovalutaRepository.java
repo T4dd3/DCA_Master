@@ -106,13 +106,14 @@ public class CriptovalutaRepository {
 				// Istanzio la seconda mappa associata alla chiave
 				Map<ValutaFiat, Float> innerMap = new HashMap<>();
 				// Ottengo i valori con cui popolerà la seconda mappa
+				//statement.close();
 				statement = connection.prepareStatement(get_intervalli_for_data);
 				statement.setString(1, criptovaluta.getSigla());
 				statement.setString(2, rs.getString(DATAORA));
 				ResultSet rs2 = statement.executeQuery();
 				while(rs2.next()) {
-					ValutaFiat entry = repo.readBySigla(rs.getString(SIGLAFIAT));
-					Float valoreConversione = rs.getFloat(VALORECONVERSIONE);
+					ValutaFiat entry = repo.readBySigla(rs2.getString(SIGLAFIAT));
+					Float valoreConversione = rs2.getFloat(VALORECONVERSIONE);
 					innerMap.put(entry, valoreConversione);
 				}
 				// Inserisco la seconda mappa nella prima
