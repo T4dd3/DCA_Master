@@ -1,9 +1,12 @@
 package dcamaster.model;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import dcamaster.db.ControllerPersistenza;
 import dcamaster.db.PersistenceException;
@@ -88,7 +91,7 @@ public class StrategiaDCA
 			//Valore della criptovaluta al momento specificato
 			//float valore = riepilogo.getCriptovaluta().getIntervalliAggiornamento().get(date).get(valutaFiat);
 	
-			Set<LocalDateTime> keySet = riepilogo.getCriptovaluta().getIntervalliAggiornamento().keySet();
+			/*Set<LocalDateTime> intervalliValutaFiat = riepilogo.getCriptovaluta().getIntervalliAggiornamento().get(valutaFiat);
 			
 			for (LocalDateTime dataSet : keySet) 
 			{
@@ -99,11 +102,19 @@ public class StrategiaDCA
 					Map<LocalDateTime, Map<ValutaFiat, Float>> intervalli = cripto.getIntervalliAggiornamento();
 					Map<ValutaFiat, Float> valuteFiat = intervalli.get(dataSet);
 					float valore = valuteFiat.get(valutaFiat);
+					
 					risultato += valore * riepilogo.getQuantitativoAcquistato();
 				}
-			}
+			}*/
 			
+			//Tutti gli intervalli presenti per quella specifica valuta fiat
+			Set<LocalDateTime> dateAggiornamento = new TreeSet<>(riepilogo.getCriptovaluta().getIntervalliAggiornamento().get(valutaFiat).keySet());
 			
+			LocalDateTime nearestDateRiepilogo = dateAggiornamento.stream().min(Comparator.comparingLong(x -> ChronoUnit.SECONDS.between(x , date))).orElse(null);
+			
+			float valore = riepilogo.getQuantitativoAcquistato() * riepilogo.getCriptovaluta().getIntervalliAggiornamento().get(valutaFiat).get(nearestDateRiepilogo);
+			
+			risultato += valore;
 		}
 		
 		return risultato;
