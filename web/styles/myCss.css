@@ -59,6 +59,7 @@ table.formdata {
 	border-collapse: collapse;
 	margin: 10px;
 	width: 90%;
+	table-layout: fixed;
 }
 table.formdata th {
 	border: 1px solid #5F6F7E;

@@ -59,7 +59,7 @@ public class SceltaParametriController extends HttpServlet implements ISceltaPar
 		this.utente.getDca().setBudget(budget);
 		
 		try {
-			repo.updateParametri(utente.getDca());
+			repo.updateBudget(utente.getDca());
 		} catch (PersistenceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -74,7 +74,7 @@ public class SceltaParametriController extends HttpServlet implements ISceltaPar
 		this.utente.getDca().setIntervalloInvestimento(intervalloInvestimento);
 		
 		try {
-			repo.updateParametri(this.utente.getDca());
+			repo.updateIntervallo(this.utente.getDca());
 		} catch (PersistenceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

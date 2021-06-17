@@ -92,8 +92,11 @@ public class UserRepository {
 			+ " WHERE U." + USERNAME + " = ? ";
 	
 	//update table
-	private static final String update_parametri = "UPDATE " + TABLE_UTENTI 
-			+ " SET " + BUDGET + " = ?, "
+	private static final String update_budget = "UPDATE " + TABLE_UTENTI 
+			+ " SET " + BUDGET + " = ? "
+			+ " WHERE " + USERNAME + " = ? ";
+	
+	private static final String update_intervallo = "UPDATE " + TABLE_UTENTI 
 			+ " SET " + INTERVALLOINVESTIMENTO + " = ? "
 			+ " WHERE " + USERNAME + " = ? ";
 	
@@ -281,7 +284,7 @@ public class UserRepository {
 		return result;
 	}
 
-	public void updateParametri(StrategiaDCA dca) throws PersistenceException {
+	public void updateIntervallo(StrategiaDCA dca) throws PersistenceException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		if(dca == null) {
@@ -290,10 +293,39 @@ public class UserRepository {
 		}
 		connection = controller.getConnection();
 		try {
-			statement = connection.prepareStatement(update_parametri);
+			statement = connection.prepareStatement(update_intervallo);
+			statement.setInt(1, dca.getIntervalloInvestimento());
+			statement.setString(2, dca.getUtente().getUsername());
+			statement.executeUpdate();
+		} catch (Exception e){
+			System.out.println("read(): failed to read entry: " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				if (statement != null)
+					statement.close();
+				if (connection != null) {
+					connection.close();
+					connection = null;
+				}
+			} catch (SQLException e) {
+				throw new PersistenceException(e.getMessage());
+			}
+		}
+	}
+	
+	public void updateBudget(StrategiaDCA dca) throws PersistenceException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		if(dca == null) {
+			System.out.println("read(): cannot read an entry with an invalid name");
+			return;
+		}
+		connection = controller.getConnection();
+		try {
+			statement = connection.prepareStatement(update_budget);
 			statement.setFloat(1, dca.getBudget());
-			statement.setInt(2, dca.getIntervalloInvestimento());
-			statement.setString(3, dca.getUtente().getUsername());
+			statement.setString(2, dca.getUtente().getUsername());
 			statement.executeUpdate();
 		} catch (Exception e){
 			System.out.println("read(): failed to read entry: " + e.getMessage());

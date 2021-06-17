@@ -224,7 +224,7 @@ public class RequestManager extends HttpServlet
 				
 				// Salvataggio distribuzionePercentuale e reload pagina
 				configurazionePortafoglio.configuraPortafoglio(nuovaDistribuzioneCriptovalute);
-				response.sendRedirect("./pages/HomeConfigurazione.jsp");	
+				response.getWriter().println("{\"esito\":\"Distribuzione percentuale aggiornata con successo!\"}");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
