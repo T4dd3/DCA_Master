@@ -9,7 +9,7 @@
 			var filtri = "criptovaluta=" + form.elements.criptovalute.value + "&"
 						+ "startDate=" + form.elements.start.value + "&"
 						+ "endDate=" + form.elements.end.value + "&"
-						+ "spesa=" + form.elements.end.value";
+						+ "spesa=" + form.elements.end.value;
 			
 			drawAndList(filtri);
 		}

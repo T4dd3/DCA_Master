@@ -27,6 +27,7 @@
 				// Recupero tabella in cui stampare riepiloghi e settaggio header
 				var listaRiepiloghi = myGetElementById("riepiloghiList");
 				listaRiepiloghi.innerHTML = "<tr><th>H1</th><th>H2</th><th>H3</th></tr>";
+				console.log(json);
 				
 				for (var riepilogo of json)
 					listaRiepiloghi.innerHTML += "<tr><td>" +  + "</td><td>" +  + "</td><td>" +  + "</td></tr>";
@@ -39,7 +40,7 @@
 			
 			function drawAndList(filtri)
 			{
-				inviaDati(callbackVisualizzazione, "visualizzazioneAndamento=1&filtri=1"+);
+				inviaDati(callbackVisualizzazione, "visualizzazioneAndamento=1&filtri="+filtri);
 			}
 		</script>
 		
