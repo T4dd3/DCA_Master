@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import dcamaster.model.CriptovalutaFactory;
@@ -38,7 +39,7 @@ public class RiepiloghiOrdineRepository {
 	}
 	
 	public List<RiepilogoOrdine> getRiepiloghiOrdine(StrategiaDCA strategiaDCA) throws PersistenceException {
-		List<RiepilogoOrdine> result = null;
+		List<RiepilogoOrdine> result = new ArrayList<>();
 		Connection connection = null;
 		PreparedStatement statement = null;
 		if(strategiaDCA == null) {
@@ -57,8 +58,10 @@ public class RiepiloghiOrdineRepository {
 				entry.setData(data);
 				entry.setFiatSpesa(rs.getFloat(FIATSPESA));
 				entry.setQuantitativoAcquistato(rs.getFloat(QUANTITATIVOACQUISTATO));
-				entry.setValore(entry.getFiatSpesa()/entry.getQuantitativoAcquistato());
+				entry.setValore(entry.getFiatSpesa() / entry.getQuantitativoAcquistato());
 				entry.setCriptovaluta(CriptovalutaFactory.GetCriptovaluta((rs.getString(SIGLA))));
+				
+				result.add(entry);
 			}
 		} catch (Exception e){
 			System.out.println("read(): failed to read entry: " + e.getMessage());

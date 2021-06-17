@@ -41,7 +41,7 @@ public class AutenticazioneController implements IAutenticazione
 					strategiaDCA.getDistribuzionePercentuale() == null)
 						ritorno = "./pages/HomeConfigurazione.jsp";
 				else
-					ritorno = "./pages/VisualizzaAndamento.jsp";
+					ritorno = "./pages/ViewVisualizzazioneAndamento.jsp";
 			}
 			else
 				ritorno = "ERRORE: Le credenziali inserite non sono valide";

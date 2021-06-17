@@ -5,6 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.google.gson.Gson;
 
@@ -32,7 +33,7 @@ public class VisualizzazioneAndamentoController implements IVisualizzazioneAndam
 	{
 		Gson gson = new Gson();
 		
-		Map<LocalDateTime, Float> valoriIntervalli = new HashMap<>(); 
+		Map<LocalDateTime, Float> valoriIntervalli = new TreeMap<>(); 
 		List<RiepilogoOrdine> riepiloghi = riepiloghiController.visualizza();
 		
 		//Controllo se è stato effettuato almeno un ordine
@@ -72,7 +73,7 @@ public class VisualizzazioneAndamentoController implements IVisualizzazioneAndam
 	{
 		Gson gson = new Gson();
 		
-		Map<LocalDateTime, Float> valoriIntervalli = new HashMap<>(); 
+		Map<LocalDateTime, Float> valoriIntervalli = new TreeMap<>(); 
 		List<RiepilogoOrdine> riepiloghi = riepiloghiController.visualizza(filtri);
 		
 		//Controllo se è stato effettuato almeno un ordine

@@ -112,8 +112,8 @@ public class UserRepository {
 	private static final String delete_distribuzione_utente = "DELETE FROM " + TABLE_DISTRIBUZIONE 
 			+ " WHERE " + USERNAME + " = ?";
 	
-	private static final String get_valore_portafoglio = "SELECT sum(TotaleValoreCriptoInValutaFiat)"
-			+ " FROM (SELECT sum(quantitivoAcquistato) * ( "
+	private static final String get_valore_portafoglio = "SELECT sum(TotaleValoreCriptoInValutaFiat) as TotaleValorePortafoglio"
+			+ " FROM (SELECT (sum(R.quantitativoAcquistato) * ( "
 				+ " SELECT valoreConversione "
 				+ " FROM IntervalloAggiornamento "
 				+ " WHERE IntervalloAggiornamento.siglaCriptovaluta = R.siglaCriptovaluta AND "
@@ -124,7 +124,7 @@ public class UserRepository {
 			+ " FROM RiepilogoOrdini as R "
 			+ " INNER JOIN Utenti as U ON U.username = R.username "
 			+ " INNER JOIN ValuteFiat as V ON V.sigla = U.valutaFiatRiferimento "
-			+ " WHERE U.username = ? AND date(dataOra) <= ? "
+			+ " WHERE U.username = ? AND datetime(dataOra) <= datetime(?) "
 			+ " GROUP BY R.siglaCriptovaluta) ";
 	
 	//===================================================================================================
@@ -429,10 +429,10 @@ public class UserRepository {
 		try {
 			statement = connection.prepareStatement(get_valore_portafoglio);
 			statement.setString(1, username);
-			//statement.setString(2, data);
+			statement.setString(2, data.toString());
 			ResultSet rs = statement.executeQuery();
 			if(rs.next()) {
-				result = rs.getFloat("TotaleValoreCriptoInValutaFiat");
+				result = rs.getFloat("TotaleValorePortafoglio");
 			}
 		} catch (Exception e){
 			System.out.println("read(): failed to read entry: " + e.getMessage());

@@ -14,7 +14,7 @@
 				var previsione = parseFloat((365 * budget / intervallo).toFixed(2)) || "";
 				myGetElementById('previsione').value = previsione;
 			}
-			document.onload = calcolaPrevisione;
+			window.onload = calcolaPrevisione;
 		</script>
 				
 	<% Utente utente = (Utente) session.getAttribute("utente");

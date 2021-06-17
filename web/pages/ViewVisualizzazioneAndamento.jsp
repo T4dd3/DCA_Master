@@ -33,16 +33,17 @@
 					listaRiepiloghi.innerHTML += "<tr><td>" +  + "</td><td>" +  + "</td><td>" +  + "</td></tr>";
 			}
 		
-			function drawAndList()
-			{
-				inviaDati(callbackVisualizzazione, "visualizzazioneAndamento=1&filtri=0");
-			}
-			
+			// Chiamate remote al server, con e senza filtri
 			function drawAndList(filtri)
 			{
-				inviaDati(callbackVisualizzazione, "visualizzazioneAndamento=1&filtri=1&"+filtri);
+				if (!filtri)
+					inviaDati(callbackVisualizzazione, "visualizzazioneAndamento=1&filtri=0");
+				else
+					inviaDati(callbackVisualizzazione, "visualizzazioneAndamento=1&filtri=1&"+filtri);
 			}
-			document.onload = drawAndList;
+			
+			// Caricamento dati onload
+			window.onload = function() { drawAndList() };
 		</script>
 		
 	<% Utente utente = (Utente)session.getAttribute("utente");

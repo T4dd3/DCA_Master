@@ -3,9 +3,7 @@ package dcamaster.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +51,7 @@ public class RequestManager extends HttpServlet
 	}
 	
 	
+	@SuppressWarnings("null")
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) 
 	{
@@ -258,10 +257,11 @@ public class RequestManager extends HttpServlet
 				writerResponse = response.getWriter();
 				response.setContentType("application/json");
 				
+				// Parametro per diversificare se filtrare o no
+				String isFilter = request.getParameter("filtri");
+				
 				// Separazione caso con e senza filtri passati
-				if (request.getParameter("filtri") != null && !request.getParameter("filtri").equals("0"))
-					writerResponse.println(andamentoController.drawAndList());
-				else 
+				if (isFilter != null && isFilter.equals("1"))
 				{
 					// Filtri passati dall'utente da convertire
 					String criptovaluta = request.getParameter("criptovaluta");
@@ -282,6 +282,8 @@ public class RequestManager extends HttpServlet
 					// Invio risposta all'utente
 					writerResponse.println(andamentoController.drawAndList(filtri));
 				}
+				else
+					writerResponse.println(andamentoController.drawAndList());
 			} catch (IOException e) {
 				writerResponse.println("{\"esito\":\"Errore nella creazione dei filtri!\"}");
 				e.printStackTrace();
