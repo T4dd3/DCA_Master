@@ -59,7 +59,7 @@ public class RiepiloghiOrdineRepository {
 				entry.setFiatSpesa(rs.getFloat(FIATSPESA));
 				entry.setQuantitativoAcquistato(rs.getFloat(QUANTITATIVOACQUISTATO));
 				entry.setValore(entry.getFiatSpesa() / entry.getQuantitativoAcquistato());
-				entry.setCriptovaluta(CriptovalutaFactory.GetCriptovaluta((rs.getString(SIGLA))));
+				entry.setCriptovaluta(CriptovalutaFactory.GetCriptovaluta(rs.getString(SIGLA)));
 				
 				result.add(entry);
 			}
