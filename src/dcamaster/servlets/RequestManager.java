@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -275,7 +276,7 @@ public class RequestManager extends HttpServlet
 					if (criptovaluta != null && !criptovaluta.isBlank())
 						filtri.add(new FiltroMoneta(CriptovalutaFactory.GetCriptovaluta(criptovaluta)));
 					if (startDate != null && !startDate.isBlank() && endDate != null && !endDate.isBlank())
-						filtri.add(new FiltroIntervallo(LocalDateTime.parse(startDate), LocalDateTime.parse(endDate)));
+						filtri.add(new FiltroIntervallo(LocalDateTime.parse(startDate, DateTimeFormatter.ofPattern("dd-MM-yy HH:mm")), LocalDateTime.parse(endDate, DateTimeFormatter.ofPattern("dd-MM-yy HH:mm"))));
 					if (spesa != null && !spesa.isBlank())
 						filtri.add(new FiltroSpesa(Float.parseFloat(spesa)));
 					
