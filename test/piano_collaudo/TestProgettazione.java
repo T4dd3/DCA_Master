@@ -23,9 +23,9 @@ class TestProgettazione {
 	
 	@BeforeEach
 	void setup() {
-		Map<ValutaFiat, Float> valoriConversione = new HashMap<>();
+		Map<LocalDateTime, Float> valoriConversione = new HashMap<>();
 		List<Criptovaluta> criptovalute = new ArrayList<>();
-		Map<LocalDateTime, Map<ValutaFiat, Float>> intervalliAggiornamento = new HashMap<>();
+		Map<ValutaFiat, Map<LocalDateTime, Float>> intervalliAggiornamento = new HashMap<>();
 		Map<Criptovaluta, Float> distribuzionePercentuale = new HashMap<>();
 		dca = new StrategiaDCA();
 		criptovaluta = new Criptovaluta();
@@ -36,8 +36,8 @@ class TestProgettazione {
 		criptovaluta.setSigla("ETH");
 		criptovalute.add(criptovaluta);
 		fiat.setCriptovaluteAssociate(criptovalute);
-		valoriConversione.put(fiat, 2018.23f);
-		intervalliAggiornamento.put(LocalDateTime.of(2021, 05, 28, 17, 47, 13), valoriConversione);
+		valoriConversione.put(LocalDateTime.of(2021, 05, 28, 17, 47, 13), 2018.23f);
+		intervalliAggiornamento.put(fiat, valoriConversione);
 		criptovaluta.setIntervalliAggiornamento(intervalliAggiornamento);
 		distribuzionePercentuale.put(criptovaluta, 100f);
 		dca.setDistribuzionePercentuale(distribuzionePercentuale);
@@ -56,8 +56,8 @@ class TestProgettazione {
 		assertTrue(criptovaluta instanceof Criptovaluta);
 		assertEquals(criptovaluta.getNome(), "ethereum");
 		assertEquals(criptovaluta.getSigla(), "ETH");
-		assertEquals(criptovaluta.getIntervalliAggiornamento().get(LocalDateTime.of(2021, 05, 28, 17, 47, 13))
-				.get(fiat), 2018.23f);
+		assertEquals(criptovaluta.getIntervalliAggiornamento().get(fiat)
+				.get(LocalDateTime.of(2021, 05, 28, 17, 47, 13)), 2018.23f);
 		assertEquals(criptovaluta.getValore(fiat, LocalDateTime.of(2021, 05, 28, 17, 47, 13)), 2018.23f);
 	}
 	@Test
