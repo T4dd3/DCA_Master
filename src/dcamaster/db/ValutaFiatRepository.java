@@ -74,7 +74,7 @@ public class ValutaFiatRepository {
 			}
 		}
 		return result;
-	}
+	} 
 	
 	public List<Criptovaluta> getCriptovaluteAssociate(String sigla){
 		List<Criptovaluta> result = new ArrayList<>();

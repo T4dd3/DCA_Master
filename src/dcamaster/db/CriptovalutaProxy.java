@@ -13,7 +13,7 @@ public class CriptovalutaProxy extends Criptovaluta{
 	}
 	
 	@Override
-	public Map<LocalDateTime, Map<ValutaFiat, Float>> getIntervalliAggiornamento() {
+	public Map<ValutaFiat, Map<LocalDateTime, Float>> getIntervalliAggiornamento() {
 		/*if (intervalliLoaded)
 			return super.getIntervalliAggiornamento();*/
 		

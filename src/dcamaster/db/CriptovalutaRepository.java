@@ -37,11 +37,11 @@ public class CriptovalutaRepository {
 	
 	private static final String read_by_sigla = "SELECT * FROM " + TABLE + " WHERE " + SIGLA + " = ? ";
 	
-	private static final String get_date_intervalli = "SELECT " + DATAORA + " FROM " + TABLE_INTERVALLI 
+	private static final String get_valute_intervalli = "SELECT " + SIGLAFIAT + " FROM " + TABLE_INTERVALLI 
 			+ " WHERE " + SIGLACRIPTOVALUTA + " = ? "; 
 	
-	private static final String get_intervalli_for_data = "SELECT * FROM " + TABLE_INTERVALLI 
-			+ " WHERE " + SIGLACRIPTOVALUTA + " = ? AND " + DATAORA + " = ?";
+	private static final String get_intervalli_for_valuta = "SELECT * FROM " + TABLE_INTERVALLI 
+			+ " WHERE " + SIGLACRIPTOVALUTA + " = ? AND " + SIGLAFIAT + " = ?";
 	
 	//======================================================================================================
 	
@@ -86,8 +86,8 @@ public class CriptovalutaRepository {
 		return result;
 	}
 	
-	public Map<LocalDateTime, Map<ValutaFiat, Float>> getIntervalliAggiornamento(Criptovaluta criptovaluta) throws PersistenceException{
-		Map<LocalDateTime, Map<ValutaFiat, Float>> result = new HashMap<>();
+	public Map<ValutaFiat, Map<LocalDateTime, Float>> getIntervalliAggiornamento(Criptovaluta criptovaluta) throws PersistenceException{
+		Map<ValutaFiat, Map<LocalDateTime, Float>> result = new HashMap<>();
 		Connection connection = null;
 		PreparedStatement statement = null;
 		if(criptovaluta == null || criptovaluta.getSigla().isEmpty()) {
@@ -96,28 +96,27 @@ public class CriptovalutaRepository {
 		}
 		connection = controller.getConnection();
 		try {
-			statement = connection.prepareStatement(get_date_intervalli);
+			statement = connection.prepareStatement(get_valute_intervalli);
 			statement.setString(1, criptovaluta.getSigla());
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
 				// Ottengo la chiave per la prima mappa
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-				LocalDateTime data = LocalDateTime.parse(rs.getString(DATAORA), formatter);
+				ValutaFiat key = ValutaFiatFactory.GetValutaFiat(rs.getString(SIGLAFIAT));
 				// Istanzio la seconda mappa associata alla chiave
-				Map<ValutaFiat, Float> innerMap = new HashMap<>();
-				// Ottengo i valori con cui popoler√† la seconda mappa
-				//statement.close();
-				statement = connection.prepareStatement(get_intervalli_for_data);
+				Map<LocalDateTime, Float> innerMap = new HashMap<>();
+				// Ottengo i valori con cui popolare† la seconda mappa
+				statement = connection.prepareStatement(get_intervalli_for_valuta);
 				statement.setString(1, criptovaluta.getSigla());
-				statement.setString(2, rs.getString(DATAORA));
+				statement.setString(2, rs.getString(SIGLAFIAT));
 				ResultSet rs2 = statement.executeQuery();
 				while(rs2.next()) {
-					ValutaFiat entry = ValutaFiatFactory.GetValutaFiat(rs2.getString(SIGLAFIAT));
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+					LocalDateTime data = LocalDateTime.parse(rs2.getString(DATAORA), formatter);
 					Float valoreConversione = rs2.getFloat(VALORECONVERSIONE);
-					innerMap.put(entry, valoreConversione);
+					innerMap.put(data, valoreConversione);
 				}
 				// Inserisco la seconda mappa nella prima
-				result.put(data, innerMap);
+				result.put(key, innerMap);
 			}
 		} catch (Exception e){
 			System.out.println("read(): failed to read entry: " + e.getMessage());

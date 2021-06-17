@@ -6,7 +6,7 @@ public class Criptovaluta
 {
 	private String sigla;
 	private String nome;
-	private Map<LocalDateTime, Map<ValutaFiat, Float>> intervalliAggiornamento;
+	private Map<ValutaFiat, Map<LocalDateTime, Float>> intervalliAggiornamento;
 	
 	//protected boolean intervalliLoaded;
 	
@@ -34,17 +34,17 @@ public class Criptovaluta
 		this.nome = nome;
 	}
 
-	public Map<LocalDateTime, Map<ValutaFiat, Float>> getIntervalliAggiornamento() {
+	public Map<ValutaFiat, Map<LocalDateTime, Float>> getIntervalliAggiornamento() {
 		return intervalliAggiornamento;
 	}
 
-	public void setIntervalliAggiornamento(Map<LocalDateTime, Map<ValutaFiat, Float>> intervalloAggiornamento) {
+	public void setIntervalliAggiornamento(Map<ValutaFiat, Map<LocalDateTime, Float>> intervalloAggiornamento) {
 		this.intervalliAggiornamento = intervalloAggiornamento;
 	}
 
 	public Float getValore(ValutaFiat valuta, LocalDateTime date) {
-		Map<ValutaFiat, Float> mapA = this.intervalliAggiornamento.get(date);
-		Float result = mapA.get(valuta);
+		Map<LocalDateTime, Float> mapA = this.intervalliAggiornamento.get(valuta);
+		Float result = mapA.get(date);
 		return result;
 	}
 	
