@@ -23,7 +23,6 @@
 		<script type="text/javascript" src="../scripts/myUtils.js"></script>
 		<script type="text/javascript" src="../scripts/chart.js"></script>
 		<script type="text/javascript">
-			
 			function visualizzaRiepiloghi(riepiloghi)
 			{
 				// Recupero tabella in cui stampare riepiloghi e settaggio header
@@ -63,9 +62,16 @@
 					  options: {}
 					};
 				
+				// Update the div and the canvas
+				var divContainer = myGetElementById("chartDiv");
+				divContainer.removeChild(myGetElementById("myChart"));
+				var canvas = document.createElement("canvas");
+				canvas.id = "myChart";
+				divContainer.appendChild(canvas);
+				
 				// Render the chart
 				var myChart = new Chart(
-			    	document.getElementById('myChart'),
+			    	canvas,
 			    	config
 			  	);
 			}
@@ -100,7 +106,7 @@
 		<h1>Visualizzazione Andamento:</h1>
 		<jsp:include page="./ViewFiltroVisualizzazione.jsp"></jsp:include>
 		<br>
-		<div class="main">
+		<div class="main" id="chartDiv">
 		  <canvas id="myChart"></canvas>
 		</div>
 		<br>

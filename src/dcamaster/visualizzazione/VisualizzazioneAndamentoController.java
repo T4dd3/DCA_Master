@@ -44,9 +44,9 @@ public class VisualizzazioneAndamentoController implements IVisualizzazioneAndam
 			
 			long secondsDifference = primoRiepilogo.until(oggi, ChronoUnit.SECONDS );
 			
-			for (int i = 0; i < INTERVALLI; i++) 
+			for (int i = 1; i <= INTERVALLI; i++) 
 			{
-				LocalDateTime untilDate = primoRiepilogo.plusSeconds(secondsDifference - (secondsDifference / INTERVALLI * i));
+				LocalDateTime untilDate = primoRiepilogo.plusSeconds(secondsDifference - 10 - (secondsDifference / INTERVALLI * i));
 				
 				float valueUntilDate = 0.0f;
 				try {
@@ -84,9 +84,9 @@ public class VisualizzazioneAndamentoController implements IVisualizzazioneAndam
 			
 			long secondsDifference = primoRiepilogo.until(oggi, ChronoUnit.SECONDS );
 			
-			for (int i = 0; i < INTERVALLI; i++) 
+			for (int i = 1; i <= INTERVALLI; i++) 
 			{
-				LocalDateTime untilDate = primoRiepilogo.plusSeconds(secondsDifference - (secondsDifference / INTERVALLI * i));
+				LocalDateTime untilDate = primoRiepilogo.plusSeconds(secondsDifference - 10 - (secondsDifference / INTERVALLI * i));
 				
 				float valueUntilDate = StrategiaDCA.getValorePortafoglio(riepiloghi, untilDate, utente.getFiatScelta());
 				
