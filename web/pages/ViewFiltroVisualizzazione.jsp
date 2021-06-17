@@ -36,8 +36,8 @@
 			</tr>
 			
 			<tr><td>Intervallo di Date: </td>
-				<td><input type="datetime-local" id="start" name="start" value="<%= LocalDateTime.now().minusDays(30).format(DateTimeFormatter.ofPattern("dd-MMM-yy HH-mm"))%>" min="1999-06-01" max="2100-01-01"></td>
-				<td><input type="datetime-local" id="end" name="end" value="<%= LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMM-yy HH-mm"))%>" min="1999-06-01" max="2100-01-01"></td>
+				<td><input type="datetime-local" id="start" name="start" value="<%= LocalDateTime.now().minusDays(30).format(DateTimeFormatter.ofPattern("dd-MM-yy HH:mm"))%>" min="1999-06-01" max="2100-01-01"></td>
+				<td><input type="datetime-local" id="end" name="end" value="<%= LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yy HH:mm"))%>" min="1999-06-01" max="2100-01-01"></td>
 			</tr>
 			
 			<tr><td>Spesa: </td>

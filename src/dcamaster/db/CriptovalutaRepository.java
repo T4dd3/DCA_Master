@@ -104,7 +104,7 @@ public class CriptovalutaRepository {
 				ValutaFiat key = ValutaFiatFactory.GetValutaFiat(rs.getString(SIGLAFIAT));
 				// Istanzio la seconda mappa associata alla chiave
 				Map<LocalDateTime, Float> innerMap = new HashMap<>();
-				// Ottengo i valori con cui popolare  la seconda mappa
+				// Ottengo i valori con cui popolare la seconda mappa
 				statement = connection.prepareStatement(get_intervalli_for_valuta);
 				statement.setString(1, criptovaluta.getSigla());
 				statement.setString(2, rs.getString(SIGLAFIAT));
