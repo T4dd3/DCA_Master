@@ -11,6 +11,7 @@ import java.util.Map;
 
 import dcamaster.model.Criptovaluta;
 import dcamaster.model.ValutaFiat;
+import dcamaster.model.ValutaFiatFactory;
 
 public class CriptovalutaRepository {
 	
@@ -95,7 +96,6 @@ public class CriptovalutaRepository {
 		}
 		connection = controller.getConnection();
 		try {
-			ValutaFiatRepository repo = new ValutaFiatRepository(controller);
 			statement = connection.prepareStatement(get_date_intervalli);
 			statement.setString(1, criptovaluta.getSigla());
 			ResultSet rs = statement.executeQuery();
@@ -112,7 +112,7 @@ public class CriptovalutaRepository {
 				statement.setString(2, rs.getString(DATAORA));
 				ResultSet rs2 = statement.executeQuery();
 				while(rs2.next()) {
-					ValutaFiat entry = repo.readBySigla(rs2.getString(SIGLAFIAT));
+					ValutaFiat entry = ValutaFiatFactory.GetValutaFiat(rs2.getString(SIGLAFIAT));
 					Float valoreConversione = rs2.getFloat(VALORECONVERSIONE);
 					innerMap.put(entry, valoreConversione);
 				}
