@@ -83,37 +83,20 @@ public class StrategiaDCA
 	
 	public static float getValorePortafoglio(List<RiepilogoOrdine> riepiloghi, LocalDateTime date, ValutaFiat valutaFiat) 
 	{
-		
 		float risultato = 0;
 		
 		for (RiepilogoOrdine riepilogo : riepiloghi) 
-		{
-			//Valore della criptovaluta al momento specificato
-			//float valore = riepilogo.getCriptovaluta().getIntervalliAggiornamento().get(date).get(valutaFiat);
-	
-			/*Set<LocalDateTime> intervalliValutaFiat = riepilogo.getCriptovaluta().getIntervalliAggiornamento().get(valutaFiat);
+		{	
+			//Tutti gli intervalli presenti per l'associazione tra Criptovaluta del Riepilogo e la Valuta fiat dell'utente
+			Map <LocalDateTime, Float> intervalliCriptoRiepilogoEValutaFiat = riepilogo.getCriptovaluta().getIntervalliAggiornamento().get(valutaFiat);
+			// Lista delle sole date ordinate
+			Set<LocalDateTime> dateAggiornamento = new TreeSet<>(intervalliCriptoRiepilogoEValutaFiat.keySet());
 			
-			for (LocalDateTime dataSet : keySet) 
-			{
-				if (dataSet.isBefore(date)) 
-				{
-					//float valore = riepilogo.getCriptovaluta().getIntervalliAggiornamento().get(dataSet).get(valutaFiat);
-					Criptovaluta cripto = riepilogo.getCriptovaluta();
-					Map<LocalDateTime, Map<ValutaFiat, Float>> intervalli = cripto.getIntervalliAggiornamento();
-					Map<ValutaFiat, Float> valuteFiat = intervalli.get(dataSet);
-					float valore = valuteFiat.get(valutaFiat);
-					
-					risultato += valore * riepilogo.getQuantitativoAcquistato();
-				}
-			}*/
-			
-			//Tutti gli intervalli presenti per quella specifica valuta fiat
-			Set<LocalDateTime> dateAggiornamento = new TreeSet<>(riepilogo.getCriptovaluta().getIntervalliAggiornamento().get(valutaFiat).keySet());
-			
+			// Data più vicina alla data passata dall'utente
 			LocalDateTime nearestDateRiepilogo = dateAggiornamento.stream().min(Comparator.comparingLong(x -> ChronoUnit.SECONDS.between(x , date))).orElse(null);
 			
-			float valore = riepilogo.getQuantitativoAcquistato() * riepilogo.getCriptovaluta().getIntervalliAggiornamento().get(valutaFiat).get(nearestDateRiepilogo);
-			
+			// Calcolo del valore, alla data passata, per il riepilogo
+			float valore = riepilogo.getQuantitativoAcquistato() * intervalliCriptoRiepilogoEValutaFiat.get(nearestDateRiepilogo);
 			risultato += valore;
 		}
 		
