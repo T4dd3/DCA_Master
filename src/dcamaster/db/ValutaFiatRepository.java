@@ -53,7 +53,7 @@ public class ValutaFiatRepository {
 			statement.setString(1, sigla);
 			ResultSet rs = statement.executeQuery();
 			if(rs.next()) {
-				result = new ValutaFiat();
+				result = new ValutaFiatProxy();
 				result.setSigla(sigla);
 				result.setNome(rs.getString(NOME));
 			}
@@ -74,7 +74,7 @@ public class ValutaFiatRepository {
 			}
 		}
 		return result;
-	}
+	} 
 	
 	public List<Criptovaluta> getCriptovaluteAssociate(String sigla){
 		List<Criptovaluta> result = new ArrayList<>();

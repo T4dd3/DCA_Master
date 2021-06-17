@@ -18,6 +18,7 @@ import dcamaster.model.StrategiaDCA;
 import dcamaster.model.TipoDeposito;
 import dcamaster.model.Utente;
 import dcamaster.model.ValutaFiat;
+import dcamaster.model.ValutaFiatFactory;
 
 public class UserRepository {
 
@@ -42,7 +43,6 @@ public class UserRepository {
 	
 	private static final String TABLE_DISTRIBUZIONE = "DistribuzionePercentuale";
 	
-	private static final String NOME = "nome";
 	private static final String SIGLA = "siglaCriptovaluta";
 	private static final String PERCENTUALE = "percentualeAssegnata";
 	//=== STATEMENT SQL =======================================================================================
@@ -245,12 +245,10 @@ public class UserRepository {
 		
 				if(newHashedPassword.equals(hashPassword)) {
 					Utente utente = new Utente();
-					ValutaFiat fiatRiferimento = new ValutaFiatProxy();
+					ValutaFiat fiatRiferimento = ValutaFiatFactory.GetValutaFiat(rs.getString("sigla"));
 					StrategiaDCA strategiaDCA = new StrategiaDCAProxy();
 					utente.setUsername(rs.getString(USERNAME));
 					utente.setTipoDeposito(TipoDeposito.valueOf(rs.getString(TIPODEPOSITO)));
-					fiatRiferimento.setSigla(rs.getString("sigla"));
-					fiatRiferimento.setNome(rs.getString(NOME));
 					float budget = (rs.getFloat(BUDGET));
 					if(!rs.wasNull()) {
 						strategiaDCA.setBudget(budget);

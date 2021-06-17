@@ -13,6 +13,7 @@ import dcamaster.db.ValutaFiatRepository;
 import dcamaster.model.EntryOperazione;
 import dcamaster.model.TipoDeposito;
 import dcamaster.model.ValutaFiat;
+import dcamaster.model.ValutaFiatFactory;
 
 public class RegistrazioneController implements IRegistrazione
 {
@@ -21,7 +22,6 @@ public class RegistrazioneController implements IRegistrazione
 
 	// Per dialogare con la persistenza
 	private ControllerPersistenza controllerPersistenza;
-	private ValutaFiatRepository fiatRepo;
 	
 	// Attributi associati all'utente
 	private String username;
@@ -39,9 +39,6 @@ public class RegistrazioneController implements IRegistrazione
 		
 		// Istanza del singleton di Controller Persistenza
 		this.controllerPersistenza = ControllerPersistenza.getInstance();
-		
-		// Fiat Repository per il recupero di istanza di Valuta Fiat
-		this.fiatRepo = new ValutaFiatRepository(this.controllerPersistenza);
 	}
 	
 	// Verifico che gli input siano corretti, se lo sono li salvo in sessione e invio il codice
@@ -82,11 +79,7 @@ public class RegistrazioneController implements IRegistrazione
 			this.email = email;
 			this.apiSecret = apiSecret;
 			this.apiKey = apiKey;
-			try {
-				this.valutaFiat = fiatRepo.readBySigla(valutaRiferimento);
-			} catch (PersistenceException e) {
-				e.printStackTrace();
-			}
+			this.valutaFiat = ValutaFiatFactory.GetValutaFiat(valutaRiferimento);
 			this.tipoDeposito = tipoDeposito;
 			this.saltPassword = saltPassword;
 			
