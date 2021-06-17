@@ -21,7 +21,7 @@ public class VisualizzaRiepiloghiController implements IVisualizzaRiepiloghi{
 	}
 
 	@Override
-	public List<RiepilogoOrdine> visualizza(List<Filtro> filtri) 
+	public List<RiepilogoOrdine> visualizza(List<IFiltro> filtri) 
 	{
 		
 		//Preparo la lista da tornare e la lista dei riepiloghi dell'utente
@@ -35,10 +35,10 @@ public class VisualizzaRiepiloghiController implements IVisualizzaRiepiloghi{
 		for (RiepilogoOrdine ro : riepiloghiUtente) 
 		{
 			//Itero su ogni filtro che viene passato in input
-			for (Filtro filtro : filtri) 
+			for (IFiltro iFiltro : filtri) 
 			{
 				//Se il filtro mi restituisce false, esco da questo ciclo
-				if (!(filtro.filtra(ro))) 
+				if (!(iFiltro.filtra(ro))) 
 				{
 					valid = false;
 					break;

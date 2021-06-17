@@ -1,7 +1,13 @@
 package dcamaster.servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Type;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -27,6 +33,12 @@ import dcamaster.model.Criptovaluta;
 import dcamaster.model.CriptovalutaFactory;
 import dcamaster.model.TipoDeposito;
 import dcamaster.model.Utente;
+import dcamaster.visualizzazione.IFiltro;
+import dcamaster.visualizzazione.FiltroIntervallo;
+import dcamaster.visualizzazione.FiltroMoneta;
+import dcamaster.visualizzazione.FiltroSpesa;
+import dcamaster.visualizzazione.VisualizzaRiepiloghiController;
+import dcamaster.visualizzazione.VisualizzazioneAndamentoController;
 
 @SuppressWarnings("serial")
 public class RequestManager extends HttpServlet 
@@ -205,6 +217,9 @@ public class RequestManager extends HttpServlet
 			Type type = new TypeToken<Map<String, Float>>(){}.getType();
 			Map<String, Float> nuovaDistribuzioneSigle = gson.fromJson(jsonDistribuzione, type);
 			
+			// Risposta come json
+			response.setContentType("application/json");
+			
 			// Controllo che la somma dei valori sia 100 e non ci siano percentuali <0
 			double somma = nuovaDistribuzioneSigle.values().stream().mapToDouble(f -> f).sum();
 			try 
@@ -226,6 +241,49 @@ public class RequestManager extends HttpServlet
 				configurazionePortafoglio.configuraPortafoglio(nuovaDistribuzioneCriptovalute);
 				response.getWriter().println("{\"esito\":\"Distribuzione percentuale aggiornata con successo!\"}");
 			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else if (request.getParameter("visualizzazioneAndamento") != null)
+		{
+			// Creazione controller
+			Utente utente = (Utente) session.getAttribute("utente");
+			VisualizzaRiepiloghiController riepiloghiController = new VisualizzaRiepiloghiController(utente);
+			VisualizzazioneAndamentoController andamentoController = new VisualizzazioneAndamentoController(riepiloghiController, utente);
+			PrintWriter writerResponse = null;
+			
+			try 
+			{
+				// Risposta come json e inizializzazione writer
+				writerResponse = response.getWriter();
+				response.setContentType("application/json");
+				
+				// Separazione caso con e senza filtri passati
+				if (request.getParameter("filtri") != null && !request.getParameter("filtri").equals("0"))
+					writerResponse.println(andamentoController.drawAndList());
+				else 
+				{
+					// Filtri passati dall'utente da convertire
+					String criptovaluta = request.getParameter("criptovaluta");
+					String startDate = request.getParameter("startDate");
+					String endDate = request.getParameter("endDate");
+					String spesa = request.getParameter("spesa");
+					// Lista di IFiltro per applicare pattern Strategy
+					List<IFiltro> filtri = new ArrayList<>();
+					
+					// Creazione dei filtri e aggiunta alla lista
+					if (criptovaluta != null && !criptovaluta.isBlank())
+						filtri.add(new FiltroMoneta(CriptovalutaFactory.GetCriptovaluta(criptovaluta)));
+					if (startDate != null && !startDate.isBlank() && endDate != null && !endDate.isBlank())
+						filtri.add(new FiltroIntervallo(LocalDateTime.parse(startDate), LocalDateTime.parse(endDate)));
+					if (spesa != null && !spesa.isBlank())
+						filtri.add(new FiltroSpesa(Float.parseFloat(spesa)));
+					
+					// Invio risposta all'utente
+					writerResponse.println(andamentoController.drawAndList(filtri));
+				}
+			} catch (IOException e) {
+				writerResponse.println("{\"esito\":\"Errore nella creazione dei filtri!\"}");
 				e.printStackTrace();
 			}
 		}

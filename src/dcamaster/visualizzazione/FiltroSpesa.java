@@ -2,7 +2,7 @@ package dcamaster.visualizzazione;
 
 import dcamaster.model.RiepilogoOrdine;
 
-public class FiltroSpesa implements Filtro{
+public class FiltroSpesa implements IFiltro{
 
 	private float spesaMax;		//nella progettazione era un int
 	

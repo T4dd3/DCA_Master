@@ -6,5 +6,5 @@ public interface IVisualizzazioneAndamento {
 
 	public String drawAndList();
 	
-	public String drawAndList(List<Filtro> filtri);
+	public String drawAndList(List<IFiltro> filtri);
 }

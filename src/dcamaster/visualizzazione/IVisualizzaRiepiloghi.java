@@ -8,5 +8,5 @@ public interface IVisualizzaRiepiloghi {
 
 	public List<RiepilogoOrdine> visualizza();
 	
-	public List<RiepilogoOrdine> visualizza(List<Filtro> filtri);
+	public List<RiepilogoOrdine> visualizza(List<IFiltro> filtri);
 }

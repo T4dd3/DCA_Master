@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import dcamaster.model.RiepilogoOrdine;
 
-public class FiltroIntervallo implements Filtro{
+public class FiltroIntervallo implements IFiltro{
 
 	private LocalDateTime dataInizio;
 	private LocalDateTime dataFine;

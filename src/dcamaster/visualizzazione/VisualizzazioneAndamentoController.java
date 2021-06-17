@@ -26,7 +26,7 @@ public class VisualizzazioneAndamentoController implements IVisualizzazioneAndam
 		this.utente = utente;
 	}
 	
-	//La string � in realt� una mappa in Json (data-valore) + lista riepiloghi
+	//La string è in realtà una mappa in Json (data-valore) + lista riepiloghi
 	@Override
 	public String drawAndList() 
 	{
@@ -35,8 +35,8 @@ public class VisualizzazioneAndamentoController implements IVisualizzazioneAndam
 		Map<LocalDateTime, Float> valoriIntervalli = new HashMap<>(); 
 		List<RiepilogoOrdine> riepiloghi = riepiloghiController.visualizza();
 		
-		//Controllo se � stato effettuato almeno un ordine
-		if (riepiloghi.size() > 0) 
+		//Controllo se è stato effettuato almeno un ordine
+		if (riepiloghi != null && riepiloghi.size() > 0) 
 		{
 			//Prendo le date del primo riepilogo e di oggi
 			LocalDateTime primoRiepilogo = riepiloghi.get(0).getData();
@@ -68,7 +68,7 @@ public class VisualizzazioneAndamentoController implements IVisualizzazioneAndam
 	}
 
 	@Override
-	public String drawAndList(List<Filtro> filtri) 
+	public String drawAndList(List<IFiltro> filtri) 
 	{
 		Gson gson = new Gson();
 		

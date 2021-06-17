@@ -2,12 +2,12 @@
 <%@ page session="true"%>
 
 <!-- import di classi Java -->
-<%@ page import="it.unibo.tw.web.beans.*" %>
+<%@ page import="dcamaster.model.Utente" %>
 
 <div style="display: inline-block; white-space: nowrap; float:right; margin-right: 2%">
 	<% if (request.getParameter("logout") != null) {
 		session.setAttribute("utente", null);
-		response.sendRedirect("login.jsp");
+		response.sendRedirect("../pages/ViewAutenticazione.jsp");
 		return;
 	}%>
 	<% Utente ut = (Utente)session.getAttribute("utente"); %>

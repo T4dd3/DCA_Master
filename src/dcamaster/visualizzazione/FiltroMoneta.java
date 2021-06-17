@@ -3,7 +3,7 @@ package dcamaster.visualizzazione;
 import dcamaster.model.Criptovaluta;
 import dcamaster.model.RiepilogoOrdine;
 
-public class FiltroMoneta implements Filtro{
+public class FiltroMoneta implements IFiltro{
 
 	private Criptovaluta criptovaluta;
 	

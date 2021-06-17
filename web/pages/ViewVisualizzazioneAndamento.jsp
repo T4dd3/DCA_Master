@@ -40,19 +40,21 @@
 			
 			function drawAndList(filtri)
 			{
-				inviaDati(callbackVisualizzazione, "visualizzazioneAndamento=1&filtri="+filtri);
+				inviaDati(callbackVisualizzazione, "visualizzazioneAndamento=1&filtri=1&"+filtri);
 			}
+			document.onload = drawAndList;
 		</script>
 		
 	<% Utente utente = (Utente)session.getAttribute("utente");
-		if (utente == null)
-			response.sendRedirect("ViewAutenticazione.jsp"); %>
+		if (utente == null) {
+			response.sendRedirect("ViewAutenticazione.jsp");
+		} else {%>
 		
 	</head>
 	<body>	
 		<center>
 		<h1>Visualizzazione Andamento:</h1>
-		<jsp:include page="./ViewFiltroVisualizzazione"></jsp:include>
+		<jsp:include page="./ViewFiltroVisualizzazione.jsp"></jsp:include>
 		
 		<div class="main">
 			<table id="riepiloghiList">
@@ -63,4 +65,5 @@
 		
 		<%@ include file="../fragments/footer.jsp" %>
 	</body>
+	<%} %>
 </html>
