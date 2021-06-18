@@ -9,7 +9,6 @@ import java.util.Random;
 import dcamaster.db.ControllerPersistenza;
 import dcamaster.db.PersistenceException;
 import dcamaster.db.UserRepository;
-import dcamaster.db.ValutaFiatRepository;
 import dcamaster.model.EntryOperazione;
 import dcamaster.model.TipoDeposito;
 import dcamaster.model.ValutaFiat;
