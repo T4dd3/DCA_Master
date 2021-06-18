@@ -15,7 +15,7 @@
 	<div style="float:right; margin-right: 10px">
 		<div style="display: inline-block">
 			<img src="../images/user.png" width="40" height="40" style="vertical-align: middle;"/>
-			<h4 id="header" style="display: inline">Hi <%=ut.getUsername() %>!</h4>
+			<h4 id="header" style="display: inline; color: white">Hi <%=ut.getUsername() %>!</h4>
 		</div>
 		<form style="display: inline-block">
 			<input type="submit" value="Log-Out" width="50%" name="logout">

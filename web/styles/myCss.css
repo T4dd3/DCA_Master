@@ -102,6 +102,7 @@ table.formdata input, textarea {
   position: sticky;
   position: -webkit-sticky;
   top: 0;
+  font-size: large;
 }
 /* Style the navigation bar links */
 .navbar a {
