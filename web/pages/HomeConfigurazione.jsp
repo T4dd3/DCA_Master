@@ -28,6 +28,7 @@
 		
 	</head>
 	<body>	
+	<%@ include file="../fragments/header.jsp" %>
 		<center>
 			<%@ include file="./ViewConfigurazionePortafoglio.jsp" %>
 			<br>

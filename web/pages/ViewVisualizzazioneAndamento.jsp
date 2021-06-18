@@ -102,6 +102,7 @@
 		
 	</head>
 	<body>	
+	<%@ include file="../fragments/header.jsp" %>
 		<center>
 		<h1>Visualizzazione Andamento:</h1>
 		<jsp:include page="./ViewFiltroVisualizzazione.jsp"></jsp:include>

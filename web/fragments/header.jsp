@@ -13,6 +13,7 @@
 	<% Utente ut = (Utente)session.getAttribute("utente"); %>
 	<img src="../images/user.png" width="40" height="40" style="vertical-align: middle;"/>
 	<h4 id="header" style="display: inline">Hi <%=ut.getUsername() %>!</h4>
+	<div><a href="./ViewVisualizzazioneAndamento.jsp">Visualizza Andamento</a><a href="./HomeConfigurazione.jsp">Configurazione</a></div>
 	<form style="display: inline-block">
 		<input type="submit" value="Log-Out" width="50%" name="logout">
 	</form>
